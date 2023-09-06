@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -28,7 +29,7 @@ public class NewCar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 newposition = new Vector3(sphere.transform.position.x, sphere.transform.position.y, sphere.transform.position.z);
+        Vector3 newposition = new Vector3(sphere.transform.position.x, sphere.transform.position.y-3.5f, sphere.transform.position.z);
         transform.position=newposition;
         float speedDir= Input.GetAxis("Vertical");
         speed = speedDir * acceleration;
@@ -38,7 +39,7 @@ public class NewCar : MonoBehaviour
             
             float dir = Input.GetAxis("Horizontal");
             float amount = Mathf.Abs((Input.GetAxis("Horizontal")));
-            if(speedDir>0)
+            if(speedDir!= -1)
             {
             Steer(dir, amount);
 
@@ -81,5 +82,14 @@ public class NewCar : MonoBehaviour
     public void Steer(float direction,float amount)
     {
         rotate += (steering *direction) * amount;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        Rigidbody rb=collision.gameObject.GetComponent<Rigidbody>();
+        if(rb != null)
+        {
+            Vector3 dir = (collision.transform.position-transform.position).normalized;
+            rb.AddForce(dir*currentSpeed, ForceMode.Impulse);
+        }
     }
 }
