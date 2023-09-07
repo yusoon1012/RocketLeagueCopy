@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -213,11 +214,11 @@ MonoBehaviour:
         sourceAxis: 1
         sourceAxisRange: 0
         invert: 0
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.680000007
-        axisMax: .600000024
+        axisMin: -0.68
+        axisMax: 0.6
         axisInfo:
           _dataFormat: 0
           _excludeFromPolling: 0
@@ -237,11 +238,11 @@ MonoBehaviour:
         sourceAxis: 2
         sourceAxisRange: 0
         invert: 1
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.644999981
-        axisMax: .745000005
+        axisMin: -0.645
+        axisMax: 0.745
         axisInfo:
           _dataFormat: 0
           _excludeFromPolling: 0
@@ -261,11 +262,11 @@ MonoBehaviour:
         sourceAxis: 4
         sourceAxisRange: 0
         invert: 0
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.725000024
-        axisMax: .620000005
+        axisMin: -0.725
+        axisMax: 0.62
         axisInfo:
           _dataFormat: 0
           _excludeFromPolling: 0
@@ -285,11 +286,11 @@ MonoBehaviour:
         sourceAxis: 5
         sourceAxisRange: 0
         invert: 1
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.689999998
-        axisMax: .720000029
+        axisMin: -0.69
+        axisMax: 0.72
         axisInfo:
           _dataFormat: 0
           _excludeFromPolling: 0
@@ -681,11 +682,11 @@ MonoBehaviour:
         sourceOtherAxis: 0
         sourceAxisRange: 0
         invert: 0
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: -0
-        axisMin: -.680000007
-        axisMax: .600000024
+        axisMin: -0.68
+        axisMax: 0.6
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -704,11 +705,11 @@ MonoBehaviour:
         sourceOtherAxis: 0
         sourceAxisRange: 0
         invert: 1
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.644999981
-        axisMax: .745000005
+        axisMin: -0.645
+        axisMax: 0.745
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -727,11 +728,11 @@ MonoBehaviour:
         sourceOtherAxis: 0
         sourceAxisRange: 0
         invert: 0
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.725000024
-        axisMax: .620000005
+        axisMin: -0.725
+        axisMax: 0.62
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -750,11 +751,11 @@ MonoBehaviour:
         sourceOtherAxis: 1
         sourceAxisRange: 0
         invert: 1
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.689999998
-        axisMax: .720000029
+        axisMin: -0.69
+        axisMax: 0.72
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -1116,11 +1117,11 @@ MonoBehaviour:
         sourceAxis: 0
         sourceAxisRange: 0
         invert: 0
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.680000007
-        axisMax: .75
+        axisMin: -0.68
+        axisMax: 0.75
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -1137,11 +1138,11 @@ MonoBehaviour:
         sourceAxis: 1
         sourceAxisRange: 0
         invert: 1
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.75999999
-        axisMax: .720000029
+        axisMin: -0.76
+        axisMax: 0.72
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -1158,11 +1159,11 @@ MonoBehaviour:
         sourceAxis: 2
         sourceAxisRange: 0
         invert: 0
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.709999979
-        axisMax: .720000029
+        axisMin: -0.71
+        axisMax: 0.72
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -1179,11 +1180,11 @@ MonoBehaviour:
         sourceAxis: 3
         sourceAxisRange: 0
         invert: 1
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.800000012
-        axisMax: .689999998
+        axisMin: -0.8
+        axisMax: 0.69
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -1507,11 +1508,11 @@ MonoBehaviour:
         sourceAxis: 0
         sourceAxisRange: 0
         invert: 0
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.680000007
-        axisMax: .600000024
+        axisMin: -0.68
+        axisMax: 0.6
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -1528,11 +1529,11 @@ MonoBehaviour:
         sourceAxis: 1
         sourceAxisRange: 0
         invert: 1
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.644999981
-        axisMax: .745000005
+        axisMin: -0.645
+        axisMax: 0.745
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -1549,11 +1550,11 @@ MonoBehaviour:
         sourceAxis: 2
         sourceAxisRange: 0
         invert: 0
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.725000024
-        axisMax: .620000005
+        axisMin: -0.725
+        axisMax: 0.62
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -1570,11 +1571,11 @@ MonoBehaviour:
         sourceAxis: 3
         sourceAxisRange: 0
         invert: 1
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.689999998
-        axisMax: .720000029
+        axisMin: -0.69
+        axisMax: 0.72
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -1958,7 +1959,7 @@ MonoBehaviour:
       - elementIdentifier: 0
         sourceType: 1
         sourceAxis: 1
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         sourceButton: 0
         sourceKeyCode: 0
         customCalculation: {fileID: 0}
@@ -1968,8 +1969,8 @@ MonoBehaviour:
         buttonAxisContribution: 0
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.769999981
-        axisMax: .680000007
+        axisMin: -0.77
+        axisMax: 0.68
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -1979,7 +1980,7 @@ MonoBehaviour:
       - elementIdentifier: 1
         sourceType: 1
         sourceAxis: 2
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         sourceButton: 0
         sourceKeyCode: 0
         customCalculation: {fileID: 0}
@@ -1989,8 +1990,8 @@ MonoBehaviour:
         buttonAxisContribution: 0
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.689999998
-        axisMax: .819999993
+        axisMin: -0.69
+        axisMax: 0.82
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -2000,7 +2001,7 @@ MonoBehaviour:
       - elementIdentifier: 2
         sourceType: 1
         sourceAxis: 3
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         sourceButton: 0
         sourceKeyCode: 0
         customCalculation: {fileID: 0}
@@ -2010,8 +2011,8 @@ MonoBehaviour:
         buttonAxisContribution: 0
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.800000012
-        axisMax: .649999976
+        axisMin: -0.8
+        axisMax: 0.65
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -2021,7 +2022,7 @@ MonoBehaviour:
       - elementIdentifier: 3
         sourceType: 1
         sourceAxis: 4
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         sourceButton: 0
         sourceKeyCode: 0
         customCalculation: {fileID: 0}
@@ -2031,8 +2032,8 @@ MonoBehaviour:
         buttonAxisContribution: 0
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.75
-        axisMax: .779999971
+        axisMin: -0.75
+        axisMax: 0.78
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -2515,7 +2516,7 @@ MonoBehaviour:
       - elementIdentifier: 0
         sourceType: 1
         sourceAxis: 1
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         sourceButton: 0
         sourceKeyCode: 0
         customCalculation: {fileID: 0}
@@ -2525,8 +2526,8 @@ MonoBehaviour:
         buttonAxisContribution: 0
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.660000026
-        axisMax: .75999999
+        axisMin: -0.66
+        axisMax: 0.76
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -2536,7 +2537,7 @@ MonoBehaviour:
       - elementIdentifier: 1
         sourceType: 1
         sourceAxis: 2
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         sourceButton: 0
         sourceKeyCode: 0
         customCalculation: {fileID: 0}
@@ -2546,8 +2547,8 @@ MonoBehaviour:
         buttonAxisContribution: 0
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.74000001
-        axisMax: .720000029
+        axisMin: -0.74
+        axisMax: 0.72
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -2557,7 +2558,7 @@ MonoBehaviour:
       - elementIdentifier: 2
         sourceType: 1
         sourceAxis: 3
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         sourceButton: 0
         sourceKeyCode: 0
         customCalculation: {fileID: 0}
@@ -2567,8 +2568,8 @@ MonoBehaviour:
         buttonAxisContribution: 0
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.709999979
-        axisMax: .730000019
+        axisMin: -0.71
+        axisMax: 0.73
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -2578,7 +2579,7 @@ MonoBehaviour:
       - elementIdentifier: 3
         sourceType: 1
         sourceAxis: 4
-        axisDeadZone: .200000003
+        axisDeadZone: 0.2
         sourceButton: 0
         sourceKeyCode: 0
         customCalculation: {fileID: 0}
@@ -2588,8 +2589,8 @@ MonoBehaviour:
         buttonAxisContribution: 0
         calibrateAxis: 1
         axisZero: 0
-        axisMin: -.800000012
-        axisMax: .689999998
+        axisMin: -0.8
+        axisMax: 0.69
         alternateCalibrations: []
         axisInfo:
           _dataFormat: 0
@@ -3999,6 +4000,7 @@ MonoBehaviour:
     elements:
       axes: []
       buttons: []
+      compoundElements: []
     controllerName: 
     variants: []
   elementIdentifierIdCounter: 24

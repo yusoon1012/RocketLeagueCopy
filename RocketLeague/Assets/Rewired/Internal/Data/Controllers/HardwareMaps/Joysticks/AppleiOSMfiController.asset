@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -418,7 +419,7 @@ MonoBehaviour:
       - elementIdentifier: 0
         sourceType: 1
         sourceAxis: 1
-        axisDeadZone: .100000001
+        axisDeadZone: 0.1
         sourceButton: 0
         sourceKeyCode: 0
         customCalculation: {fileID: 0}
@@ -439,7 +440,7 @@ MonoBehaviour:
       - elementIdentifier: 1
         sourceType: 1
         sourceAxis: 2
-        axisDeadZone: .100000001
+        axisDeadZone: 0.1
         sourceButton: 0
         sourceKeyCode: 0
         customCalculation: {fileID: 0}
@@ -460,7 +461,7 @@ MonoBehaviour:
       - elementIdentifier: 2
         sourceType: 1
         sourceAxis: 3
-        axisDeadZone: .100000001
+        axisDeadZone: 0.1
         sourceButton: 0
         sourceKeyCode: 0
         customCalculation: {fileID: 0}
@@ -481,7 +482,7 @@ MonoBehaviour:
       - elementIdentifier: 3
         sourceType: 1
         sourceAxis: 4
-        axisDeadZone: .100000001
+        axisDeadZone: 0.1
         sourceButton: 0
         sourceKeyCode: 0
         customCalculation: {fileID: 0}
