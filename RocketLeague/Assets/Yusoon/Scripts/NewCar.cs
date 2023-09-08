@@ -72,7 +72,7 @@ public class NewCar : MonoBehaviour
         RaycastHit hitNear;
 
         Vector3 newGravityDirection = -kartNormal.up; // 차량의 정렬된 방향을 중력 방향으로 사용
-        Physics.gravity = newGravityDirection * gravity;
+       // Physics.gravity = newGravityDirection * gravity;
         Physics.Raycast(rayStartPoint, rayDirection, out hitOn, 4f, layerMask);
         Physics.Raycast(rayStartPoint, rayDirection, out hitNear, 4f, layerMask);
 
