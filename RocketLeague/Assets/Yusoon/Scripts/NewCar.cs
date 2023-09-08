@@ -18,8 +18,8 @@ public class NewCar : MonoBehaviour
     bool drifting =false;
     float speed;
    public float currentSpeed;
-    float rotate;
-    float currentRotate;
+   float rotate;
+  float currentRotate;
     public Rigidbody sphere;
   
     // Start is called before the first frame update
@@ -33,17 +33,17 @@ public class NewCar : MonoBehaviour
     {
         Vector3 newposition = new Vector3(sphere.transform.position.x, sphere.transform.position.y-3.5f, sphere.transform.position.z);
         transform.position=newposition;
-        float speedDir= Input.GetAxis("Vertical");
+        float speedDir = Input.GetAxis("Vertical");
         speed = speedDir * acceleration;
-       
-        if(Input.GetAxis("Horizontal") != 0)
+
+        if (Input.GetAxis("Horizontal") != 0)
         {
-          
+
             float dir = Input.GetAxis("Horizontal");
             float amount = Mathf.Abs((Input.GetAxis("Horizontal")));
-            if(speedDir!= -1)
+            if (speedDir!= -1)
             {
-            Steer(dir, amount);
+                Steer(dir, amount);
 
             }
             else
@@ -53,7 +53,41 @@ public class NewCar : MonoBehaviour
             }
 
         }
-      
+        Vector3 rayStartPoint;
+        if (Input.GetAxis("Vertical")>0)
+        {
+            rayStartPoint = kartNormal.position + (kartNormal.up * .3f) + (kartNormal.right*2);
+        }
+        else
+        {
+            rayStartPoint = kartNormal.position + (kartNormal.up * .3f) + (-kartNormal.right*2);
+
+
+        }
+
+
+        Vector3 rayDirection = -kartNormal.up; // Ray를 아래로 쏘는 방향으로 설정
+
+        RaycastHit hitOn;
+        RaycastHit hitNear;
+
+        Vector3 newGravityDirection = -kartNormal.up; // 차량의 정렬된 방향을 중력 방향으로 사용
+        Physics.gravity = newGravityDirection * gravity;
+        Physics.Raycast(rayStartPoint, rayDirection, out hitOn, 4f, layerMask);
+        Physics.Raycast(rayStartPoint, rayDirection, out hitNear, 4f, layerMask);
+
+        // Visualize the raycast
+        Debug.DrawRay(rayStartPoint, rayDirection * 4f, Color.green); // Ray를 시각화합니다.
+
+        // Calculate the rotation to align kartNormal with the ground normal
+        Vector3 targetNormal = hitNear.normal;
+        Quaternion targetRotation = Quaternion.FromToRotation(kartNormal.up, targetNormal);
+
+        // Smoothly adjust the kartNormal's rotation
+        kartNormal.rotation = Quaternion.Slerp(kartNormal.rotation, targetRotation * kartNormal.rotation, Time.deltaTime * 8.0f);
+        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
+
+
         currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); speed = 0f;
         currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); rotate = 0f;
 
@@ -74,10 +108,9 @@ public class NewCar : MonoBehaviour
 
         sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
        
-        sphere.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
+        //sphere.AddForce(-kartNormal.transform.up * gravity, ForceMode.Acceleration);
       
-        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
-
+        
 
 
         //RaycastHit hitOn;
@@ -91,25 +124,23 @@ public class NewCar : MonoBehaviour
         //kartNormal.Rotate(0, transform.eulerAngles.y, 0);
 
 
-        Vector3 rayDirection = -kartNormal.up; // Ray를 아래로 쏘는 방향으로 설정
+        //Vector3 rayDirection = -kartNormal.up; // Ray를 아래로 쏘는 방향으로 설정
 
-        RaycastHit hitOn;
-        RaycastHit hitNear;
+        //RaycastHit hitOn;
+        //RaycastHit hitNear;
 
-        Physics.Raycast(kartNormal.position + (kartNormal.up * .3f), rayDirection, out hitOn, 3f, layerMask);
-        Physics.Raycast(kartNormal.position + (kartNormal.up * .3f), rayDirection, out hitNear, 3f, layerMask);
+        //Physics.Raycast(kartNormal.position + (kartNormal.up * .3f), rayDirection, out hitOn, 3f, layerMask);
+        //Physics.Raycast(kartNormal.position + (kartNormal.up * .3f), rayDirection, out hitNear, 3f, layerMask);
 
-        // Visualize the raycast
-        Debug.DrawRay(kartNormal.position + (kartNormal.up * .1f), rayDirection * 3f, Color.green); // Visualize the ray
+        //// Visualize the raycast
+        //Debug.DrawRay(kartNormal.position + (kartNormal.up * .1f), rayDirection * 3f, Color.green); // Visualize the ray
 
-        // Calculate the rotation to align kartNormal with the ground normal
-        Vector3 targetNormal = hitNear.normal;
-        Quaternion targetRotation = Quaternion.FromToRotation(kartNormal.up, targetNormal);
+        //// Calculate the rotation to align kartNormal with the ground normal
+        //Vector3 targetNormal = hitNear.normal;
+        //Quaternion targetRotation = Quaternion.FromToRotation(kartNormal.up, targetNormal);
 
-        // Smoothly adjust the kartNormal's rotation
-        kartNormal.rotation = Quaternion.Slerp(kartNormal.rotation, targetRotation * kartNormal.rotation, Time.deltaTime * 8.0f);
-        
-
+        //// Smoothly adjust the kartNormal's rotation
+        //kartNormal.rotation = Quaternion.Slerp(kartNormal.rotation, targetRotation * kartNormal.rotation, Time.deltaTime * 8.0f);
 
 
 
@@ -120,7 +151,9 @@ public class NewCar : MonoBehaviour
 
 
 
-      
+
+
+
 
     }
     public void Steer(float direction,float amount)
