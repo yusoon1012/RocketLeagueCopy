@@ -73,7 +73,7 @@ public class NewCar : MonoBehaviour
     {
 
         sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
-
+       
         sphere.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
       
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
@@ -108,7 +108,7 @@ public class NewCar : MonoBehaviour
 
         // Smoothly adjust the kartNormal's rotation
         kartNormal.rotation = Quaternion.Slerp(kartNormal.rotation, targetRotation * kartNormal.rotation, Time.deltaTime * 8.0f);
-
+        
 
 
 
