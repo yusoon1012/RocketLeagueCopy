@@ -6,78 +6,97 @@ using UnityEngine.UIElements;
 
 public class NewCar_ : MonoBehaviour
 {
+    public Rigidbody sphere;
     public Transform kartNormal;
     public Transform kartModel;
     public float acceleration;
     public float steering;
+    public float gravity;
     public LayerMask layerMask;
     public LayerMask fieldMask;
 
-    int jumpCount = 0;
-    bool drifting =false;
-    float speed;
+    private GameObject carBody;
+    private int jumpCount = default;
+    private bool drifting = false;
+    private float speed;
     public float currentSpeed;
-    float rotate;
-    float currentRotate;
-    public Rigidbody sphere;
-  
-    // Start is called before the first frame update
-    void Start()
+    private float rotate;
+    private float currentRotate;
+
+    void Awake()
     {
-        
+        carBody = GameObject.Find("Collider");   // Collider 라는 오브젝트를 찾아 carBody 에 오브젝트 저장
+
+        jumpCount = 0;
+        acceleration = 100f;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Vector3 newposition = new Vector3(sphere.transform.position.x, sphere.transform.position.y-3.5f, sphere.transform.position.z);
-        transform.position=newposition;
-        float speedDir= Input.GetAxis("Vertical");
+        Vector3 newposition = new Vector3(sphere.transform.position.x, sphere.transform.position.y - 3.5f, sphere.transform.position.z);
+        transform.position = newposition;
+        float speedDir = Input.GetAxis("Vertical");
         speed = speedDir * acceleration;
-       
-        if(Input.GetAxis("Horizontal") != 0)
+
+        if (Input.GetAxis("Horizontal") != 0)
         {
-          
             float dir = Input.GetAxis("Horizontal");
             float amount = Mathf.Abs((Input.GetAxis("Horizontal")));
-            if(speedDir!= -1)
+            if (speedDir != -1)
             {
-            Steer(dir, amount);
-
+                Steer(dir, amount);
             }
             else
             {
                 Steer(-dir, amount);
-
             }
-
         }
-      
-        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); speed = 0f;
-        currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); rotate = 0f;
+
+        Vector3 rayStartPoint;
+        if (Input.GetAxis("Vertical") > 0)
+        {
+            rayStartPoint = kartNormal.position + (kartNormal.up * .3f) + (kartNormal.right * 2);
+        }
+        else
+        {
+            rayStartPoint = kartNormal.position + (kartNormal.up * .3f) + (-kartNormal.right * 2);
+        }
+
+        Vector3 rayDirection = -kartNormal.up; // Ray를 아래로 쏘는 방향으로 설정
+
+        RaycastHit hitOn;
+        RaycastHit hitNear;
+
+        Vector3 newGravityDirection = -kartNormal.up; // 차량의 정렬된 방향을 중력 방향으로 사용
+        //Physics.gravity = newGravityDirection * gravity;
+        Physics.Raycast(rayStartPoint, rayDirection, out hitOn, 4f, layerMask);
+        Physics.Raycast(rayStartPoint, rayDirection, out hitNear, 4f, layerMask);
+
+        // Visualize the raycast
+        Debug.DrawRay(rayStartPoint, rayDirection * 4f, Color.green); // Ray를 시각화합니다.
+
+        // Calculate the rotation to align kartNormal with the ground normal
+        Vector3 targetNormal = hitNear.normal;
+        Quaternion targetRotation = Quaternion.FromToRotation(kartNormal.up, targetNormal);
+
+        // Smoothly adjust the kartNormal's rotation
+        kartNormal.rotation = Quaternion.Slerp(kartNormal.rotation, targetRotation * kartNormal.rotation, Time.deltaTime * 8.0f);
+        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
+
+        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); /*speed = 0f;*/
+        currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); /*rotate = 0f;*/
 
         if (!drifting)
         {
-           
-            
-            kartModel.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(0, 90+(Input.GetAxis("Horizontal") * 15), kartModel.localEulerAngles.z), .2f);
-
-            
+            kartModel.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(0, 90 + (Input.GetAxis("Horizontal") * 15), kartModel.localEulerAngles.z), .2f);
         }
-
-
-
     }
+
     private void FixedUpdate()
     {
-
         sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
-       
-        //sphere.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
-      
-        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
 
-
+        //sphere.AddForce(-kartNormal.transform.up * gravity, ForceMode.Acceleration);
 
         //RaycastHit hitOn;
         //RaycastHit hitNear;
@@ -89,56 +108,34 @@ public class NewCar_ : MonoBehaviour
         //kartNormal.up = Vector3.Lerp(kartNormal.up, hitNear.normal, Time.deltaTime * 8.0f);
         //kartNormal.Rotate(0, transform.eulerAngles.y, 0);
 
+        //Vector3 rayDirection = -kartNormal.up; // Ray를 아래로 쏘는 방향으로 설정
 
-        Vector3 rayDirection = -kartNormal.up; // Ray를 아래로 쏘는 방향으로 설정
+        //RaycastHit hitOn;
+        //RaycastHit hitNear;
 
-        RaycastHit hitOn;
-        RaycastHit hitNear;
+        //Physics.Raycast(kartNormal.position + (kartNormal.up * .3f), rayDirection, out hitOn, 3f, layerMask);
+        //Physics.Raycast(kartNormal.position + (kartNormal.up * .3f), rayDirection, out hitNear, 3f, layerMask);
 
-        Physics.Raycast(kartNormal.position + (kartNormal.up * .3f), rayDirection, out hitOn, 3f, layerMask);
-        Physics.Raycast(kartNormal.position + (kartNormal.up * .3f), rayDirection, out hitNear, 3f, layerMask);
+        //// Visualize the raycast
+        //Debug.DrawRay(kartNormal.position + (kartNormal.up * .1f), rayDirection * 3f, Color.green); // Visualize the ray
 
-        // Visualize the raycast
-        Debug.DrawRay(kartNormal.position + (kartNormal.up * .1f), rayDirection * 3f, Color.green); // Visualize the ray
+        //// Calculate the rotation to align kartNormal with the ground normal
+        //Vector3 targetNormal = hitNear.normal;
+        //Quaternion targetRotation = Quaternion.FromToRotation(kartNormal.up, targetNormal);
 
-        // Calculate the rotation to align kartNormal with the ground normal
-        Vector3 targetNormal = hitNear.normal;
-        Quaternion targetRotation = Quaternion.FromToRotation(kartNormal.up, targetNormal);
-
-        // Smoothly adjust the kartNormal's rotation
-        kartNormal.rotation = Quaternion.Slerp(kartNormal.rotation, targetRotation * kartNormal.rotation, Time.deltaTime * 8.0f);
-        
-
-
-
-
-
-
-
-
-
-
-
-      
-
+        //// Smoothly adjust the kartNormal's rotation
+        //kartNormal.rotation = Quaternion.Slerp(kartNormal.rotation, targetRotation * kartNormal.rotation, Time.deltaTime * 8.0f);
     }
-    public void Steer(float direction,float amount)
+
+    public void Steer(float direction, float amount)
     {
-        rotate += (steering *direction) * amount;
+        rotate += (steering * direction) * amount;
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-       
-        if(collision.gameObject.tag.Equals("field"))
-        {
-            jumpCount=0;
-        }
-    }
+
     private void OnCollisionStay(Collision collision)
     {
         Vector3 wallNormal = collision.contacts[0].normal;
         transform.position += wallNormal * currentSpeed * Time.deltaTime; // moveSpeed는 움직임 속도입니다.
         transform.rotation = Quaternion.FromToRotation(transform.up, wallNormal) * transform.rotation;
     }
-
 }
