@@ -108,7 +108,7 @@ public class NewCar : MonoBehaviour
 
         sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
        
-        //sphere.AddForce(-kartNormal.transform.up * gravity, ForceMode.Acceleration);
+        sphere.AddForce(-kartNormal.transform.up * gravity, ForceMode.Acceleration);
       
         
 

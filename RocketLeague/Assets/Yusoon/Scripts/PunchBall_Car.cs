@@ -37,7 +37,10 @@ public class PunchBall_Car : MonoBehaviour
                  
                     dir.y=dir.y-0.1f;
                     if (rb_!= null)
-                    { rb_.AddForce(dir*50, ForceMode.Impulse); }
+                    {
+                        rb_.velocity=Vector3.zero;
+                        rb_.AddForce(dir*70, ForceMode.Impulse);
+                    }
                 }
             }
         }
