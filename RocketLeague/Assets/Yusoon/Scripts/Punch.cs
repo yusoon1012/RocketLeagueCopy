@@ -9,8 +9,7 @@ public class Punch : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb=GetComponent<Rigidbody>();
-        rb.velocity=Vector3.forward*20;
+     
     }
 
     // Update is called once per frame

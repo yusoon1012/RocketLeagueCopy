@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PunchBall_Car : MonoBehaviour
 {
-    public GameObject punchPrefab;
+    public Animator animator;
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +31,8 @@ public class PunchBall_Car : MonoBehaviour
                 }
                 if (Input.GetKeyDown(KeyCode.R))
                 {
-                  Rigidbody rb_ = ball.GetComponent<Rigidbody>();
+                    animator.Play("PunchAnimation");
+                     Rigidbody rb_ = ball.GetComponent<Rigidbody>();
                     Vector3 dir = (other.transform.position-transform.position).normalized;
                  
                     dir.y=dir.y-0.1f;
