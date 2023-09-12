@@ -147,7 +147,7 @@ MeshRenderer:
   m_Materials:
   - {fileID: -7739096301413632477, guid: 566f36e861081354fab4bd541698f516, type: 3}
   - {fileID: -1598722958210515638, guid: 566f36e861081354fab4bd541698f516, type: 3}
-  - {fileID: 1084838663147221193, guid: 566f36e861081354fab4bd541698f516, type: 3}
+  - {fileID: 2100000, guid: 2e697d9fc59da0445b23e05d9e2bf14b, type: 2}
   - {fileID: 8992934318045909824, guid: 566f36e861081354fab4bd541698f516, type: 3}
   - {fileID: 5596651175626585437, guid: 566f36e861081354fab4bd541698f516, type: 3}
   m_StaticBatchInfo:
@@ -297,7 +297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3928462305328043316}
   m_Layer: 0
-  m_Name: StandardCar
+  m_Name: StandardCar_Orange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -311,7 +311,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3928462305328043319}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -102.250374, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

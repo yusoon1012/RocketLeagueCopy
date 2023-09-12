@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TitleSceneController_Choi : MonoBehaviour
 {
@@ -51,5 +52,6 @@ public class TitleSceneController_Choi : MonoBehaviour
 
         yield return new WaitForSeconds(times[3]);
         // ¾À ·Îµå
+        SceneManager.LoadScene("SampleScene");
     }
 }

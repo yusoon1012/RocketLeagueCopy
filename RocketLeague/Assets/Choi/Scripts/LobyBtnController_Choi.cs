@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LobyBtnController_Choi : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -10,6 +11,8 @@ public class LobyBtnController_Choi : MonoBehaviour, IPointerEnterHandler, IPoin
     private TMP_Text buttonText;
     private Color highlightedColor;
     private Color defaultColor;
+    public GameObject playButton;
+    public GameObject MatchButton;
 
     private void Awake()
     {
@@ -30,5 +33,15 @@ public class LobyBtnController_Choi : MonoBehaviour, IPointerEnterHandler, IPoin
     public void OnPointerExit(PointerEventData eventData)
     {
         buttonText.color = defaultColor;
+    }
+    public void MatchButtonActive()
+    {
+        playButton.SetActive(false);
+        MatchButton.SetActive(true);
+    }
+    public void MatchBackButton()
+    {
+        playButton.SetActive(true);
+        MatchButton.SetActive(false);
     }
 }
