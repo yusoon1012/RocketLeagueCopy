@@ -10,6 +10,8 @@ TagManager:
   - Ball
   - Car
   - Wall
+  - OrangeCar
+  - BlueCar
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - Water
   - UI
   - Field
-  - 
+  - Ignore Trigger
   - 
   - 
   - 
