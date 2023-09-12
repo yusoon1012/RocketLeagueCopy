@@ -173,6 +173,7 @@ public class CustomizingManager_Choi : MonoBehaviour
         // dataDictionary에 접근하기 위해 foreach문을 사용
         foreach (KeyValuePair<string, List<string>> value in dataDictionary[category])
         {
+            // Key 값이 PrefabName일 경우
             if (value.Key == "PrefabName")
             {
                 temp_Name = dataDictionary[category][value.Key][index]; // dataDictionary 안에 있는 값을 호출
