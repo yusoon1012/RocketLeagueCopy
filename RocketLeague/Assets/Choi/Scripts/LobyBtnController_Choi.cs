@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LobyBtnController_Choi : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -30,5 +31,9 @@ public class LobyBtnController_Choi : MonoBehaviour, IPointerEnterHandler, IPoin
     public void OnPointerExit(PointerEventData eventData)
     {
         buttonText.color = defaultColor;
+    }
+    public void StandardMatch()
+    {
+        SceneManager.LoadScene("StandardScene");
     }
 }
