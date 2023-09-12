@@ -17,12 +17,12 @@ public class RayTest : MonoBehaviour
 
     void Update()
     {
-        rayPosition = carTf.transform.position + Vector3.up * 3;
+        rayPosition = carTf.transform.position + Vector3.up * 4;
 
-        Debug.DrawRay(rayPosition, carTf.transform.right * maxDistance, Color.blue, 0.3f);
+        Debug.DrawRay(rayPosition, carTf.transform.right * maxDistance, Color.blue, 0.01f);
         if (Physics.Raycast(rayPosition, carTf.transform.right, out rayTest, maxDistance))
         {
-            Debug.Log(rayTest);
+            rayTest.transform.GetComponent<MeshRenderer>().material.color = Color.red;
         }
     }
 }

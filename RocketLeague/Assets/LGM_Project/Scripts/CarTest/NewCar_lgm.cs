@@ -4,9 +4,8 @@ using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class NewCar_ : MonoBehaviour
+public class NewCar_lgm : MonoBehaviour
 {
-    public Rigidbody sphere;
     public Transform kartNormal;
     public Transform kartModel;
     public float acceleration;
@@ -15,52 +14,56 @@ public class NewCar_ : MonoBehaviour
     public LayerMask layerMask;
     public LayerMask fieldMask;
 
-    private GameObject carBody;
-    private int jumpCount = default;
-    private bool drifting = false;
-    private float speed;
-    public float currentSpeed;
-    private float rotate;
-    private float currentRotate;
+    bool drifting =false;
+    float speed;
+   public float currentSpeed;
+   float rotate;
+  float currentRotate;
+    public Rigidbody sphere;
+    private bool isWalled = false;
+    private Rigidbody colliderRb;
 
     void Awake()
     {
-        carBody = GameObject.Find("Collider");   // Collider 라는 오브젝트를 찾아 carBody 에 오브젝트 저장
-
-        jumpCount = 0;
-        acceleration = 100f;
+        colliderRb = GameObject.Find("Collider").GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        Vector3 newposition = new Vector3(sphere.transform.position.x, sphere.transform.position.y - 3.5f, sphere.transform.position.z);
-        transform.position = newposition;
+        Vector3 newposition = new Vector3(sphere.transform.position.x, sphere.transform.position.y-3.5f, sphere.transform.position.z);
+        transform.position=newposition;
         float speedDir = Input.GetAxis("Vertical");
         speed = speedDir * acceleration;
 
         if (Input.GetAxis("Horizontal") != 0)
         {
+
             float dir = Input.GetAxis("Horizontal");
             float amount = Mathf.Abs((Input.GetAxis("Horizontal")));
-            if (speedDir != -1)
+            if (speedDir!= -1)
             {
                 Steer(dir, amount);
+
             }
             else
             {
                 Steer(-dir, amount);
-            }
-        }
 
+            }
+
+        }
         Vector3 rayStartPoint;
-        if (Input.GetAxis("Vertical") > 0)
+        if (Input.GetAxis("Vertical")>0)
         {
-            rayStartPoint = kartNormal.position + (kartNormal.up * .3f) + (kartNormal.right * 2);
+            rayStartPoint = kartNormal.position + (kartNormal.up * .3f) + (kartNormal.right*2);
         }
         else
         {
-            rayStartPoint = kartNormal.position + (kartNormal.up * .3f) + (-kartNormal.right * 2);
+            rayStartPoint = kartNormal.position + (kartNormal.up * .3f) + (-kartNormal.right*2);
+
+
         }
+
 
         Vector3 rayDirection = -kartNormal.up; // Ray를 아래로 쏘는 방향으로 설정
 
@@ -68,7 +71,7 @@ public class NewCar_ : MonoBehaviour
         RaycastHit hitNear;
 
         Vector3 newGravityDirection = -kartNormal.up; // 차량의 정렬된 방향을 중력 방향으로 사용
-        //Physics.gravity = newGravityDirection * gravity;
+       // Physics.gravity = newGravityDirection * gravity;
         Physics.Raycast(rayStartPoint, rayDirection, out hitOn, 4f, layerMask);
         Physics.Raycast(rayStartPoint, rayDirection, out hitNear, 4f, layerMask);
 
@@ -83,20 +86,31 @@ public class NewCar_ : MonoBehaviour
         kartNormal.rotation = Quaternion.Slerp(kartNormal.rotation, targetRotation * kartNormal.rotation, Time.deltaTime * 8.0f);
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
 
-        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); /*speed = 0f;*/
-        currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); /*rotate = 0f;*/
+
+        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); speed = 0f;
+        currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); rotate = 0f;
 
         if (!drifting)
         {
-            kartModel.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(0, 90 + (Input.GetAxis("Horizontal") * 15), kartModel.localEulerAngles.z), .2f);
-        }
-    }
+           
+            
+            kartModel.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(0, 90+(Input.GetAxis("Horizontal") * 15), kartModel.localEulerAngles.z), .2f);
 
+            
+        }
+
+
+
+    }
     private void FixedUpdate()
     {
-        sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
 
+        sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
+       
         //sphere.AddForce(-kartNormal.transform.up * gravity, ForceMode.Acceleration);
+      
+        
+
 
         //RaycastHit hitOn;
         //RaycastHit hitNear;
@@ -107,6 +121,7 @@ public class NewCar_ : MonoBehaviour
         ////Normal Rotation
         //kartNormal.up = Vector3.Lerp(kartNormal.up, hitNear.normal, Time.deltaTime * 8.0f);
         //kartNormal.Rotate(0, transform.eulerAngles.y, 0);
+
 
         //Vector3 rayDirection = -kartNormal.up; // Ray를 아래로 쏘는 방향으로 설정
 
@@ -125,11 +140,24 @@ public class NewCar_ : MonoBehaviour
 
         //// Smoothly adjust the kartNormal's rotation
         //kartNormal.rotation = Quaternion.Slerp(kartNormal.rotation, targetRotation * kartNormal.rotation, Time.deltaTime * 8.0f);
-    }
 
-    public void Steer(float direction, float amount)
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+    public void Steer(float direction,float amount)
     {
-        rotate += (steering * direction) * amount;
+        rotate += (steering *direction) * amount;
     }
 
     private void OnCollisionStay(Collision collision)
@@ -138,4 +166,25 @@ public class NewCar_ : MonoBehaviour
         transform.position += wallNormal * currentSpeed * Time.deltaTime; // moveSpeed는 움직임 속도입니다.
         transform.rotation = Quaternion.FromToRotation(transform.up, wallNormal) * transform.rotation;
     }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.tag == ("Wall"))
+        {
+            isWalled = true;
+            colliderRb.useGravity = false;
+            Debug.Log("벽에 붙었다");
+        }
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        if (collision.tag == ("Wall"))
+        {
+            isWalled = false;
+            colliderRb.useGravity = true;
+            Debug.Log("벽에서 떨어졌다");
+        }
+    }
+
 }

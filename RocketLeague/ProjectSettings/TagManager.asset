@@ -6,6 +6,10 @@ TagManager:
   tags:
   - field
   - Floor
+  - enemy
+  - Ball
+  - Car
+  - Wall
   layers:
   - Default
   - TransparentFX
