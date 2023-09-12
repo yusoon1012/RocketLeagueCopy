@@ -121,11 +121,11 @@ public class NewCar_Yoo : MonoBehaviour
         Vector3 rayStartPoint;
         if (Input.GetAxis("Vertical") > 0)
         {
-            rayStartPoint = kartNormal.position + (kartNormal.up * .3f) + (kartNormal.right * 2);
+            rayStartPoint = kartNormal.position + (kartNormal.up * .3f) + (kartNormal.right * 2f);
         }
         else
         {
-            rayStartPoint = kartNormal.position + (kartNormal.up * .3f) + (-kartNormal.right * 2);
+            rayStartPoint = kartNormal.position + (kartNormal.up * .3f) + (-kartNormal.right * 2f);
 
 
         }

@@ -42,11 +42,14 @@ public class BigBoost_Yoo : MonoBehaviour
         if (collision.CompareTag("Car"))
         {
             //Debug.Log("여기는 들어옴?");
-            carBooster = collision.gameObject.transform.parent.gameObject.GetComponentInParent<CarBooster_Yoo>();
+            if(collision.gameObject.transform.parent.gameObject.GetComponentInParent<CarBooster_Yoo>() != null)
+            {
+                carBooster = collision.gameObject.transform.parent.gameObject.GetComponentInParent<CarBooster_Yoo>();
 
-            carBooster.AddBoost(100);
+                carBooster.AddBoost(100);
 
-            gameObject.transform.localScale = Vector3.zero;
+                gameObject.transform.localScale = Vector3.zero;
+            }
         }
     }
 }
