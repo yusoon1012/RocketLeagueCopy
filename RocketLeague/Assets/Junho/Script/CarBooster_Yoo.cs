@@ -7,7 +7,7 @@ public class CarBooster_Yoo : MonoBehaviour
     public float boost { get; private set; }
     public float boostSpeed;
 
-    private BoostUI_Yoo boostUI;
+    public BoostUI_Yoo boostUI;
     public bool useBoost { get; private set; }
     // Start is called before the first frame update
     void Start()
