@@ -11,6 +11,8 @@ public class LobyBtnController_Choi : MonoBehaviour, IPointerEnterHandler, IPoin
     private TMP_Text buttonText;
     private Color highlightedColor;
     private Color defaultColor;
+    public GameObject playButton;
+    public GameObject MatchButton;
 
     private void Awake()
     {
@@ -32,8 +34,14 @@ public class LobyBtnController_Choi : MonoBehaviour, IPointerEnterHandler, IPoin
     {
         buttonText.color = defaultColor;
     }
-    public void StandardMatch()
+    public void MatchButtonActive()
     {
-        SceneManager.LoadScene("StandardScene");
+        playButton.SetActive(false);
+        MatchButton.SetActive(true);
+    }
+    public void MatchBackButton()
+    {
+        playButton.SetActive(true);
+        MatchButton.SetActive(false);
     }
 }
