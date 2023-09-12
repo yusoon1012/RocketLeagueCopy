@@ -15,7 +15,7 @@ public class CarSkill_Yoo : MonoBehaviour
     public NewCar_Yoo myCar;
     public NewCar_Yoo carTarget;
     public CarBooster_Yoo carBoosterTarget;
-    public Rigidbody carRigid;
+    public Rigidbody carRigidTarget;
 
     private float timeAfterUseSkill;
     private float getSkillDelay;
@@ -52,14 +52,14 @@ public class CarSkill_Yoo : MonoBehaviour
         {
             carTarget = null;
             carBoosterTarget = null;
-            carRigid = null;
+            carRigidTarget = null;
         }
 
         if(checkCar.targetCar != null)
         {
             carTarget = checkCar.targetCar.transform.GetChild(1).GetComponent<NewCar_Yoo>();
             carBoosterTarget = checkCar.targetCar.transform.GetChild(1).GetComponent<CarBooster_Yoo>();
-            carRigid = checkCar.targetCar.transform.GetChild(0).GetComponent<Rigidbody>();
+            carRigidTarget = checkCar.targetCar.transform.GetChild(0).GetComponent<Rigidbody>();
             if(Input.GetKeyDown(KeyCode.R))
             {
                 if(skill != null)
@@ -108,6 +108,6 @@ public class CarSkill_Yoo : MonoBehaviour
     {
         skill = null;
         timeAfterUseSkill = 0;
-        carRigid.AddForce(checkCar.targetDir * checkCar.pushPower);
+        carRigidTarget.AddForce(checkCar.targetDir * checkCar.pushPower);
     }
 }
