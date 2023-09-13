@@ -21,6 +21,8 @@ public class NewCar : MonoBehaviour
    float rotate;
   float currentRotate;
     public Rigidbody sphere;
+    public bool outOfControl = false;
+    private bool isNotControl=false;
   
     // Start is called before the first frame update
     void Start()
@@ -31,9 +33,20 @@ public class NewCar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         Vector3 newposition = new Vector3(sphere.transform.position.x, sphere.transform.position.y-3.5f, sphere.transform.position.z);
         transform.position=newposition;
         float speedDir = Input.GetAxis("Vertical");
+        if(outOfControl)
+        {
+            if(isNotControl==false)
+            {
+                isNotControl = true;
+                StartCoroutine(ControlTimer());
+            }
+            speedDir=1;
+            acceleration=120;
+        }
         speed = speedDir * acceleration;
 
         if (Input.GetAxis("Horizontal") != 0)
@@ -160,6 +173,12 @@ public class NewCar : MonoBehaviour
 
 
 
+    }
+    private IEnumerator ControlTimer()
+    {
+        yield return new WaitForSeconds(5);
+        outOfControl = false;
+        isNotControl = false;
     }
     public void Steer(float direction,float amount)
     {
