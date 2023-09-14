@@ -118,6 +118,10 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 50
+  fieldMask:
+    serializedVersion: 2
+    m_Bits: 0
+  currentSpeed: 0
   sphere: {fileID: 5281925789982568884}
 --- !u!1 &5281925789982568886
 GameObject:
