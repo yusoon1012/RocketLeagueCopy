@@ -12,7 +12,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        gameVersion = "0.1.0";   // 게임 버전 값
+        gameVersion = "0.2.0";   // 게임 버전 값
     }
 
        // 게임 실행과 동시에 마스터 서버 접속 시도
@@ -75,7 +75,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
            // 접속 상태 표시
         connectionInfoText.text = "Nothing to empty room, Create new room ...";
            // 최대 6명 수용 가능한 빈 방 생성
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4 });
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 6 });
     }      // OnJoinRandomFailed()
 
 
