@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 7104fd04-0de4-41b1-9e45-de5aede9e368
+    AppIdRealtime: b6f7ae22-1bd1-4733-9c11-ec442295089d
     AppIdFusion: 
     AppIdChat: 
     AppIdVoice: 
@@ -55,6 +55,10 @@ MonoBehaviour:
   - ApplyOrangeTeamCount
   - ApplyBlueTeamCountText
   - ApplyOrangeTeamCountText
+  - AddBlueScore
+  - AddOrangeScore
+  - BallSpawn
+  - ShootForce
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -13,7 +13,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject gameModeButtons;
     void Awake()
     {
-        gameVersion = "0.1.0";   // 게임 버전 값
+        gameVersion = "0.1.1";   // 게임 버전 값
     }
 
        // 게임 실행과 동시에 마스터 서버 접속 시도
