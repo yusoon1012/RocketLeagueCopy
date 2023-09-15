@@ -5,8 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-<<<<<<< HEAD
-  - enabled: 0
+  - enabled: 1
     path: Assets/Choi/Scenes/TitleScene.unity
     guid: 8dcf73de1d7453b468dba8a06d888f4b
   - enabled: 1
@@ -18,12 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Main/Scenes/StandardScene.unity
     guid: 923087b8219b350428c6da2892faaee9
-=======
   - enabled: 1
-    path: Assets/Junho/Scene/PhotonCheck.unity
-    guid: 1246eb09ea2e91f40b813daee9daf2b8
-  - enabled: 1
-    path: Assets/Junho/Scene/Scene_Yoo.unity
-    guid: af1daa155f3c4d642a3ad5bfa3e627ba
->>>>>>> origin/Yoo
+    path: Assets/Main/Scenes/RumbleScene.unity
+    guid: a16e20cbbe454b44692a1acac8effb44
   m_configObjects: {}
