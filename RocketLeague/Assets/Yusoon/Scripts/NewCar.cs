@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class NewCar : MonoBehaviour
+public class NewCar : MonoBehaviourPunCallbacks
 {
     public Transform kartNormal;
     public Transform kartModel;
@@ -31,7 +32,10 @@ public class NewCar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(photonView.IsMine==false)
+        {
+            return;
+        }
         Vector3 newposition = new Vector3(sphere.transform.position.x, sphere.transform.position.y-3.5f, sphere.transform.position.z);
         transform.position=newposition;
         float speedDir = Input.GetAxis("Vertical");
@@ -121,7 +125,10 @@ public class NewCar : MonoBehaviour
     }
     private void FixedUpdate()
     {
-
+        if (photonView.IsMine==false)
+        {
+            return;
+        }
         sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
        
         sphere.AddForce(-kartNormal.transform.up * gravity, ForceMode.Acceleration);
