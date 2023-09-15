@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
 using System.Collections;
 using System.Collections.Generic;
->>>>>>> origin/Yoo
 using UnityEngine;
 
 public class NewCar : MonoBehaviour
