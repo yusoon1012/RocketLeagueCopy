@@ -11,7 +11,6 @@ public class TitleSceneController_Choi : MonoBehaviour
     public GameObject[] objs; // 아래와 같은 오브젝트를 인덱스에 설정
                               // [0] = Img_TitleBg, [1] = Img_TitleCompanyLogo
 
-
     void Start()
     {
         // 타이틀 배경 액션 함수 호출

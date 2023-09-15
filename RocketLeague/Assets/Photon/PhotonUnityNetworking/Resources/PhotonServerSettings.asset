@@ -28,7 +28,7 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: 
+  DevRegion: kr
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
@@ -39,6 +39,22 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - ApplyAuraSize
+  - FixAuraSize
+  - GoalEffect
+  - ChangeBlueTeam
+  - FormatTeamCount
+  - FormatBlueTeamCount
+  - FormatOrangeTeamCount
+  - ApplyJoinBlueTeam
+  - JoinBlueTeam
+  - JoinBlueTeam2
+  - ApplyJoinOrangeTeam
+  - JoinOrangeTeam2
+  - ApplyBlueTeamCount
+  - ApplyOrangeTeamCount
+  - ApplyBlueTeamCountText
+  - ApplyOrangeTeamCountText
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
-  DevRegionSetOnce: 0
+  ShowSettings: 1
+  DevRegionSetOnce: 1

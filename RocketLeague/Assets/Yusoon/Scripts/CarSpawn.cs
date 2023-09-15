@@ -13,10 +13,10 @@ public class CarSpawn : MonoBehaviour
 
     int[] orangeRandomIdx=new int[3];
     int[] blueRnadomIdx = new int[3];
-    // Start is called before the first frame update
+
     void Start()
     {
-        
+
         for(int i=0;i<orangeRandomIdx.Length; i++)
         {
             orangeRandomIdx[i]=i;
@@ -46,12 +46,6 @@ public class CarSpawn : MonoBehaviour
 
         }
         ball.transform.position=ballSpawnPosition.position;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void ShuffleIdx(int a, int b)

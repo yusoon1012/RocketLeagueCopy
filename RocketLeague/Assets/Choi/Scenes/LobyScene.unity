@@ -176,6 +176,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4f7a8e7665340549be9e4d5843cf8b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playButton: {fileID: 0}
+  MatchButton: {fileID: 0}
 --- !u!114 &60710948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1586,11 +1588,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbed70bfd3a9da54c88f52dcbdc3090a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objs:
-  - {fileID: 473199002}
-  - {fileID: 141630848}
-  - {fileID: 1293421277}
-  - {fileID: 490543705}
 --- !u!1 &1293421277
 GameObject:
   m_ObjectHideFlags: 0
@@ -2048,6 +2045,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4f7a8e7665340549be9e4d5843cf8b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playButton: {fileID: 0}
+  MatchButton: {fileID: 0}
 --- !u!114 &1516946520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2409,6 +2408,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4f7a8e7665340549be9e4d5843cf8b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playButton: {fileID: 0}
+  MatchButton: {fileID: 0}
 --- !u!114 &1763270253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2452,7 +2453,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1763270254}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: LobbyManager, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 0
 --- !u!114 &1763270254
 MonoBehaviour:
   m_ObjectHideFlags: 0

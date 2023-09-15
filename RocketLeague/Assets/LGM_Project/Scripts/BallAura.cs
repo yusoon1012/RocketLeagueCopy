@@ -41,24 +41,17 @@ public class BallAura : MonoBehaviourPun
         ballYRes = 100f - ballYRes;   // 축구공 표식은 최대값에서 최소값으로 백분율이 반대이므로 100f 에서 축구공 Y 백분율을 빼준다
         auraSize = (6f / 100f) * ballYRes;   // 축구공 Y 위치 백분율만큼 축구공 표식 Scale 백분율을 구한다
 
-        FixAuraSize();
+        FixAuraSize();   // 축구공 표식 스케일 PunRPC 동기화 실행
     }
 
     [PunRPC]
-    public void ApplyAuraSize(float _auraSize)
+    public void FixAuraSize()   // 축구공 표식 스케일 PunRPC 동기화 실행
     {
-        auraSize = _auraSize;
-    }
-
-    [PunRPC]
-    public void FixAuraSize()
-    {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)   // 마스터 클라이언트가 축구공 표식 스케일을 연산한다
         {
             ballAuraInlineObj.transform.localScale = new Vector3(auraSize, auraSize, 1f);   // 축구공 Y 위치 백분율만큼 축구공 표식 Scale 값을 변경해준다
 
-            photonView.RPC("ApplyAuraSize", RpcTarget.Others, auraSize);
-            photonView.RPC("FixAuraSize", RpcTarget.Others, auraSize);
+            photonView.RPC("FixAuraSize", RpcTarget.Others, auraSize);   // 다른 로컬들에게 축구공 표식 스케일 연산한 값을 전달한다
         }
     }
 }
