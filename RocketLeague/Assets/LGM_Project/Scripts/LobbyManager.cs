@@ -9,10 +9,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public Text connectionInfoText;   // 네트워크 정보를 표시할 텍스트
     public Button joinButton;   // 룸 접속 버튼
-
+    public GameObject playButtons;
+    public GameObject gameModeButtons;
     void Awake()
     {
-        gameVersion = "0.1.0";   // 게임 버전 값
+        gameVersion = "0.2.0";   // 게임 버전 값
     }
 
        // 게임 실행과 동시에 마스터 서버 접속 시도
@@ -75,7 +76,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
            // 접속 상태 표시
         connectionInfoText.text = "Nothing to empty room, Create new room ...";
            // 최대 6명 수용 가능한 빈 방 생성
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4 });
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 6 });
     }      // OnJoinRandomFailed()
 
 
@@ -87,6 +88,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         connectionInfoText.text = "Successes joined room";
         PhotonNetwork.LeaveLobby();   // Lobby 씬을 떠나는 함수 실행
         // 플레이 버튼을 누르면 게임 룸 씬으로 이동
-        PhotonNetwork.LoadLevel("RoomScene");
+        PhotonNetwork.LoadLevel("StandardScene");
     }      // OnJoinedRoom()
+
+    public void MatchButtonActive()
+    {
+        playButtons.SetActive(false);
+        gameModeButtons.SetActive(true);
+    }
+
+    public void BackButton()
+    {
+        playButtons.SetActive(true);
+        gameModeButtons.SetActive(false);
+    }
 }
