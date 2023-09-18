@@ -483,7 +483,7 @@ GameObject:
   - component: {fileID: 5162306435702946926}
   m_Layer: 2
   m_Name: Kart
-  m_TagString: Untagged
+  m_TagString: Car_Blue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -615,7 +615,7 @@ GameObject:
   - component: {fileID: 3445960231806824333}
   m_Layer: 2
   m_Name: Collider
-  m_TagString: BlueCar
+  m_TagString: Car_Blue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

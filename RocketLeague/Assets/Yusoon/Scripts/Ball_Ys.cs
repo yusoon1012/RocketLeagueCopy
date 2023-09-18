@@ -23,14 +23,14 @@ public class Ball_Ys : MonoBehaviour
         rb.useGravity = false;
         StartCoroutine(FreezeCoolDown());
     }
-    private IEnumerator FreezeCoolDown() 
+    private IEnumerator FreezeCoolDown()
     {
         yield return new WaitForSeconds(3);
         rb.useGravity = true;
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        rb.useGravity = true;
-        StopAllCoroutines();
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    rb.useGravity = true;
+    //    StopAllCoroutines();
+    //}
 }
