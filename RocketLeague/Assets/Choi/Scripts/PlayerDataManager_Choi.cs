@@ -49,7 +49,7 @@ public class PlayerDataManager_Choi : MonoBehaviour
     {
         // CustomizingManage_Choi에 저장된 각 카테고리의 파츠 인덱스 전부가 저장된
         // 딕셔너리를 호출
-        temp_IndexDictionary = CustomizingManager_Choi.instance.GetIndexDictionary();
+        //temp_IndexDictionary = CustomizingManager_Choi.instance.GetIndexDictionary();
             
         // 딕셔너리에 저장되어 있는 값들을 foreach로 순회한 후
         // PlayerPref에 저장한다. ex) 

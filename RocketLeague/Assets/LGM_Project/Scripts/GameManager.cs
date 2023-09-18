@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviourPunCallbacks,IPunObservable
     public TMP_Text blueScoreText;
     public TMP_Text orangeScoreText;
     public TMP_Text currentTimerText;
-    public bool isGoaled;
+    
     public int blueScore;
     public int orangeScore;
 
