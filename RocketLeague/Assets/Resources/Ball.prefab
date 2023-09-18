@@ -13,11 +13,10 @@ GameObject:
   - component: {fileID: 4782247926047387094}
   - component: {fileID: 4782247926047387095}
   - component: {fileID: 4782247926047387092}
-  - component: {fileID: 4782247926047387093}
   - component: {fileID: 4782247926349038830}
   - component: {fileID: 4939698888015324735}
   - component: {fileID: -1347223072132702494}
-  - component: {fileID: 9055246239694004214}
+  - component: {fileID: 2201226135331251956}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Ball
@@ -119,18 +118,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4782247926047387093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4782247926047387098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 968698667111a7f4c83183541ff52912, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4782247926349038830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,7 +139,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 4939698888015324735}
   - {fileID: -1347223072132702494}
-  - {fileID: 9055246239694004214}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -201,7 +188,7 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!114 &9055246239694004214
+--- !u!114 &2201226135331251956
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,10 +197,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 4782247926047387098}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Script: {fileID: 11500000, guid: b16d971ff886fb540a35f86db8457a7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 1
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
+  ballAura: {fileID: 0}
+  ballAuraInlineObj: {fileID: 0}
