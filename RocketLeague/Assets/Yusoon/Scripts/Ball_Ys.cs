@@ -32,7 +32,7 @@ public class Ball_Ys : MonoBehaviourPunCallbacks,IPunObservable
         rb.useGravity = false;
         StartCoroutine(FreezeCoolDown());
     }
-    private IEnumerator FreezeCoolDown() 
+    private IEnumerator FreezeCoolDown()
     {
         yield return new WaitForSeconds(3);
         rb.useGravity = true;
@@ -69,4 +69,9 @@ public class Ball_Ys : MonoBehaviourPunCallbacks,IPunObservable
             rb.angularVelocity = (Vector3)stream.ReceiveNext();
         }
     }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    rb.useGravity = true;
+    //    StopAllCoroutines();
+    //}
 }
