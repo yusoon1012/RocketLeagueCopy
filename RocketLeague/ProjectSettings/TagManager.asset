@@ -12,8 +12,6 @@ TagManager:
   - Wall
   - Car_Blue
   - Car_Orange
-  - OrangeCar
-  - BlueCar
   layers:
   - Default
   - TransparentFX
