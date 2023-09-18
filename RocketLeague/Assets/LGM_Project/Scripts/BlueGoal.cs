@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class BlueGoal : MonoBehaviour
 {
-    //private Vector3 ballPosition = Vector3.zero;   // ÄÝ¶óÀÌ´õ ¾È¿¡ µé¾î¿Â Ãà±¸°ø À§Ä¡°ª Vecter
-    //private Rigidbody goalLineRb;   // °ñ´ë ¸®Áþ¹Ùµð
-    //private GameObject goalBoomObject;   // GoalBoomPusher ¿ÀºêÁ§Æ® ÂüÁ¶
+    //private Vector3 ballPosition = Vector3.zero;   // ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½à±¸ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ Vecter
+    //private Rigidbody goalLineRb;   // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ùµï¿½
+    //private GameObject goalBoomObject;   // GoalBoomPusher ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 
-    public Collider goalLineCd;   // °ñ´ë ÄÝ¶óÀÌ´õ
-    public Collider pushCd;   // °ñ ¼º°ø½Ã ¹Ð¾î³»´Â ¹üÀ§ ÄÝ¶óÀÌ´õ
+    public Collider goalLineCd;   // ï¿½ï¿½ï¿½ ï¿½Ý¶ï¿½ï¿½Ì´ï¿½
+    public Collider pushCd;   // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾î³»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¶ï¿½ï¿½Ì´ï¿½
 
     private GameObject onCarOj;
     private Transform onCarChild;
@@ -22,24 +22,24 @@ public class BlueGoal : MonoBehaviour
         goalPost = GameObject.Find("BlueGoal");
     }
 
-    private void OnTriggerEnter(Collider collision)   // Ãà±¸°øÀÌ °ñ´ë ¾È ÄÝ¶óÀÌ´õ¿¡ µé¾î¿À¸é ½ÇÇà
+    private void OnTriggerEnter(Collider collision)   // ï¿½à±¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     {
-           // ÄÝ¶óÀÌ´õ¿¡ µé¾î¿Â ¿ÀºêÁ§Æ®°¡ "Ball" ÅÂ±×ÀÌ°í, GameManager ÀÇ isGoaled °ªÀÌ false ÀÌ¸é °ñ ¼º°ø
+           // ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ "Ball" ï¿½Â±ï¿½ï¿½Ì°ï¿½, GameManager ï¿½ï¿½ isGoaled ï¿½ï¿½ï¿½ï¿½ false ï¿½Ì¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (collision.tag == "Ball" && GameManager.instance.isGoaled == false)
         {
-            GameManager.instance.isGoaled = true;   // GameManager ÀÇ isGoaled °ªÀ» true ·Î º¯°æÇØ °ñÀ» ³ÖÀº »óÅÂ·Î ¹Ù²Þ
+            GameManager.instance.isGoaled = true;   // GameManager ï¿½ï¿½ isGoaled ï¿½ï¿½ï¿½ï¿½ true ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½Ù²ï¿½
             pushCd.enabled = true;
-            GameManager.instance.GoalTeam2(1);   // TestManager ÀÇ score ¸¦ ´õÇØÁÖ´Â ÇÔ¼ö¸¦ ½ÇÇà
+            GameManager.instance.GoalTeam2(1);   // TestManager ï¿½ï¿½ score ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-            Debug.Log("°ñ ¼º°ø");
+            Debug.Log("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 
             StartCoroutine(GoalPushDelay());
 
-            //   // ÄÝ¶óÀÌ´õ¿¡ µé¾î¿Â Ãà±¸°ø À§Ä¡°ª Vector3 ÀúÀå
+            //   // ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½à±¸ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ Vector3 ï¿½ï¿½ï¿½ï¿½
             //ballPosition = new Vector3(collision.transform.position.x, collision.transform.position.y,
             //    collision.transform.position.z);
 
-            //goalBoomObject.GetComponent<GoalBoomPush>().BoomOn(ballPosition);   // GoalBoomPusher ¿ÀºêÁ§Æ®·Î Ãà±¸°ø À§Ä¡°ª°ú ÇÔ²² ÂüÁ¶
+            //goalBoomObject.GetComponent<GoalBoomPush>().BoomOn(ballPosition);   // GoalBoomPusher ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½à±¸ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ô²ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
 
         if ((collision.tag == "Car_Blue" || collision.tag == "Car_Orange") && GameManager.instance.isGoaled == true)
@@ -49,13 +49,13 @@ public class BlueGoal : MonoBehaviour
             Debug.Log(onCarChild.name);
             onCarRb = onCarChild.GetComponent<Rigidbody>();
             Debug.Log(onCarRb.name);
-            pushVector = collision.transform.position - goalPost.transform.position;   // ÇöÀç Â÷ À§Ä¡¿¡¼­ °ñÀÎ ÁöÁ¡ À§Ä¡¸¦ »«´Ù
-            pushVector = pushVector.normalized;   // °è»êµÈ À§Ä¡°ªÀ» 1 ÀÇ °ªÀ¸·Î º¯°æÇØÁØ´Ù
-            pushVector += Vector3.up * 5;   // °è»êµÈ À§Ä¡°ª¿¡ 5 ¸¸Å­ Á¡ÇÁ·ÂÀ» Áõ°¡½ÃÅ²´Ù
-            pushVector += Vector3.forward * 5;   // °è»êµÈ À§Ä¡°ª¿¡ 5 ¸¸Å­ Á÷Áø°ªÀ» Áõ°¡½ÃÅ²´Ù
-            onCarRb.AddForce(pushVector * 20, ForceMode.Impulse);   // °ñÀÎ È¿°ú ¹üÀ§³»¿¡ ÀÖ´Â Â÷ µéÀ» AddForce ·Î ÈûÀ» Áà ¹Ð¾î³½´Ù
+            pushVector = collision.transform.position - goalPost.transform.position;   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            pushVector = pushVector.normalized;   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ 1 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½
+            pushVector += Vector3.up * 5;   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ 5 ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½
+            pushVector += Vector3.forward * 5;   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ 5 ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½
+            onCarRb.AddForce(pushVector * 20, ForceMode.Impulse);   // ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ AddForce ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ð¾î³½ï¿½ï¿½
 
-            Debug.Log("Çª½¬ ¼º°ø");
+            Debug.Log("Çªï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
         }
     }
 

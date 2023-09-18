@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:RocketLeague/Assets/Choi/Scripts/CustomizingSceneController_Choi.cs.meta
 guid: c1b39bce4e3454445b92cd754d46ae65
+========
+guid: 59d2032d3f117204eb7c446e219d864f
+>>>>>>>> 429e729 (fix : merge이후 크래시난 파일 수정):RocketLeague/Assets/LGM_Project/Scripts/BlueGoal.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
