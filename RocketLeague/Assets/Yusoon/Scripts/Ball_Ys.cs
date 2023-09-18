@@ -11,9 +11,13 @@ public class Ball_Ys : MonoBehaviourPunCallbacks,IPunObservable
     Vector3 velocity;
     Vector3 angularVelocity;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        rb=GetComponent<Rigidbody>();
+
+    }
     void Start()
     {
-        rb=GetComponent<Rigidbody>();   
     }
 
     // Update is called once per frame
@@ -35,18 +39,20 @@ public class Ball_Ys : MonoBehaviourPunCallbacks,IPunObservable
     }
     private void OnCollisionEnter(Collision collision)
     {
-       
+      
         rb.useGravity = true;        
+
+        
         StopAllCoroutines();
     }
 
     private void FixedUpdate()
     {
-        if (!photonView.IsMine)
-        {
-            rb.position = Vector3.MoveTowards(rb.position, networkPosition, Time.fixedDeltaTime);
-            rb.rotation = Quaternion.RotateTowards(rb.rotation, networkRotation, Time.fixedDeltaTime * 100.0f);
-        }
+        //if (!photonView.IsMine)
+        //{
+        //    rb.position = Vector3.MoveTowards(rb.position, networkPosition, Time.fixedDeltaTime);
+        //    rb.rotation = Quaternion.RotateTowards(rb.rotation, networkRotation, Time.fixedDeltaTime * 100.0f);
+        //}
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
