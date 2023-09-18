@@ -50,6 +50,7 @@ public class NewCar_Yoo : MonoBehaviourPun
         //    #endregion
         //}
         // 부스터 관련 추가
+
         #region
         booster = GetComponent<CarBooster_Yoo>();
         normalAcceleration = acceleration;

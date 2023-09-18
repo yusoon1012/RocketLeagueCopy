@@ -1,10 +1,7 @@
 ﻿using Photon.Pun;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using UnityEngine.UI;
-using TMPro;
 public class GameManager : MonoBehaviourPunCallbacks,IPunObservable
 {
     public static GameManager instance
@@ -23,183 +20,96 @@ public class GameManager : MonoBehaviourPunCallbacks,IPunObservable
     }
 
     private static GameManager m_instance;   // 싱글톤이 할당될 static 변수
-
     public GameObject ballPrefab;
-    public GameObject ballAuraPf;
-    public GameObject ballObject;
-    public GameObject ballAura;
     public GameObject blueCar;
     public GameObject orangeCar;
-    public Rigidbody ballRb;
     public Transform ballSpawnTransform;
     public Transform[] blueCarSpawner;
     public Transform[] orangeCarSpawner;
-    public Transform blueSpawnPoint;
-    public Transform orangeSpawnPoint;
-
     public int blueSpawnCheck = default;
     public int orangeSpawnCheck = default;
     public int gameMaxPlayers = default;
     public int playerTeamCheck = default;
-
-    public TMP_Text blueScoreText;
-    public TMP_Text orangeScoreText;
-    public TMP_Text currentTimerText;
-
-    public int blueScore;
-    public int orangeScore;
-
-    public int playerCount = default;
-    public bool isGoaled = false;
-    public int[] score = new int[2];
-
+    int playerCount;
  
+    Transform blueSpawnPoint;
+    Transform orangeSpawnPoint;
     void Awake()
     {
-        playerCount = PhotonNetwork.PlayerList.Length;
-        score[0] = 0;
-        score[1] = 0;
-    }
 
-    void Start()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            ballObject = PhotonNetwork.Instantiate(ballPrefab.name, ballSpawnTransform.position, Quaternion.identity);
-            ballAura = PhotonNetwork.Instantiate(ballAuraPf.name, new Vector3(0f, 1.6f, 0f), Quaternion.Euler(90f, 0f, 0f));
-            ballRb = ballObject.GetComponent<Rigidbody>();
-        }
-
-        if (playerCount % 2 == 0)
-        {
-            if (playerCount == 2)
-            {
-                blueSpawnPoint = blueCarSpawner[0];
-            }
-            else if (playerCount == 4)
-            {
-                blueSpawnPoint = blueCarSpawner[1];
-            }
-            else if (playerCount == 6)
-            {
-                blueSpawnPoint = blueCarSpawner[2];
-            }
-
-            PhotonNetwork.Instantiate(blueCar.name, blueSpawnPoint.position, blueSpawnPoint.rotation);
-        }
-        else
-        {
-            if (playerCount == 1)
-            {
-                orangeSpawnPoint = orangeCarSpawner[0];
-            }
-            else if (playerCount == 3)
-            {
-                orangeSpawnPoint = orangeCarSpawner[1];
-            }
-            else if (playerCount == 5)
-            {
-                orangeSpawnPoint = orangeCarSpawner[2];
-            }
-
-            PhotonNetwork.Instantiate(orangeCar.name, orangeSpawnPoint.position, orangeSpawnPoint.rotation);
-        }
-
-        playerCount = PhotonNetwork.PlayerList.Length;
-    }
-
-    public void GoalTeam1(int newScore)   // 1팀이 2팀의 골대에 골을 넣었을때 실행
-    {
-        score[0] += newScore;   // 1팀의 score 에 1 점을 더해준다
-
-        ResetGame();
-
-        //ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        //ball.GetComponent<Rigidbody>().rotation = Quaternion.identity;
-        //ball.gameObject.SetActive(false);
-        //StartCoroutine(GameResetWaitTime());   // 골을 넣은 후 잠시 딜레이 시간을 주는 함수를 실행한다
-    }
-
-    public void GoalTeam2(int newScore)   // 2팀이 1팀의 골대에 골을 넣었을때 실행
-    {
-        score[1] += newScore;   // 2팀의 score 에 1 점을 더해준다
-
-        ResetGame();
-
-        //ballObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        //ballObject.GetComponent<Rigidbody>().rotation = Quaternion.identity;
-        //ballObject.gameObject.SetActive(false);
-        //StartCoroutine(GameResetWaitTime());   // 골을 넣은 후 잠시 딜레이 시간을 주는 함수를 실행한다
-    }
-
-    public void ResetGame()
-    {
-        ballObject.SetActive(false);
-        ballRb.velocity = Vector3.zero;
-        ballRb.angularVelocity = Vector3.zero;
-        ballObject.transform.position = ballSpawnTransform.position;
-
-        StartCoroutine(ResetGameDelay());
-        //* add : goalEffect *//
-        
-    }
-
-    IEnumerator ResetGameDelay()
-    {
-
-        blueScoreText.text=blueScore.ToString();
-        orangeScoreText.text= orangeScore.ToString();
-
-        yield return new WaitForSeconds(3f);
-
-        ballObject.SetActive(true);
-
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        //* Empty *//
-    }
-
-    [PunRPC]
-    public void AddBlueScore()
-    {
-        blueScore+=1;
-    }
-
-    [PunRPC]
-    public void AddOrangeScore()
-    {
-        orangeScore+=1;
-    }
-
-    public void OrangeScoreUp()
-    {
-        photonView.RPC("AddOrangeScore", RpcTarget.AllBuffered);
-    }
-
-    public void BlueScoreUp()
-    {
-        photonView.RPC("AddBlueScore", RpcTarget.AllBuffered);
-
-    }
-
-
-  
-    public void BallRespawn()
-    {
-        photonView.RPC("BallSpawn", RpcTarget.MasterClient);
-
-    }
-    [PunRPC]
-    private void BallSpawn()
-    {
+        playerCount=PhotonNetwork.PlayerList.Length;
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.Instantiate(ballPrefab.name, ballSpawnTransform.position, Quaternion.identity);
         }
+        if (playerCount%2==0)
+        {
+            
+            if (playerCount==2)
+            {
+                blueSpawnPoint = blueCarSpawner[0];
+
+            }
+            else if (playerCount==4)
+            {
+                blueSpawnPoint = blueCarSpawner[1];
+
+            }
+            else if (playerCount==6)
+            {
+                blueSpawnPoint = blueCarSpawner[2];
+
+            }
+            PhotonNetwork.Instantiate(blueCar.name, blueSpawnPoint.position, blueSpawnPoint.rotation);
+
+
+
+        }
+        else
+        {
+           
+            if (playerCount==1)
+            {
+                orangeSpawnPoint= orangeCarSpawner[0];
+
+            }
+            else if (playerCount==3)
+            {
+                orangeSpawnPoint= orangeCarSpawner[1];
+            }
+            else if (playerCount==5)
+            {
+                orangeSpawnPoint= orangeCarSpawner[2];
+
+            }
+
+            PhotonNetwork.Instantiate(orangeCar.name, orangeSpawnPoint.position, orangeSpawnPoint.rotation);
+
+
+
+
+
+        }
+
+        playerCount=PhotonNetwork.PlayerList.Length;
+        
     }
 
+    void Start()
+    {
+        
+    }
+
+   
+    private void Update()
+    {
+      
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+      
+    }
 
     // 주기적으로 자동 실행되는, 동기화 메서드
     //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

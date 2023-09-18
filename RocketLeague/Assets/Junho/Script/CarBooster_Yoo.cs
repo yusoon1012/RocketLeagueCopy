@@ -6,32 +6,30 @@ using UnityEngine;
 public class CarBooster_Yoo : MonoBehaviourPun
 {
     public float boost { get; private set; }
-    public float boostSpeed;
 
-    public BoostUI_Yoo boostUI;
+    BoostUI_Yoo boostUI;
     public bool useBoost { get; private set; }
     // Start is called before the first frame update
     void Start()
     {
-        //// 포톤 관련 추가
-        //if (!photonView.IsMine)
-        //{
-        //    return;
-        //}
+        // 포톤 관련 추가
+        if (!photonView.IsMine)
+        {
+            return;
+        }
 
         boost = 33;
-        boostSpeed = 100f;
         useBoost = false;
         boostUI = FindObjectOfType<BoostUI_Yoo>();
     }
 
     private void FixedUpdate()
     {
-        //// 포톤 관련 추가
-        //if (!photonView.IsMine)
-        //{
-        //    return;
-        //}
+        // 포톤 관련 추가
+        if (!photonView.IsMine)
+        {
+            return;
+        }
 
         if (useBoost)
         {
@@ -42,11 +40,11 @@ public class CarBooster_Yoo : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        //// 포톤 관련 추가
-        //if (!photonView.IsMine)
-        //{
-        //    return;
-        //}
+        // 포톤 관련 추가
+        if (!photonView.IsMine)
+        {
+            return;
+        }
 
         //Debug.Log("현재 부스터 게이지: " +  boost);
         boostUI.SetBoostGauge(boost);
