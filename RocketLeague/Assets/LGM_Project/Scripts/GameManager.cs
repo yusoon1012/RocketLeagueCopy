@@ -1,7 +1,8 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
+using TMPro;
 public class GameManager : MonoBehaviourPunCallbacks,IPunObservable
 {
     public static GameManager instance
@@ -30,6 +31,14 @@ public class GameManager : MonoBehaviourPunCallbacks,IPunObservable
     public int orangeSpawnCheck = default;
     public int gameMaxPlayers = default;
     public int playerTeamCheck = default;
+    public TMP_Text blueScoreText;
+    public TMP_Text orangeScoreText;
+    public TMP_Text currentTimerText;
+
+    public int blueScore;
+    public int orangeScore;
+
+
     int playerCount;
  
     Transform blueSpawnPoint;
@@ -103,13 +112,54 @@ public class GameManager : MonoBehaviourPunCallbacks,IPunObservable
    
     private void Update()
     {
-      
+        blueScoreText.text=blueScore.ToString();
+        orangeScoreText.text= orangeScore.ToString();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
       
     }
+
+    [PunRPC]
+    public void AddBlueScore()
+    {
+        blueScore+=1;
+    }
+
+    [PunRPC]
+    public void AddOrangeScore()
+    {
+        orangeScore+=1;
+    }
+
+    public void OrangeScoreUp()
+    {
+        photonView.RPC("AddOrangeScore", RpcTarget.AllBuffered);
+    }
+
+    public void BlueScoreUp()
+    {
+        photonView.RPC("AddBlueScore", RpcTarget.AllBuffered);
+
+    }
+
+
+  
+    public void BallRespawn()
+    {
+        photonView.RPC("BallSpawn", RpcTarget.MasterClient);
+
+    }
+    [PunRPC]
+    private void BallSpawn()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Instantiate(ballPrefab.name, ballSpawnTransform.position, Quaternion.identity);
+        }
+    }
+
 
     // 주기적으로 자동 실행되는, 동기화 메서드
     //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

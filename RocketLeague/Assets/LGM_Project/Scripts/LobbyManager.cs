@@ -13,7 +13,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject gameModeButtons;
     void Awake()
     {
-        gameVersion = "0.2.0";   // 게임 버전 값
+        gameVersion = "0.1.1";   // 게임 버전 값
     }
 
        // 게임 실행과 동시에 마스터 서버 접속 시도
@@ -67,6 +67,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
                // 마스터 서버에 접속 중이 아니라면 마스터 서버에 접속 시도
             connectionInfoText.text = string.Format("{0}\n{1}", "offline: Disconnected to master server", "Retry connect now ...");
+            PhotonNetwork.ConnectUsingSettings();
         }
     }   // Connect()
 
@@ -76,7 +77,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
            // 접속 상태 표시
         connectionInfoText.text = "Nothing to empty room, Create new room ...";
            // 최대 6명 수용 가능한 빈 방 생성
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 6 });
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4 });
     }      // OnJoinRandomFailed()
 
 
