@@ -58,20 +58,15 @@ public class Ball_Ys : MonoBehaviourPunCallbacks,IPunObservable
     {
         if (stream.IsWriting)
         {
-            // µ¥ÀÌÅÍ¸¦ º¸³¾ ¶§ RigidbodyÀÇ »óÅÂ¸¦ Á÷·ÄÈ­ÇÕ´Ï´Ù.
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Rigidbodyï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½Õ´Ï´ï¿½.
             stream.SendNext(rb.velocity);
             stream.SendNext(rb.angularVelocity);
         }
         else
         {
-            // µ¥ÀÌÅÍ¸¦ ¹ÞÀ» ¶§ RigidbodyÀÇ »óÅÂ¸¦ ¿ªÁ÷·ÄÈ­ÇÕ´Ï´Ù.
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Rigidbodyï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È­ï¿½Õ´Ï´ï¿½.
             rb.velocity = (Vector3)stream.ReceiveNext();
             rb.angularVelocity = (Vector3)stream.ReceiveNext();
         }
     }
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    rb.useGravity = true;
-    //    StopAllCoroutines();
-    //}
 }

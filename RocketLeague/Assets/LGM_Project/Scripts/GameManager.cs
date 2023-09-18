@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 using UnityEngine.UI;
 using TMPro;
 public class GameManager : MonoBehaviourPunCallbacks,IPunObservable
@@ -41,7 +40,6 @@ public class GameManager : MonoBehaviourPunCallbacks,IPunObservable
     public int orangeSpawnCheck = default;
     public int gameMaxPlayers = default;
     public int playerTeamCheck = default;
-
     public TMP_Text blueScoreText;
     public TMP_Text orangeScoreText;
     public TMP_Text currentTimerText;
@@ -52,7 +50,6 @@ public class GameManager : MonoBehaviourPunCallbacks,IPunObservable
     public int playerCount = default;
     public bool isGoaled = false;
     public int[] score = new int[2];
-
  
     void Awake()
     {
@@ -146,14 +143,9 @@ public class GameManager : MonoBehaviourPunCallbacks,IPunObservable
 
     IEnumerator ResetGameDelay()
     {
-
-        blueScoreText.text=blueScore.ToString();
-        orangeScoreText.text= orangeScore.ToString();
-
         yield return new WaitForSeconds(3f);
 
         ballObject.SetActive(true);
-
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

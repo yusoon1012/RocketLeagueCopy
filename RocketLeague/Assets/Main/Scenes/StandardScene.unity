@@ -1394,17 +1394,14 @@ MonoBehaviour:
   orangeSpawnCheck: 0
   gameMaxPlayers: 0
   playerTeamCheck: 0
-<<<<<<< HEAD
   blueScoreText: {fileID: 1166517893}
   orangeScoreText: {fileID: 517898678}
   currentTimerText: {fileID: 0}
   blueScore: 0
   orangeScore: 0
-=======
   playerCount: 0
   isGoaled: 0
   score: 0000000000000000
->>>>>>> origin/LGM
 --- !u!4 &1054288780
 Transform:
   m_ObjectHideFlags: 0
@@ -1434,10 +1431,7 @@ GameObject:
   - component: {fileID: 1102417665}
   - component: {fileID: 1102417664}
   - component: {fileID: 1102417668}
-<<<<<<< HEAD
-=======
   - component: {fileID: 1102417669}
->>>>>>> origin/LGM
   m_Layer: 0
   m_Name: BlueGoal
   m_TagString: Untagged
@@ -1523,9 +1517,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
---- !u!114 &1102417668
-=======
 --- !u!135 &1102417668
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1540,7 +1531,6 @@ SphereCollider:
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1102417669
->>>>>>> origin/LGM
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1549,7 +1539,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1102417663}
   m_Enabled: 1
   m_EditorHideFlags: 0
-<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: 95bf4b8e38c20da429d302ba0e97976c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -1869,13 +1858,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310495260}
   m_CullTransparentMesh: 1
-=======
   m_Script: {fileID: 11500000, guid: 59d2032d3f117204eb7c446e219d864f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   goalLineCd: {fileID: 1102417664}
   pushCd: {fileID: 1102417668}
->>>>>>> origin/LGM
 --- !u!1 &1416523540
 GameObject:
   m_ObjectHideFlags: 0
@@ -15835,19 +15822,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
---- !u!114 &1719696948
-MonoBehaviour:
-=======
 --- !u!135 &1719696948
 SphereCollider:
->>>>>>> origin/LGM
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1719696943}
-<<<<<<< HEAD
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a3928acdedc672a47bb680d8a65a78c6, type: 3}
@@ -15930,14 +15911,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1796470057}
   m_CullTransparentMesh: 1
-=======
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
->>>>>>> origin/LGM
 --- !u!1 &1818556148
 GameObject:
   m_ObjectHideFlags: 0
