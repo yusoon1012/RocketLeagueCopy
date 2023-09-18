@@ -55,6 +55,9 @@ MonoBehaviour:
   - ApplyOrangeTeamCount
   - ApplyBlueTeamCountText
   - ApplyOrangeTeamCountText
+  - OneBoostOn
+  - TwoBoostOff
+  - TwoBoostOn
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
