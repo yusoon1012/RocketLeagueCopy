@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviourPunCallbacks,IPunObservable
         if (PhotonNetwork.IsMasterClient)
         {
             ballObject = PhotonNetwork.Instantiate(ballPrefab.name, ballSpawnTransform.position, Quaternion.identity);
-            ballAura = PhotonNetwork.Instantiate(ballAuraPf.name, new Vector3(0f, 1.6f, 0f), Quaternion.Euler(90f, 0f, 0f));
+           // ballAura = PhotonNetwork.Instantiate(ballAuraPf.name, new Vector3(0f, 1.6f, 0f), Quaternion.Euler(90f, 0f, 0f));
             ballRb = ballObject.GetComponent<Rigidbody>();
         }
 

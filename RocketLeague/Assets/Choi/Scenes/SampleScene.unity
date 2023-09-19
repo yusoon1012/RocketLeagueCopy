@@ -238,7 +238,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 58769398}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1863824262}
+        m_TargetAssemblyTypeName: LobbyManager, Assembly-CSharp
+        m_MethodName: RumbleMode
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &58769398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -614,8 +626,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4f7a8e7665340549be9e4d5843cf8b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playButton: {fileID: 0}
-  MatchButton: {fileID: 0}
 --- !u!1 &160215795
 GameObject:
   m_ObjectHideFlags: 0
@@ -1284,8 +1294,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4f7a8e7665340549be9e4d5843cf8b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playButton: {fileID: 0}
-  MatchButton: {fileID: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -3035,7 +3043,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1863824262}
         m_TargetAssemblyTypeName: LobbyManager, Assembly-CSharp
-        m_MethodName: Connect
+        m_MethodName: StandardMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4456,6 +4464,7 @@ MonoBehaviour:
   joinButton: {fileID: 73212037}
   playButtons: {fileID: 258613801}
   gameModeButtons: {fileID: 214333792}
+  gameMode: 0
 --- !u!4 &1863824263
 Transform:
   m_ObjectHideFlags: 0
