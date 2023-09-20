@@ -2348,7 +2348,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   car: {fileID: 7382552691123209651}
-  carTransform: {fileID: 7382552691123209648}
 --- !u!114 &3951574820921425532
 MonoBehaviour:
   m_ObjectHideFlags: 0
