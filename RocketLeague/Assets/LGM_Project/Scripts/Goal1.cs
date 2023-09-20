@@ -23,16 +23,16 @@ public class Goal1 : MonoBehaviour
     private void OnTriggerEnter(Collider collision)   // 축구공이 골대 안 콜라이더에 들어오면 실행
     {
            // 콜라이더에 들어온 오브젝트가 "Ball" 태그이고, TestManager isGoal 값이 false 면 골 성공
-        if (collision.tag == "Ball" && TestManager.instance.isGoal == false)
-        {
-            TestManager.instance.isGoal = true;   // TestManager isGoal 값을 true 로 변경해 골을 넣은 상태로 바꿈
-            TestManager.instance.GoalTeam2();   // TestManager 의 score 를 더해주는 함수를 실행
+        //if (collision.tag == "Ball" && TestManager.instance.isGoal == false)
+        //{
+        //    TestManager.instance.isGoal = true;   // TestManager isGoal 값을 true 로 변경해 골을 넣은 상태로 바꿈
+        //    TestManager.instance.GoalTeam2();   // TestManager 의 score 를 더해주는 함수를 실행
 
-               // 콜라이더에 들어온 축구공 위치값 Vector3 저장
-            ballPosition = new Vector3(collision.transform.position.x, collision.transform.position.y,
-                collision.transform.position.z);
+        //       // 콜라이더에 들어온 축구공 위치값 Vector3 저장
+        //    ballPosition = new Vector3(collision.transform.position.x, collision.transform.position.y,
+        //        collision.transform.position.z);
 
-            goalBoomObject.GetComponent<GoalBoomPush>().BoomOn(ballPosition);   // GoalBoomPusher 오브젝트로 축구공 위치값과 함께 참조
-        }
+        //    goalBoomObject.GetComponent<GoalBoomPush>().BoomOn(ballPosition);   // GoalBoomPusher 오브젝트로 축구공 위치값과 함께 참조
+        //}
     }
 }
