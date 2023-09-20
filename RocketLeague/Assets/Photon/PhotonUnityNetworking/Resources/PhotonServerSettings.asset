@@ -59,6 +59,12 @@ MonoBehaviour:
   - AddOrangeScore
   - BallSpawn
   - ShootForce
+  - UpdateScore
+  - ChangeAura
+  - UpdateAura
+  - BallRespawn
+  - BlueScoreUp
+  - OrangeScoreUp
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
