@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlueGoal : MonoBehaviour
+public class OrangeGoal : MonoBehaviour
 {
     public Collider goalLineCd;   // 골대 콜라이더
     public Collider pushCd;   // 골 성공 푸쉬 콜라이더
@@ -12,9 +12,9 @@ public class BlueGoal : MonoBehaviour
            // 콜라이더에 들어온 오브젝트가 "Ball" 태그이고, GameManager 의 isGoaled 값이 false 이면 골 성공
         if (collision.tag == "Ball")
         {
-            GameManager.instance.isGoaled = true;   // GameManager 의 isGoaled 값을 true 로 변경해 골을 넣은 상태로 바꿈
+            //GameManager.instance.isGoaled = true;   // GameManager 의 isGoaled 값을 true 로 변경해 골을 넣은 상태로 바꿈
             pushCd.enabled = true;   // push 콜라이더를 활성화 시킨다
-            GameManager.instance.OrangeScoreUp();   // TestManager 의 score 를 더해주는 함수를 실행
+            GameManager.instance.BlueScoreUp();   // TestManager 의 score 를 더해주는 함수를 실행
             
             StartCoroutine(GoalPushDelay());   // 몇초 후 활성화 된 콜라이더를 다시 비활성화 시키는 함수
         }

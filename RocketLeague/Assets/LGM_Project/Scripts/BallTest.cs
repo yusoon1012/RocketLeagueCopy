@@ -4,21 +4,15 @@ using UnityEngine;
 
 public class BallTest : MonoBehaviour
 {
-    private Rigidbody ballRb;
-    private float pushForce = default;
-
-    void Awake()
-    {
-        ballRb = GetComponent<Rigidbody>();
-
-        pushForce = 5000f;
-    }
+    public Rigidbody ballRb;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            ballRb.AddForce(transform.right * pushForce);
+            ballRb.AddForce(Vector3.up * 20f, ForceMode.Impulse);
+
+            Debug.Log("�� ����!");
         }
     }
 }
