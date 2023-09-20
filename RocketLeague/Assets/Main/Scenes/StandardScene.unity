@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -705,7 +705,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 1
+  sceneViewId: 30
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1001 &661414980
@@ -1510,7 +1510,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 1054288779}
-  sceneViewId: 4
+  sceneViewId: 36
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &1099933987
@@ -1943,7 +1943,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 2
+  sceneViewId: 32
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &1310495260
@@ -15990,8 +15990,6 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1719696943}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbcd817ab91b7904d87078d540a05469, type: 3}
@@ -17000,7 +16998,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 3
+  sceneViewId: 34
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1001 &658986780879078462
@@ -17128,7 +17126,7 @@ PrefabInstance:
     - target: {fileID: 3188852994410612884, guid: 456492319157e5e45a28a6eea6d87957,
         type: 3}
       propertyPath: sceneViewId
-      value: 3
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 3687214932328291888, guid: 456492319157e5e45a28a6eea6d87957,
         type: 3}
@@ -17183,7 +17181,7 @@ PrefabInstance:
     - target: {fileID: 6699307332602630032, guid: 456492319157e5e45a28a6eea6d87957,
         type: 3}
       propertyPath: sceneViewId
-      value: 2
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 7119965625584135933, guid: 456492319157e5e45a28a6eea6d87957,
         type: 3}
@@ -17213,12 +17211,12 @@ PrefabInstance:
     - target: {fileID: 7832265826118989039, guid: 456492319157e5e45a28a6eea6d87957,
         type: 3}
       propertyPath: sceneViewId
-      value: 1
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 9089055026986808106, guid: 456492319157e5e45a28a6eea6d87957,
         type: 3}
       propertyPath: sceneViewId
-      value: 4
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 9119338383571864466, guid: 456492319157e5e45a28a6eea6d87957,
         type: 3}
