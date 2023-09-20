@@ -199,7 +199,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b16d971ff886fb540a35f86db8457a7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballAura: {fileID: 2702026604699546593, guid: 1ebfc7b1c4a9bb045a28da42ca094eb4,
-    type: 3}
-  ballAuraInlineObj: {fileID: 2702026604699546593, guid: 1ebfc7b1c4a9bb045a28da42ca094eb4,
-    type: 3}

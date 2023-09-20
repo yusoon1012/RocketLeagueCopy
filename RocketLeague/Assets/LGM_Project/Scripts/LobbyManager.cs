@@ -119,7 +119,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             // ������ ������ ���� ���� �ƴ϶�� ������ ������ ���� �õ�
             connectionInfoText.text = string.Format("{0}\n{1}", "offline: Disconnected to master server", "Retry connect now ...");
-            PhotonNetwork.ConnectUsingSettings();
         }
     }   // Connect()
 
@@ -128,8 +127,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
            // 접속 상태 표시
         connectionInfoText.text = "Nothing to empty room, Create new room ...";
-           // 최대 6명 수용 가능한 빈 방 생성
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4 });
+           // �ִ� 6�� ���� ������ �� �� ����
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 6 });
     }      // OnJoinRandomFailed()
 
    
