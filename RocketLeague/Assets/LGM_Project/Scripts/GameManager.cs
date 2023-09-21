@@ -12,13 +12,13 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         get
         {
-               // 만약 싱글톤 변수에 아직 오브젝트가 할당되지 않았다면
+            // 만약 싱글톤 변수에 아직 오브젝트가 할당되지 않았다면
             if (m_instance == null)
             {
-                   // 씬에서 GameManager 오브젝트를 찾아 할당
+                // 씬에서 GameManager 오브젝트를 찾아 할당
                 m_instance = FindObjectOfType<GameManager>();
             }
-               // 싱글톤 오브젝트를 반환
+            // 싱글톤 오브젝트를 반환
             return m_instance;
         }
     }
@@ -39,26 +39,37 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public int blueScore;   // 블루팀 골 스코어
     public int orangeScore;   // 오렌지팀 골 스코어
     public bool isGoaled = false;   // 현재 골 성공 상태인지 체크
+    public bool timePassCheck = true;
 
     private GameObject ballOj;   // 축구공 오브젝트
     private Rigidbody ballRb;   // 축구공 리짓바디
     private Transform blueSpawnPoint;   // 플레이어가 RC 카를 생성할 블루팀 포인트 구역
     private Transform orangeSpawnPoint;   // 플레이어가 RC 카를 생성할 오렌지팀 포인트 구역
-
     private int playerCount = default;   // 룸에 참여중인 플레이어 수
+    private int totalTime = default;   // 남은 게임 총 시간
+    private int minuteTime = default;   // 표시할 분 시간
+    private int secondTime = default;   // 표시할 초 시간
+    private float checkTime = default;   // 1 초를 체크할 실수값
 
     void Awake()
     {
+           // 초기 변수값 설정
         playerCount = PhotonNetwork.PlayerList.Length;   // 포톤 서버에 접속한 플레이어 수만큼 플레이어 수로 지정해준다
+
+        totalTime = 300;
+        minuteTime = 0;
+        secondTime = 0;
+        checkTime = 0f;
+           // end 초기 변수값 설정
     }
 
     void Start()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)   // 마스터 클라이언트만 실행한다
         {
-               // 마스터 클라이언트 일시 축구공 프리팹을 불러와 축구공 오브젝트를 생성한다
+            // 마스터 클라이언트 일시 축구공 프리팹을 불러와 축구공 오브젝트를 생성한다
             ballOj = PhotonNetwork.Instantiate(ballPrefab.name, ballSpawnTransform.position, Quaternion.identity);
-               // 축구공 표식 오브젝트도 프리팹을 불러와 오브젝트를 생성한다
+            // 축구공 표식 오브젝트도 프리팹을 불러와 오브젝트를 생성한다
             PhotonNetwork.Instantiate(ballAuraPf.name, new Vector3(0f, 1.6f, 0f), Quaternion.Euler(90f, 0f, 0f));
 
             ballRb = ballOj.GetComponent<Rigidbody>();   // 축구공 리짓바디를 변수로 저장한다
@@ -104,26 +115,115 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Update()
     {
-        //* fix : score system *//
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (timePassCheck == true)
+            {
+                photonView.RPC("TimePassMaster", RpcTarget.MasterClient);
+            }
+        }
+    }
+
+    [PunRPC]
+    public void TimePassMaster()
+    {
+        checkTime += Time.deltaTime;
+        if (checkTime >= 1f)
+        {
+            checkTime = 0f;
+            totalTime -= 1;
+            minuteTime = totalTime / 60;
+            secondTime = totalTime % 60;
+
+            photonView.RPC("ApplyTimePass", RpcTarget.AllBuffered, minuteTime, secondTime);
+        }
+    }
+
+    [PunRPC]
+    public void ApplyTimePass(int min, int sec)
+    {
+        minuteTime = min;
+        secondTime = sec;
+
+        currentTimerText.text = string.Format("{0} : {1:00}", minuteTime, secondTime);
+    }
+
+    public void GameTimePassOn()   // 다시 게임 시간이 흘러가게 하는 함수
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("GameTimePassOnMaster", RpcTarget.MasterClient);
+        }
+    }
+
+    [PunRPC]
+    public void GameTimePassOnMaster()   // 마스터 클라이언트만 true 값으로 변경해준다
+    {
+        timePassCheck = true;
+        photonView.RPC("ApplyGameTimePassOn", RpcTarget.AllBuffered, true);
+    }
+
+    [PunRPC]
+    public void ApplyGameTimePassOn(bool state)   // bool 값을 참조하여 모든 클라이언트의 값을 변경해준다
+    {
+        timePassCheck = state;
     }
 
     public void ResetGame()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            ballRb.velocity = Vector3.zero;
+            ballRb.angularVelocity = Vector3.zero;
+            photonView.RPC("ResetGameMaster", RpcTarget.MasterClient);
+
+            //* fix : goalEffect *//
+        }
+    }
+
+    [PunRPC]
+    public void ResetGameMaster()
+    {
         ballOj.SetActive(false);
-        ballRb.velocity = Vector3.zero;
-        ballRb.angularVelocity = Vector3.zero;
-        ballOj.transform.position = ballSpawnTransform.position;
+        timePassCheck = false;
+        photonView.RPC("ApplyResetGame", RpcTarget.AllBuffered, false);
+        photonView.RPC("ApplyTimePassOff", RpcTarget.AllBuffered, false);
 
         StartCoroutine(ResetGameDelay());
+    }
 
-        //* fix : goalEffect *//
+    [PunRPC]
+    public void ApplyResetGame(bool state)
+    {
+        ballOj.SetActive(state);
+    }
+
+    [PunRPC]
+    public void ApplyTimePassOff(bool state)
+    {
+        timePassCheck = state;
     }
 
     IEnumerator ResetGameDelay()
     {
         yield return new WaitForSeconds(3f);
 
+        if (PhotonNetwork.IsMasterClient)
+        {
+            ballOj.transform.position = ballSpawnTransform.position;
+            photonView.RPC("RespawnBall", RpcTarget.MasterClient);
+        }
+    }
+
+    
+
+    [PunRPC]
+    public void RespawnBall()
+    {
         ballOj.SetActive(true);
+        isGoaled = false;
+        photonView.RPC("ApplyResetGame", RpcTarget.AllBuffered, true);
+        photonView.RPC("UpdateGoalCheck", RpcTarget.AllBuffered, false);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -131,53 +231,69 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         //* Empty *//
     }
 
-    [PunRPC]
-    public void AddBlueScore()
+    public void BlueScoreUp()   // 블루팀이 골 성공 시 실행
     {
-        blueScore += 1;
-        photonView.RPC("UpdateScore", RpcTarget.All, blueScore, orangeScore);
+        if (PhotonNetwork.IsMasterClient)   // 마스터 클라이언트인지 체크
+        {
+            photonView.RPC("AddBlueScore", RpcTarget.MasterClient);   // 마스터 클라이언트에서 스코어 값이 증가하도록 해줌
+        }
+    }
+
+    public void OrangeScoreUp()   // 오렌지팀이 골 성공 시 실행
+    {
+        if (PhotonNetwork.IsMasterClient)   // 마스터 클라이언트인지 체크
+        {
+            photonView.RPC("AddOrangeScore", RpcTarget.MasterClient);   // 마스터 클라이언트에서 스코어 값이 증가하도록 해줌
+        }
     }
 
     [PunRPC]
-    public void AddOrangeScore()
+    public void AddBlueScore()   // 블루팀 스코어를 1 증가시키는 함수
     {
-        orangeScore += 1;
-        photonView.RPC("UpdateScore", RpcTarget.All, blueScore, orangeScore);
-    }
-
-    public void OrangeScoreUp()
-    {
-        photonView.RPC("AddOrangeScore", RpcTarget.MasterClient);
-    }
-
-    public void BlueScoreUp()
-    {
-        photonView.RPC("AddBlueScore", RpcTarget.MasterClient);
+        blueScore += 1;   // 블루팀 스코어 1 증가
+                          // 스코어 값을 모든 클라이언트와 동기화 시켜줌
+        photonView.RPC("UpdateScore", RpcTarget.AllBuffered, blueScore, orangeScore);
     }
 
     [PunRPC]
-    public void UpdateScore(int _blueScore, int _orangeScore)
+    public void AddOrangeScore()   // 오렌지팀 스코어를 1 증가시키는 함수
     {
-        blueScore = _blueScore;
-        orangeScore = _orangeScore;
-
-        blueScoreText.text = string.Format("{0}", blueScore);
-        orangeScoreText.text = string.Format("{0}", orangeScore);
+        orangeScore += 1;   // 오렌지팀 스코어 1 증가
+                            // 스코어 값을 모든 클라이언트와 동기화 시켜줌
+        photonView.RPC("UpdateScore", RpcTarget.AllBuffered, blueScore, orangeScore);
     }
 
     [PunRPC]
-    public void BallRespawn()
+    public void UpdateScore(int _blueScore, int _orangeScore)   // 스코어값을 모든 클라이언트가 동기화하는 함수
     {
-        photonView.RPC("BallSpawn", RpcTarget.MasterClient);
+        blueScore = _blueScore;   // 블루팀 스코어값을 동기화
+        orangeScore = _orangeScore;   // 오렌지팀 스코어값을 동기화
+
+        blueScoreText.text = string.Format("{0}", blueScore);   // 블루팀 스코어 텍스트 값을 변경해준다
+        orangeScoreText.text = string.Format("{0}", orangeScore);   // 오렌지팀 스코어 텍스트 값을 변경해준다
     }
 
-    [PunRPC]
-    private void BallSpawn()
+    public void GoalCheck()   // 골인 상태 체크값을 변경해줄때 실행하는 함수
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.Instantiate(ballPrefab.name, ballSpawnTransform.position, Quaternion.identity);
+            photonView.RPC("ChangeCheck", RpcTarget.MasterClient);   // 마스터 클라이언트가 isGoaled bool 변수값을 변경하도록 함
         }
+    }
+
+    [PunRPC]
+    public void ChangeCheck()   // 마스터 클라이언트가 isGoaled 값을 변경하도록 함
+    {
+        isGoaled = true;   // isGoaled 값을 true 값으로 변경
+                           // 모든 클라이언트가 isGoaled 값을 동기화 하도록 실행
+        photonView.RPC("UpdateGoalCheck", RpcTarget.AllBuffered, true);
+    }
+
+    [PunRPC]
+    public void UpdateGoalCheck(bool state)   // 모든 클라이언트가 isGoaled 값을 동기화 하는 함수
+    {
+        isGoaled = state;   // isGoaled 값을 모든 클라이언트가 동기화 함
+        Debug.Log(state);
     }
 
     // 주기적으로 자동 실행되는, 동기화 메서드
