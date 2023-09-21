@@ -68,6 +68,21 @@ MonoBehaviour:
   - ChangeAura
   - UpdateAura
   - UpdateScore
+  - ChangeCheck
+  - UpdateGoalCheck
+  - PushColliderOn
+  - ApplyPushCollider
+  - ApplyPushColliderOff
+  - ApplyPushColliderOn
+  - PushColliderOff
+  - ApplyResetGame
+  - ResetGameMaster
+  - RespawnBall
+  - GameTimePassOnMaster
+  - ApplyGameTimePassOn
+  - TimePassMaster
+  - ApplyTimePass
+  - ApplyTimePassOff
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
