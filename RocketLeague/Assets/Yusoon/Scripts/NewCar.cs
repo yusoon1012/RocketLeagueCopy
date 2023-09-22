@@ -2,33 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using DG.Tweening;
 
 public class NewCar : MonoBehaviourPunCallbacks
 {
     public Transform kartNormal;
     public Transform kartModel;
+    public Transform cameraCenter;
     public float acceleration;
     public float steering;
     public float gravity;
     public LayerMask layerMask;
     public LayerMask fieldMask;
 
-    int jumpCount = 0;
-    bool drifting =false;
+     public bool isGrounded = false;
+    
+    bool drifting = false;
     float speed;
-   public float currentSpeed;
-   float rotate;
-  float currentRotate;
+    public float currentSpeed;
+    float rotate;
+    float currentRotate;
     public Rigidbody sphere;
     public bool outOfControl = false;
-    private bool isNotControl=false;
-
+    private bool isNotControl = false;
     // 부스터 관련 추가
     #region
     private CarBooster_Yoo booster;
     private float normalAcceleration;
     private float timeAfterFirstBoost;
     private float useSecondBoostDelay = 0.75f;
+
+    private Quaternion targetCameraRotation;
+    private float rotationLerpSpeed = 5.0f; // 보간 속도 조절
     public bool useSecondBoost { get; private set; }
     #endregion
 
@@ -46,6 +51,8 @@ public class NewCar : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+     
+
         if (photonView.IsMine == false)
         {
             return;
@@ -53,9 +60,9 @@ public class NewCar : MonoBehaviourPunCallbacks
         Vector3 newposition = new Vector3(sphere.transform.position.x, sphere.transform.position.y-3.5f, sphere.transform.position.z);
         transform.position=newposition;
         float speedDir = Input.GetAxis("Vertical");
-        if(outOfControl)
+        if (outOfControl)
         {
-            if(isNotControl==false)
+            if (isNotControl==false)
             {
                 isNotControl = true;
                 StartCoroutine(ControlTimer());
@@ -101,10 +108,17 @@ public class NewCar : MonoBehaviourPunCallbacks
         #endregion
 
         speed = speedDir * acceleration;
-
+        if (isGrounded == false)
+        {
+            steering=45f;
+        }
+        else
+        {
+            steering=15f;
+        }
         if (Input.GetAxis("Horizontal") != 0)
         {
-
+           
             float dir = Input.GetAxis("Horizontal");
             float amount = Mathf.Abs((Input.GetAxis("Horizontal")));
             if (speedDir!= -1)
@@ -138,10 +152,11 @@ public class NewCar : MonoBehaviourPunCallbacks
         RaycastHit hitNear;
 
         Vector3 newGravityDirection = -kartNormal.up; // 차량의 정렬된 방향을 중력 방향으로 사용
-       // Physics.gravity = newGravityDirection * gravity;
+                                                      // Physics.gravity = newGravityDirection * gravity;
         Physics.Raycast(rayStartPoint, rayDirection, out hitOn, 4f, layerMask);
         Physics.Raycast(rayStartPoint, rayDirection, out hitNear, 4f, layerMask);
-
+        isGrounded=Physics.Raycast(rayStartPoint, rayDirection, out hitNear, 4f, layerMask);
+       // Debug.LogFormat("isGrounded : {0}", isGrounded);
         // Visualize the raycast
         Debug.DrawRay(rayStartPoint, rayDirection * 4f, Color.green); // Ray를 시각화합니다.
 
@@ -153,23 +168,35 @@ public class NewCar : MonoBehaviourPunCallbacks
         kartNormal.rotation = Quaternion.Slerp(kartNormal.rotation, targetRotation * kartNormal.rotation, Time.deltaTime * 8.0f);
 
 
-        
+
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
 
-     
+        cameraCenter.position=transform.position;
+        if (isGrounded)
+        {
+            cameraCenter.rotation = Quaternion.Lerp(cameraCenter.rotation, kartModel.rotation, Time.deltaTime * rotationLerpSpeed);
+           // targetCameraRotation = cameraCenter.rotation; // 초기 회전값을 현재 값으로 설정합니다.
+        }
 
 
         currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); speed = 0f;
-        currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); rotate = 0f;
+        currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 6f); rotate = 0f;
 
-        if (!drifting)
+        if (isGrounded)
         {
-           
-            
+
+
             kartModel.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(0, 90+(Input.GetAxis("Horizontal") * 15), kartModel.localEulerAngles.z), .2f);
 
-            
+
         }
+        else
+        {
+            kartNormal.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(0, 0, 90+(Input.GetAxis("Vertical") * 15)), .2f);
+
+        }
+
+
 
 
 
@@ -181,8 +208,18 @@ public class NewCar : MonoBehaviourPunCallbacks
             return;
         }
         sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
-       
+
+        if(isGrounded)
+        {
         sphere.AddForce(-kartNormal.transform.up * gravity, ForceMode.Acceleration);
+
+        }
+        else
+        {
+
+            sphere.AddForce(-transform.up*gravity, ForceMode.Acceleration);
+        }
+
 
         // 부스터 관련 추가
         #region
@@ -251,17 +288,14 @@ public class NewCar : MonoBehaviourPunCallbacks
         outOfControl = false;
         isNotControl = false;
     }
-    public void Steer(float direction,float amount)
+    public void Steer(float direction, float amount)
     {
         rotate += (steering *direction) * amount;
     }
     private void OnCollisionEnter(Collision collision)
     {
-       
-        if(collision.gameObject.tag.Equals("field"))
-        {
-            jumpCount=0;
-        }
+
+      
     }
     private void OnCollisionStay(Collision collision)
     {
