@@ -574,6 +574,7 @@ GameObject:
   - component: {fileID: 2510652402889932946}
   - component: {fileID: 7330047416825937210}
   - component: {fileID: 967695233636866143}
+  - component: {fileID: 658986780879078464}
   m_Layer: 0
   m_Name: SmallBoost
   m_TagString: Untagged
@@ -638,6 +639,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc5ab1d2b43ad2d449925c4aae66e5c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &658986780879078464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994397351116544701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2069229234712620574
 GameObject:
   m_ObjectHideFlags: 0
@@ -6206,7 +6229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4394885089618370, guid: 614ff6000abfeb947991ba62665d0281, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 55
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4394885089618370, guid: 614ff6000abfeb947991ba62665d0281, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7731,7 +7754,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4394885089618370, guid: 614ff6000abfeb947991ba62665d0281, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 46
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4394885089618370, guid: 614ff6000abfeb947991ba62665d0281, type: 3}
       propertyPath: m_LocalPosition.y
