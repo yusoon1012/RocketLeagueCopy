@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+
+
 public class MusicManager : MonoBehaviour
 {
 
@@ -20,7 +22,7 @@ public class MusicManager : MonoBehaviour
             return m_instance;
         }
     }
-
+    public CanvasGroup musicUiObj;
     public static MusicManager m_instance;   // ΩÃ±€≈Ê¿Ã «“¥Áµ… static ∫Øºˆ
     AudioSource musicSource;
     public AudioClip[] musicClip;
@@ -28,6 +30,7 @@ public class MusicManager : MonoBehaviour
     public Image albumCover;
     public TMP_Text songName;
     int lastIdx;
+    bool musicUiFade = false;
     
 
     private void Awake()
@@ -54,6 +57,8 @@ public class MusicManager : MonoBehaviour
         albumCover.sprite=musicImages[randomsong];
         songName.text=musicClip[randomsong].name;
         musicSource.Play();
+            StartCoroutine(FadeRoutine());
+
     }
 
     // Update is called once per frame
@@ -70,8 +75,8 @@ public class MusicManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.N))
         {
             int rand=Random.Range(0, musicClip.Length);
-
-           while(rand==lastIdx)
+            musicUiFade=false;
+           while (rand==lastIdx)
             {
                 rand = Random.Range(0, musicClip.Length);
 
@@ -82,10 +87,14 @@ public class MusicManager : MonoBehaviour
             songName.text=musicClip[rand].name;
 
             musicSource.Play();
+            musicUiObj.alpha=1;
+            StopAllCoroutines();
+            StartCoroutine(FadeRoutine());
         }
         else if(!musicSource.isPlaying)
         {
             int rand = Random.Range(0, musicClip.Length);
+            musicUiFade=false;
 
             while (rand==lastIdx)
             {
@@ -98,9 +107,27 @@ public class MusicManager : MonoBehaviour
             songName.text=musicClip[rand].name;
 
             musicSource.Play();
-        }
-    }
+            musicUiObj.alpha=1;
+            StopAllCoroutines();
 
+            StartCoroutine(FadeRoutine());
+        }
+
+        if(musicUiFade)
+        {
+            musicUiObj.alpha=Mathf.Lerp(musicUiObj.alpha, 0,Time.deltaTime*10);
+        }
+       
+    }
+    
+
+    IEnumerator FadeRoutine()
+    {
+        yield return new WaitForSeconds(2);
+        musicUiFade=true;
+        yield return new WaitForSeconds(1); 
+        musicUiFade=false;
+    }
     void ShuffleIdx(AudioClip a, AudioClip b)
     {
         AudioClip temp = a;
