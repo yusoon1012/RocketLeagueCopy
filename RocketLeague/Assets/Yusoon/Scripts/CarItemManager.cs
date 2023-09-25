@@ -6,8 +6,9 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Concurrent;
+using Photon.Pun;
 
-public class CarItemManager : MonoBehaviour
+public class CarItemManager : MonoBehaviourPun
 {
     public GameObject magnetParticle;
     public GameObject PowerUpParticle;
@@ -147,7 +148,7 @@ public class CarItemManager : MonoBehaviour
                                     case KICK:
                                         kickTransform.LookAt(col.transform.position);
                                         kickAnimator.Play("KickAnimation");
-                                        rb.AddForce(dir*350, ForceMode.Impulse);
+                                        rb.AddForce(dir*30, ForceMode.VelocityChange);
                                         StartCoroutine(SkillUseCoolTime(1));
                                         break;                                
                                     case ENEMY_BOOST:
@@ -215,6 +216,7 @@ public class CarItemManager : MonoBehaviour
                         ballRigidBody.AddForce(ballDir*70, ForceMode.Impulse);
                         StartCoroutine(SkillUseCoolTime(1));
                         }
+                        // 홍한범 왔다감
                     }
                 }
                 if (randomIdx==MAGNET)
@@ -263,6 +265,7 @@ public class CarItemManager : MonoBehaviour
             skillIcon[i].enabled = false;
         }
     }
+
     private IEnumerator SkillUseCoolTime(int second)
     {
         yield return new WaitForSeconds(second);
@@ -284,6 +287,7 @@ public class CarItemManager : MonoBehaviour
         StartCoroutine(SkillCoolTimeRoutine());
 
     }
+
     private IEnumerator SkillCoolTimeRoutine()
     {
         while (skillCoolTime<10)
@@ -296,7 +300,18 @@ public class CarItemManager : MonoBehaviour
         skillIcon[randomIdx].enabled = true;
     }
 
+    [PunRPC]
+    void BallPunch()
+    {
 
+    }
+
+
+    [PunRPC]
+    void BallMargnet()
+    {
+
+    }
 
 
     //void OnDrawGizmosSelected()

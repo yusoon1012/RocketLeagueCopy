@@ -1,11 +1,12 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.XR;
 using UnityEngine;
 
 public class CarBooster_Yoo : MonoBehaviourPun
 {
-    public float boost { get; private set; }
+    private float newBoost;
 
     BoostUI_Yoo boostUI;
     public bool useBoost { get; private set; }
@@ -22,7 +23,6 @@ public class CarBooster_Yoo : MonoBehaviourPun
             return;
         }
 
-        boost = 33;
         useBoost = false;
         // 이 아랫줄은 가져오는 위치를 지정해야함
         //boostUI = transform.GetChild(0).GetChild(0).GetChild(8).GetComponentInChildren<BoostUI_Yoo>();
@@ -53,12 +53,16 @@ public class CarBooster_Yoo : MonoBehaviourPun
             return;
         }
 
-        //Debug.Log("현재 부스터 게이지: " +  boost);
-        boostUI.SetBoostGauge(boost);
+        newBoost = boostUI.boost;
 
-        if(Input.GetMouseButton(0))
+        //Debug.Log("현재 부스터 게이지: " +  boost);
+        //boostUI.SetBoostGauge(boost);
+
+        if (GameManager.instance.gameStartCheck == false) { return; }
+
+        if (Input.GetMouseButton(0))
         {
-            if(boost == 0)
+            if(boostUI.boost == 0)
             {
                 //useBoost = false;
                 return;
@@ -75,30 +79,34 @@ public class CarBooster_Yoo : MonoBehaviourPun
     // 부스터 게이지 충전 함수
     public void AddBoost(int boostGauge)
     {
-        if (boost == 100)
+        if (boostUI.boost == 100)
         {
             return;
         }
-        for (int i = 0; i < boostGauge; i ++)
+        else
         {
-            boost += 1;
-            if (boost > 100)
+            newBoost += boostGauge;
+
+            if(newBoost > 100)
             {
-                boost = 100;
+                newBoost = 100;
             }
         }
+
+        boostUI.SetBoostGauge(newBoost);
     }
 
     // 부스터 게이지 사용 함수
     public void UseBoost()
     {
-        if(boost == 0)
+        if(boostUI.boost <= 0)
         {
             useBoost = false;
+            boostUI.SetBoost(0);
             return;
         }
-
-
-        boost -= 1;
+        
+        boostUI.SetNewBoost(boostUI.newBoost - 0.666f);
+        boostUI.SetBoost(boostUI.boost - 0.666f);
     }
 }
