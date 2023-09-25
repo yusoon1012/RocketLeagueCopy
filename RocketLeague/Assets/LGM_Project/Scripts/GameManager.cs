@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void MasterGameStartCheck()
     {
-        if (PhotonNetwork.PlayerList.Length >= 4)
+        if (PhotonNetwork.PlayerList.Length >= 1)
         {
             gameReadyImage.enabled = false;
             gameReadyText.enabled = false;
@@ -180,7 +180,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         else
         {
             playerCount = PhotonNetwork.PlayerList.Length;
-            photonView.RPC("ApplyGameStartCheck", RpcTarget.AllBuffered, playerCount, 4);
+            photonView.RPC("ApplyGameStartCheck", RpcTarget.AllBuffered, playerCount, 1);
         }
     }
 
