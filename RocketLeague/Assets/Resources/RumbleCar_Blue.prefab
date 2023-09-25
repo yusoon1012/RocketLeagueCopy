@@ -438,7 +438,7 @@ GameObject:
   - component: {fileID: 505076064507129590}
   m_Layer: 2
   m_Name: fenecc (1)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2436,7 +2436,7 @@ PrefabInstance:
     - target: {fileID: 1087070399543704703, guid: 9373f37842479d545b505ff265f3604d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -2.4
       objectReference: {fileID: 0}
     - target: {fileID: 1087070399543704703, guid: 9373f37842479d545b505ff265f3604d,
         type: 3}
@@ -2641,7 +2641,7 @@ PrefabInstance:
     - target: {fileID: 8237480076770894358, guid: afd01d7beefc79549b90f897fe267fe8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -2.4
       objectReference: {fileID: 0}
     - target: {fileID: 8237480076770894358, guid: afd01d7beefc79549b90f897fe267fe8,
         type: 3}

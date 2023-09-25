@@ -16,6 +16,10 @@ public class SmallBoost_Yoo : MonoBehaviourPun
         gameObject.transform.localScale = Vector3.zero;
         boostCollider = GetComponent<Collider>();
         regenTime = 10f;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            DoScaleOff();
+        }
     }
 
     // Update is called once per frame
