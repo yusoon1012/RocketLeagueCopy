@@ -4722,6 +4722,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!225 &1173457519 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 5277620284244170945, guid: 5a70ccbdfbb0cc04487d5ac722ee725f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1303664615}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1190584699
 GameObject:
   m_ObjectHideFlags: 0
@@ -5858,11 +5864,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1479805415718018737, guid: 5a70ccbdfbb0cc04487d5ac722ee725f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1479805415937927209, guid: 5a70ccbdfbb0cc04487d5ac722ee725f,
         type: 3}
       propertyPath: m_Name
@@ -5923,6 +5924,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1479805415937927215, guid: 5a70ccbdfbb0cc04487d5ac722ee725f,
+        type: 3}
+      propertyPath: musicUiObj
+      value: 
+      objectReference: {fileID: 1173457519}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a70ccbdfbb0cc04487d5ac722ee725f, type: 3}
 --- !u!1 &1332228982
