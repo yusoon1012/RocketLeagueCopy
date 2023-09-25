@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -13,6 +14,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject playButtons;
     public GameObject gameModeButtons;
     public int gameMode;
+    public TMP_Text nickName;
     const int STANDARD = 0;
     const int DOUBLE = 1;
     const int RUMBLE = 2;
@@ -95,6 +97,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // 마스터 서버에 접속 중이라면
         if (PhotonNetwork.IsConnected)
         {
+
+            PhotonNetwork.NickName=nickName.text;
             // �� ���� ����
             RoomOptions roomOptions = new RoomOptions
             {

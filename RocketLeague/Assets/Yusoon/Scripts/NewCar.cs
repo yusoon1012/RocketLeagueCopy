@@ -14,7 +14,7 @@ public class NewCar : MonoBehaviourPunCallbacks
     public float gravity;
     public LayerMask layerMask;
     public LayerMask fieldMask;
-
+    
      public bool isGrounded = false;
     
     bool drifting = false;
@@ -25,6 +25,7 @@ public class NewCar : MonoBehaviourPunCallbacks
     public Rigidbody sphere;
     public bool outOfControl = false;
     private bool isNotControl = false;
+    bool lookatBall = false;
     // ?ν??? ???? ???
     #region
     private CarBooster_Yoo booster;
@@ -173,7 +174,7 @@ public class NewCar : MonoBehaviourPunCallbacks
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
 
         cameraCenter.position=transform.position;
-        if (isGrounded)
+        if (isGrounded&&lookatBall==false)
         {
             cameraCenter.rotation = Quaternion.Lerp(cameraCenter.rotation, kartModel.rotation, Time.deltaTime * rotationLerpSpeed);
            // targetCameraRotation = cameraCenter.rotation; // ??? ??????? ???? ?????? ????????.
@@ -182,7 +183,38 @@ public class NewCar : MonoBehaviourPunCallbacks
 
         currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); speed = 0f;
         currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 6f); rotate = 0f;
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            if(lookatBall==false)
+            {
+                lookatBall = true;
+            }
+            else
+            {
 
+                lookatBall=false;
+
+            }
+           
+        }
+
+        if (lookatBall)
+        {
+            Ball_Ys ball = FindAnyObjectByType<Ball_Ys>();
+            if (ball != null)
+            {
+                //cameraCenter.LookAt(ball.transform);
+              Vector3 lookAtPosition = ball.transform.position;
+
+                cameraCenter.LookAt(lookAtPosition);
+
+                // 제한된 X 축 회전 각도 설정
+                Vector3 eulerAngles = cameraCenter.localEulerAngles;
+                eulerAngles.x = Mathf.Clamp(eulerAngles.x, -25f, 0); // -25 아래로 회전을 제한
+                                                                     //cameraCenter.localRotation = Quaternion.Euler(eulerAngles);
+                cameraCenter.localEulerAngles = eulerAngles;
+            }
+        }
         if (isGrounded)
         {
 

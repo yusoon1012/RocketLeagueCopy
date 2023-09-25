@@ -5,6 +5,23 @@ using UnityEngine.UI;
 using TMPro;
 public class MusicManager : MonoBehaviour
 {
+
+    public static MusicManager instance
+    {
+        get
+        {
+            // 만약 싱글톤 변수에 아직 오브젝트가 할당되지 않았다면
+            if (m_instance == null)
+            {
+                // 씬에서 GameManager 오브젝트를 찾아 할당
+                m_instance = FindObjectOfType<MusicManager>();
+            }
+            // 싱글톤 오브젝트를 반환
+            return m_instance;
+        }
+    }
+
+    public static MusicManager m_instance;   // 싱글톤이 할당될 static 변수
     AudioSource musicSource;
     public AudioClip[] musicClip;
     public Sprite[] musicImages;
@@ -16,6 +33,11 @@ public class MusicManager : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        if (instance != this)
+        {
+            Destroy(gameObject); // 현재 인스턴스가 싱글톤 인스턴스가 아닌 경우 파괴
+            return;
+        }
     }
     // Start is called before the first frame update
     void Start()
@@ -26,10 +48,11 @@ public class MusicManager : MonoBehaviour
             int randomIdx2 = Random.Range(0, musicClip.Length);
             ShuffleIdx(musicClip[randomIdx1], musicClip[randomIdx2]);
         }
+        int randomsong=Random.Range(0, musicClip.Length);
         musicSource=GetComponent<AudioSource>();
-        musicSource.clip=musicClip[0];
-        albumCover.sprite=musicImages[0];
-        songName.text=musicClip[0].name;
+        musicSource.clip=musicClip[randomsong];
+        albumCover.sprite=musicImages[randomsong];
+        songName.text=musicClip[randomsong].name;
         musicSource.Play();
     }
 
