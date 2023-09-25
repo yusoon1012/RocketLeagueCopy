@@ -18,8 +18,8 @@ public class CustomizingSceneController_Choi : MonoBehaviour
     [Header("PartsList")]
     private string[] categorys =
     {
-        "CarFrames", "Wheels_FL", "Wheels_FR", "Wheels_BL",
-        "Wheels_BR", "Flags", "Marks"
+        "CarFrames", "Flags", "Marks",
+        "Wheels_FL", "Wheels_FR", "Wheels_BL", "Wheels_BR"
     }; // 카테고리 배열
     private int[] partsListIndexs = new int[7]; // 카테고리의 길이 만큼 int 배열 선언
     private int[] partsListMaxIndexs = new int[7]; // 카테고리 별 최대 인덱스를 저장하는 배열
@@ -29,8 +29,19 @@ public class CustomizingSceneController_Choi : MonoBehaviour
     public Button[] categoryBtnNexts;
     public Button[] categoryBtnPrevs;
 
+    // ##################################################################################################
+    // ▶[라이프 사이클 메서드]
+    // ##################################################################################################
     void Start()
     {
+        // CustomizingManager에서 커스터마이징 씬을 동작하게 하기 위해
+        // 필요한 함수들을 호출하는 함수를 호출
+        RunForCustomizingSceneFuncs();
+
+        // PlayerPrefab에 저장되어 있는 현재 인덱스를
+        // 가져오는 함수 호출
+        GetIndexsForPlayerPrefab();
+
         // 카테고리 별 최대 인덱스를 가져오는 함수 호출
         GetCategoryMaxIndexs();
 
@@ -54,7 +65,6 @@ public class CustomizingSceneController_Choi : MonoBehaviour
         // categoryTxts 배열 길이만큼 순회한다
         for (int i = 0; i < categoryTxts.Length; i++)
         {
-
             // temp_Index 변수에 i 값을 담고 리스너에 등록할 함수의 매개변수로
             // 등록하는 이유는 i 값을 직접 넣을 경우 클로저(for문이 종료될떄)됐을 때
             // 기준으로 i값이 리스너에 모두 동일하게 들어가기 때문이다.
@@ -68,6 +78,21 @@ public class CustomizingSceneController_Choi : MonoBehaviour
             categoryBtnNexts[i].onClick.AddListener(() => BtnNext(index));
             categoryBtnPrevs[i].onClick.AddListener(() => BtnPrevious(index));
         }
+    }
+
+    // 커스터마이징 씬에서 사용되는 함수들을 호출하는 함수
+    private void RunForCustomizingSceneFuncs()
+    {
+        // 오브젝트 풀링을 위한 오브젝트 생성
+        CustomizingManager_Choi.instance.CreateObjectPools();
+
+        // PlayerPrefab에 저장되어 있는 파츠별 Index 가져온 후
+        // 가져온 Index[]로 전부 토글하는 함수
+        CustomizingManager_Choi.instance.ToggleAllObejcts(
+            CustomizingManager_Choi.instance.GetAllDataForPlayerPrefabs());
+
+        // 플레이어의 현재 모든 파츠를 temp_IndexDictionary에 저장
+        CustomizingManager_Choi.instance.SaveAllPlayerPartsToTempIndexDictionary();
     }
 
     // ##################################################################################################
@@ -97,7 +122,8 @@ public class CustomizingSceneController_Choi : MonoBehaviour
             // partListIndexs에 값 넣기
             partsListIndexs[i] = temp_Value;
 
-            Debug.Log($"나온 값: {temp_Value}");
+            // 현재 인덱스에 맞게 카테고리의 파츠를 업데이트하는 함수 호출
+            UpdatePartForCategory(categorys[i], partsListIndexs[i]);
         }
 
         // 커스터마이징 씬의 카테고리 텍스트를 전부 업데이트하는 함수 호출
@@ -129,6 +155,9 @@ public class CustomizingSceneController_Choi : MonoBehaviour
     // 카테고리의 인덱스를 다음으로 넘기는 함수
     public void BtnNext(int index)
     {
+        Debug.Log($"next index: {index}");
+
+
         // 현재 인덱스가 최대 인덱스보다 같거나 클 경우
         // 인덱스와 최대 인덱스 비교를 위해 인덱스를 +1 한다
         // 왜냐하면 최대 인덱스는 1부터 시작하기 때문
@@ -156,6 +185,7 @@ public class CustomizingSceneController_Choi : MonoBehaviour
     // 카테고리의 인덱스를 뒤로 넘기는 함수
     public void BtnPrevious(int index)
     {
+        Debug.Log($"previous index: {index}");
         // 현재 인덱스가 0 보다 작거나 같을 경우
         if (partsListIndexs[index] <= 0)
         {
@@ -181,11 +211,15 @@ public class CustomizingSceneController_Choi : MonoBehaviour
     private void UpdatePartForCategory(string category, int index)
     {
         // CustomizingManager_Choi에서 카테고리와 인덱스로 파츠를 토글하는 함수 호출
-        CustomizingManager_Choi.instance.TogglePartForCategory(category, index);
+        CustomizingManager_Choi.instance.TogglePartForCategory(category, index, true);
 
-        // 타이어의 포지션 위치를 재조정 하는 함수 호출
-        // partsListIndexs[0]을 매개변수로 넣어 CarFrames의 현재 인덱스를 보냄
-        CustomizingManager_Choi.instance.AdjustWheelsPosition(partsListIndexs[0]);
+        // 만약 매개변수로 받은 category가 CarFrames일 경우
+        if (category == "CarFrames")
+        {
+            // 타이어의 포지션 위치를 재조정 하는 함수 호출
+            // partsListIndexs[0]을 매개변수로 넣어 CarFrames의 현재 인덱스를 보냄
+            CustomizingManager_Choi.instance.AdjustWheelsPosition(partsListIndexs[0]);
+        }
     }
 
     // ##################################################################################################
@@ -235,5 +269,14 @@ public class CustomizingSceneController_Choi : MonoBehaviour
     {
         // dataDictionary에 저장된 카테고리별 최대 인덱스를 가져오는 함수를 호출
         partsListMaxIndexs = CustomizingManager_Choi.instance.GetMaxIndexForCategorys();
+    }
+
+    // Customizing_Manager를 통해 저장된 모든 파츠 인덱스들을
+    // PlayerPrefab에서 배열로 가져온 후 partsListIndexs[]에 저장하는 함수
+    public void GetIndexsForPlayerPrefab()
+    {
+        // CustomizingManager를 통해 PlayerPrefab에 저장되어 있는
+        // 모든 파츠 인덱스들을 partListIndex에 저장
+        partsListIndexs = CustomizingManager_Choi.instance.GetAllDataForPlayerPrefabs();
     }
 }

@@ -79,7 +79,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Start()
     {
-        if (PhotonNetwork.IsMasterClient)   // 마스터 클라이언트만 실행한다
+        // 내 포톤뷰 ActorNumber을 찾아서 저장하는 변수
+        int myPhotonActorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+
+        if (PhotonNetwork.IsMasterClient)
         {
             // 마스터 클라이언트 일시 축구공 프리팹을 불러와 축구공 오브젝트를 생성한다
             ballOj = PhotonNetwork.Instantiate(ballPrefab.name, ballSpawnTransform.position, Quaternion.identity);
@@ -116,6 +119,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             playerCar = playerCloneCar.transform.Find("Collider").GetComponent<Transform>();
                // 플레이어 RC 카 안에 Rigidbody 값을 저장한다
             carRb = playerCloneCar.transform.Find("Collider").GetComponent<Rigidbody>();
+            // 블루 카 생성 & 포톤 ActorNumber를 매개변수로 보냄
+            //PhotonNetwork.Instantiate(blueCar.name, blueSpawnPoint.position, blueSpawnPoint.rotation);
+            CustomizingManager_Choi.instance.CreateObjectWithCustomizing(0, myPhotonActorNumber, 
+                blueSpawnPoint.position, Quaternion.Euler(0f, -180f, 0f));
         }
         else   // 플레이어 카운트 값을 2로 나누었을때 나머지가 0 이 안되는 순서의 플레이어인지 체크
         {
@@ -139,6 +146,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             playerCar = playerCloneCar.transform.Find("Collider").GetComponent<Transform>();
                // 플레이어 RC 카 안에 Rigidbody 값을 저장한다
             carRb = playerCloneCar.transform.Find("Collider").GetComponent<Rigidbody>();
+            // 오렌지 카 생성 & 포톤 ActorNumber를 매개변수로 보냄
+            //PhotonNetwork.Instantiate(orangeCar.name, orangeSpawnPoint.position, orangeSpawnPoint.rotation);
+            CustomizingManager_Choi.instance.CreateObjectWithCustomizing(1, myPhotonActorNumber, 
+                orangeSpawnPoint.position, Quaternion.identity);
         }
 
         playerCount = PhotonNetwork.PlayerList.Length;   // 포톤 서버에 접속한 플레이어 수를 다시 체크해준다
