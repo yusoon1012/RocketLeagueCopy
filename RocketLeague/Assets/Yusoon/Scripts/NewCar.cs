@@ -146,7 +146,15 @@ public class NewCar : MonoBehaviourPunCallbacks
 
 
         }
-
+        if(isGrounded&&Input.GetKey(KeyCode.LeftShift))
+        {
+            steering=120f;
+        }
+        else if(Input.GetKeyUp(KeyCode.LeftShift)) 
+        {
+            steering=15;
+        }
+        
 
         Vector3 rayDirection = -kartNormal.up; // Ray?? ????? ??? ???????? ????
 

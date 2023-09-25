@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject ballAuraPf;   // 축구공 표식을 생성할 축구공 표식 프리팹
     public GameObject blueCar;   // 블루팀 RC 카 생성할 프리팹
     public GameObject orangeCar;   // 오렌지팀 RC 카 생성할 프리팹
+    public GameObject goalInfoBg;
+
     public Transform ballSpawnTransform;   // 축구공을 생성할 구역
     public Transform[] blueCarSpawner = new Transform[4];   // 블루팀 RC 카를 생성할 구역
     public Transform[] orangeCarSpawner = new Transform[4];   // 오렌지팀 RC 카를 생성할 구역
@@ -37,6 +39,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public TMP_Text currentTimerText;   // 게임 시간 텍스트
     public TMP_Text gameReadyText;
     public TMP_Text gameStartCountText;
+    public TMP_Text goalText;
     public Image gameReadyImage;
 
     public int blueScore;   // 블루팀 골 스코어
@@ -260,6 +263,24 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         gameStartCountText.text = string.Format("{0}", gameStartCount);
     }
 
+
+    public void GoalTextUpdate(string playerName_)
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("GoalTextRpc", RpcTarget.All, playerName_);
+        }
+    }
+
+
+    [PunRPC]
+    void GoalTextRpc(string playerName_)
+    {
+        goalInfoBg.SetActive(true);       
+        goalText.text=string.Format("{0} 점수 획득!", playerName_);
+        StartCoroutine(GoalTextRoutine());
+
+    }
     IEnumerator StartCountDelay()
     {
         while (gameStartCount > 0)
@@ -269,6 +290,23 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             photonView.RPC("MasterStartCount", RpcTarget.MasterClient);
         }
     }
+    IEnumerator GoalTextRoutine()
+    {
+        yield return new WaitForSeconds(2);
+        if(PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("DeActiveGoalInfo", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+   
+    void DeActiveGoalInfo()
+    {
+        goalInfoBg.SetActive(false);
+       
+    }
+
 
     [PunRPC]
     public void ApplyGameStartCheck(int count, int maxCount)

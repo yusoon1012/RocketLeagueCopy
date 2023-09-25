@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
+using Photon.Pun.UtilityScripts;
 
 public class OrangeGoal : MonoBehaviourPun
 {
@@ -18,6 +20,20 @@ public class OrangeGoal : MonoBehaviourPun
             GameManager.instance.ResetGame();   // GameManager 에 있는 게임 라운드 리셋 함수를 실행
                // 마스터 클라이언트에게 푸쉬 콜라이더를 활성화 하도록 실행한다
             photonView.RPC("PushColliderOn", RpcTarget.MasterClient);
+
+            Ball_Ys ball = collision.gameObject.GetComponent<Ball_Ys>();
+            for (int i = 0; i<PhotonNetwork.PlayerList.Length; i++)
+            {
+                Player player = PhotonNetwork.PlayerList[i];
+
+                if (player.NickName==ball.blueteamName)
+                {
+                    string name = ball.blueteamName;
+
+                    player.AddScore(100);
+                    GameManager.instance.GoalTextUpdate(name);
+                }
+            }
         }
     }
 
