@@ -110,12 +110,13 @@ public class NewCar : MonoBehaviourPunCallbacks
         speed = speedDir * acceleration;
         if (isGrounded == false)
         {
-            steering=45f;
+            steering=60f;
         }
         else
         {
             steering=15f;
         }
+
         if (Input.GetAxis("Horizontal") != 0)
         {
            
