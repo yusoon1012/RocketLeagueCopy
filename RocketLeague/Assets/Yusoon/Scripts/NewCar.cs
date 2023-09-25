@@ -46,6 +46,8 @@ public class NewCar : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.gameStartCheck == false) { return; }
+
         if (photonView.IsMine == false)
         {
             return;
@@ -176,6 +178,8 @@ public class NewCar : MonoBehaviourPunCallbacks
     }
     private void FixedUpdate()
     {
+        if (GameManager.instance.gameStartCheck == false) { return; }
+
         if (photonView.IsMine == false)
         {
             return;
