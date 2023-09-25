@@ -25,7 +25,7 @@ public class NewCar : MonoBehaviourPunCallbacks
     public Rigidbody sphere;
     public bool outOfControl = false;
     private bool isNotControl = false;
-    // 부스터 관련 추가
+    // ?ν??? ???? ???
     #region
     private CarBooster_Yoo booster;
     private float normalAcceleration;
@@ -33,14 +33,14 @@ public class NewCar : MonoBehaviourPunCallbacks
     private float useSecondBoostDelay = 0.75f;
 
     private Quaternion targetCameraRotation;
-    private float rotationLerpSpeed = 5.0f; // 보간 속도 조절
+    private float rotationLerpSpeed = 5.0f; // ???? ??? ????
     public bool useSecondBoost { get; private set; }
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-        // 부스터 관련 추가
+        // ?ν??? ???? ???
         #region
         booster = GetComponent<CarBooster_Yoo>();
         normalAcceleration = acceleration;
@@ -51,7 +51,7 @@ public class NewCar : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-     
+        if (GameManager.instance.gameStartCheck == false) { return; }
 
         if (photonView.IsMine == false)
         {
@@ -71,7 +71,7 @@ public class NewCar : MonoBehaviourPunCallbacks
             acceleration= normalAcceleration * 3.5f;
         }
 
-        // 부스터 관련 추가
+        // ?ν??? ???? ???
         #region
         if (booster.useBoost == true)
         {
@@ -83,14 +83,14 @@ public class NewCar : MonoBehaviourPunCallbacks
                     timeAfterFirstBoost += Time.deltaTime;
                     //if(timeAfterFirstBoost <= useSecondBoostDelay)
                     //{
-                    //    Debug.Log("2단 부스터까지 남은 시간" + (useSecondBoostDelay - timeAfterFirstBoost));
+                    //    Debug.Log("2?? ?ν?????? ???? ?ð?" + (useSecondBoostDelay - timeAfterFirstBoost));
                     //}
                 }
 
                 if (timeAfterFirstBoost >= useSecondBoostDelay)
                 {
                     useSecondBoost = true;
-                    //Debug.Log("2단 부스터 사용");
+                    //Debug.Log("2?? ?ν??? ???");
                 }
             }
         }
@@ -147,19 +147,19 @@ public class NewCar : MonoBehaviourPunCallbacks
         }
 
 
-        Vector3 rayDirection = -kartNormal.up; // Ray를 아래로 쏘는 방향으로 설정
+        Vector3 rayDirection = -kartNormal.up; // Ray?? ????? ??? ???????? ????
 
         RaycastHit hitOn;
         RaycastHit hitNear;
 
-        Vector3 newGravityDirection = -kartNormal.up; // 차량의 정렬된 방향을 중력 방향으로 사용
+        Vector3 newGravityDirection = -kartNormal.up; // ?????? ????? ?????? ??? ???????? ???
                                                       // Physics.gravity = newGravityDirection * gravity;
         Physics.Raycast(rayStartPoint, rayDirection, out hitOn, 4f, layerMask);
         Physics.Raycast(rayStartPoint, rayDirection, out hitNear, 4f, layerMask);
         isGrounded=Physics.Raycast(rayStartPoint, rayDirection, out hitNear, 4f, layerMask);
        // Debug.LogFormat("isGrounded : {0}", isGrounded);
         // Visualize the raycast
-        Debug.DrawRay(rayStartPoint, rayDirection * 4f, Color.green); // Ray를 시각화합니다.
+        Debug.DrawRay(rayStartPoint, rayDirection * 4f, Color.green); // Ray?? ?ð??????.
 
         // Calculate the rotation to align kartNormal with the ground normal
         Vector3 targetNormal = hitNear.normal;
@@ -176,7 +176,7 @@ public class NewCar : MonoBehaviourPunCallbacks
         if (isGrounded)
         {
             cameraCenter.rotation = Quaternion.Lerp(cameraCenter.rotation, kartModel.rotation, Time.deltaTime * rotationLerpSpeed);
-           // targetCameraRotation = cameraCenter.rotation; // 초기 회전값을 현재 값으로 설정합니다.
+           // targetCameraRotation = cameraCenter.rotation; // ??? ??????? ???? ?????? ????????.
         }
 
 
@@ -204,6 +204,8 @@ public class NewCar : MonoBehaviourPunCallbacks
     }
     private void FixedUpdate()
     {
+        if (GameManager.instance.gameStartCheck == false) { return; }
+
         if (photonView.IsMine == false)
         {
             return;
@@ -222,7 +224,7 @@ public class NewCar : MonoBehaviourPunCallbacks
         }
 
 
-        // 부스터 관련 추가
+        // ?ν??? ???? ???
         #region
         if (booster.useBoost == true && useSecondBoost == false)
         {
@@ -251,7 +253,7 @@ public class NewCar : MonoBehaviourPunCallbacks
         //kartNormal.Rotate(0, transform.eulerAngles.y, 0);
 
 
-        //Vector3 rayDirection = -kartNormal.up; // Ray를 아래로 쏘는 방향으로 설정
+        //Vector3 rayDirection = -kartNormal.up; // Ray?? ????? ??? ???????? ????
 
         //RaycastHit hitOn;
         //RaycastHit hitNear;
@@ -301,7 +303,7 @@ public class NewCar : MonoBehaviourPunCallbacks
     private void OnCollisionStay(Collision collision)
     {
         Vector3 wallNormal = collision.contacts[0].normal;
-        transform.position += wallNormal * currentSpeed * Time.deltaTime; // moveSpeed는 움직임 속도입니다.
+        transform.position += wallNormal * currentSpeed * Time.deltaTime; // moveSpeed?? ?????? ???????.
         transform.rotation = Quaternion.FromToRotation(transform.up, wallNormal) * transform.rotation;
     }
 
