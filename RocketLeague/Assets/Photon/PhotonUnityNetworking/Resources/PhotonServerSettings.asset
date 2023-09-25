@@ -98,6 +98,10 @@ MonoBehaviour:
   - ApplyStartCountEnd
   - ApplyEnabledSet
   - ApplyGameStartEnd
+  - AdjustWheelsPositionForDebug
+  - SetObjectNameForRPC
+  - SetObjectTagForRPC
+  - SetParentForRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

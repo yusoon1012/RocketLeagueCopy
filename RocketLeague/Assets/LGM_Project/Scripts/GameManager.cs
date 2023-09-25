@@ -112,13 +112,18 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 blueSpawnPoint = blueCarSpawner[2];
             }
 
-            playerTeamCheck = 2;   // 플레이어 팀 구분을 블루팀으로 저장해준다
-               // 해당 플레이어의 스폰 위치에 블루팀의 자동차를 생성하고 게임 오브젝트로 저장한다
-            playerCloneCar = PhotonNetwork.Instantiate(blueCar.name, blueSpawnPoint.position, blueSpawnPoint.rotation);
-               // 플레이어 RC 카 안에 Transform 값을 저장한다
-            playerCar = playerCloneCar.transform.Find("Collider").GetComponent<Transform>();
-               // 플레이어 RC 카 안에 Rigidbody 값을 저장한다
-            carRb = playerCloneCar.transform.Find("Collider").GetComponent<Rigidbody>();
+            //playerTeamCheck = 2;   // 플레이어 팀 구분을 블루팀으로 저장해준다
+            //   // 해당 플레이어의 스폰 위치에 블루팀의 자동차를 생성하고 게임 오브젝트로 저장한다
+            //playerCloneCar = PhotonNetwork.Instantiate(blueCar.name, blueSpawnPoint.position, blueSpawnPoint.rotation);
+            //   // 플레이어 RC 카 안에 Transform 값을 저장한다
+            //playerCar = playerCloneCar.transform.Find("Collider").GetComponent<Transform>();
+            //   // 플레이어 RC 카 안에 Rigidbody 값을 저장한다
+            //carRb = playerCloneCar.transform.Find("Collider").GetComponent<Rigidbody>();
+
+
+
+
+
             // 블루 카 생성 & 포톤 ActorNumber를 매개변수로 보냄
             //PhotonNetwork.Instantiate(blueCar.name, blueSpawnPoint.position, blueSpawnPoint.rotation);
             CustomizingManager_Choi.instance.CreateObjectWithCustomizing(0, myPhotonActorNumber, 
@@ -139,13 +144,19 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 orangeSpawnPoint = orangeCarSpawner[2];
             }
 
-            playerTeamCheck = 1;   // 플레이어 팀 구분을 오렌지팀으로 저장해준다
-               // 해당 플레이어의 스폰 위치에 오렌지팀의 자동차를 생성하고 게임 오브젝트로 저장한다
-            playerCloneCar = PhotonNetwork.Instantiate(orangeCar.name, orangeSpawnPoint.position, orangeSpawnPoint.rotation);
-               // 플레이어 RC 카 안에 Transform 값을 저장한다
-            playerCar = playerCloneCar.transform.Find("Collider").GetComponent<Transform>();
-               // 플레이어 RC 카 안에 Rigidbody 값을 저장한다
-            carRb = playerCloneCar.transform.Find("Collider").GetComponent<Rigidbody>();
+            //playerTeamCheck = 1;   // 플레이어 팀 구분을 오렌지팀으로 저장해준다
+            //   // 해당 플레이어의 스폰 위치에 오렌지팀의 자동차를 생성하고 게임 오브젝트로 저장한다
+            //playerCloneCar = PhotonNetwork.Instantiate(orangeCar.name, orangeSpawnPoint.position, orangeSpawnPoint.rotation);
+            //   // 플레이어 RC 카 안에 Transform 값을 저장한다
+            //playerCar = playerCloneCar.transform.Find("Collider").GetComponent<Transform>();
+            //   // 플레이어 RC 카 안에 Rigidbody 값을 저장한다
+            //carRb = playerCloneCar.transform.Find("Collider").GetComponent<Rigidbody>();
+
+
+
+
+
+
             // 오렌지 카 생성 & 포톤 ActorNumber를 매개변수로 보냄
             //PhotonNetwork.Instantiate(orangeCar.name, orangeSpawnPoint.position, orangeSpawnPoint.rotation);
             CustomizingManager_Choi.instance.CreateObjectWithCustomizing(1, myPhotonActorNumber, 
