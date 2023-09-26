@@ -102,6 +102,14 @@ MonoBehaviour:
   - SetObjectNameForRPC
   - SetObjectTagForRPC
   - SetParentForRPC
+  - MasterTimeOverCheck
+  - BlueTeamWin
+  - OrangeTeamWin
+  - ApplyLeftGameTime
+  - MasterLeftGameTime
+  - ApplyExitLeftGameTime
+  - MasterExitLeftGameTime
+  - ApplyOvertime
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
