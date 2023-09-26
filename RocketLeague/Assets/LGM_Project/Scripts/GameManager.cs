@@ -131,7 +131,13 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 blueSpawnPoint = blueCarSpawner[2];
             }
 
-            playerTeamCheck = 2;   // 플레이어 팀 구분을 블루팀으로 저장해준다
+            //playerTeamCheck = 2;   // 플레이어 팀 구분을 블루팀으로 저장해준다
+            //   // 해당 플레이어의 스폰 위치에 블루팀의 자동차를 생성하고 게임 오브젝트로 저장한다
+            //playerCloneCar = PhotonNetwork.Instantiate(blueCar.name, blueSpawnPoint.position, blueSpawnPoint.rotation);
+            //// 플레이어 RC 카 안에 Transform 값을 저장한다
+            //playerCar = playerCloneCar.transform.Find("Collider").GetComponent<Transform>();
+            //// 플레이어 RC 카 안에 Rigidbody 값을 저장한다
+            //carRb = playerCloneCar.transform.Find("Collider").GetComponent<Rigidbody>();
 
             CustomizingManager_Choi.instance.CreateObjectWithCustomizing(0, myPhotonActorNumber, 
                 blueSpawnPoint.position, blueSpawnPoint.rotation, isRumbleMode);
@@ -151,7 +157,13 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 orangeSpawnPoint = orangeCarSpawner[2];
             }
 
-            playerTeamCheck = 1;   // 플레이어 팀 구분을 오렌지팀으로 저장해준다
+            //playerTeamCheck = 1;   // 플레이어 팀 구분을 오렌지팀으로 저장해준다
+            //   // 해당 플레이어의 스폰 위치에 오렌지팀의 자동차를 생성하고 게임 오브젝트로 저장한다
+            //playerCloneCar = PhotonNetwork.Instantiate(orangeCar.name, orangeSpawnPoint.position, orangeSpawnPoint.rotation);
+            //   // 플레이어 RC 카 안에 Transform 값을 저장한다
+            //playerCar = playerCloneCar.transform.Find("Collider").GetComponent<Transform>();
+            //   // 플레이어 RC 카 안에 Rigidbody 값을 저장한다
+            //carRb = playerCloneCar.transform.Find("Collider").GetComponent<Rigidbody>();
 
             CustomizingManager_Choi.instance.CreateObjectWithCustomizing(1, myPhotonActorNumber, 
                 orangeSpawnPoint.position, orangeSpawnPoint.rotation, isRumbleMode);
@@ -177,8 +189,21 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     // 리스폰 관련 오브젝트 정보를 저장하는 함수
-    public void SetRespawnObjectValues(GameObject playerObj, Transform kartTransform)
+    public void SetRespawnObjectValues(GameObject playerObj, int teamType, Transform kartTransform)
     {
+        // 팀을 구분해서 playerTeamCheck를 저장하는 변수
+        switch (teamType)
+        {
+            // 블루 팀일 경우
+            case 0:
+                playerTeamCheck = 2;
+                break;
+            // 오렌지 팀일 경우
+            case 1:
+                playerTeamCheck = 1;
+                break;
+        }
+
         // 플레이어 RC 카 안에 Rigidbody 값을 저장한다
         playerCar = playerObj.transform.Find("Collider").GetComponent<Transform>();
         // 플레이어 RC 카 안에 Rigidbody 값을 저장한다
