@@ -400,7 +400,7 @@ public class CustomizingManager_Choi : MonoBehaviourPunCallbacks
 
         // GameManager에 있는 SetRespawnObjectValues() 함수를 호출해서
         // 리스폰에 관련된 정보를 저장함
-        GameManager.instance.SetRespawnObjectValues(playerObj);
+        GameManager.instance.SetRespawnObjectValues(playerObj, kart.transform);
     }
     #endregion
 

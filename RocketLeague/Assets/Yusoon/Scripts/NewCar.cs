@@ -53,6 +53,7 @@ public class NewCar : MonoBehaviourPunCallbacks
     void Update()
     {
         if (GameManager.instance.gameStartCheck == false) { return; }
+        if (GameManager.instance.isGameOver == true) { return; }
 
         if (photonView.IsMine == false)
         {
@@ -237,6 +238,7 @@ public class NewCar : MonoBehaviourPunCallbacks
     private void FixedUpdate()
     {
         if (GameManager.instance.gameStartCheck == false) { return; }
+        if (GameManager.instance.isGameOver == true) { return; }
 
         if (photonView.IsMine == false)
         {
