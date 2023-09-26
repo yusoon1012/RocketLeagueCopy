@@ -7,8 +7,8 @@ public class MoveTitle : MonoBehaviour
 {
     public RectTransform titleRect;
     Vector3 initPosition;
-    Vector3 titlePosition = new Vector3(0, -200, 0);
-    Vector3 currentPosition=new Vector3(0,600,0);
+    Vector3 titlePosition = new Vector3(30, -200, 0);
+    Vector3 currentPosition=new Vector3(30,600,0);
     // Start is called before the first frame update
     void Start()
     {
