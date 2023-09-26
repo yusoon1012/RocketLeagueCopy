@@ -394,13 +394,14 @@ public class CustomizingManager_Choi : MonoBehaviourPunCallbacks
         // PlayerObj의 자식인 Kart 오브젝트를 재귀 함수로 찾아서
         // startRotation을 변경
         GameObject kartObj = FindChildRescursive(playerObj.transform, "Kart").gameObject;
+        //spawnRotation *= spawnRotation;
         kartObj.transform.rotation = spawnRotation;
         Debug.Log($"kartObj rotation: {kartObj.transform.rotation}");
         Debug.Log($"spawnRotation rotation: {spawnRotation}");
 
         // GameManager에 있는 SetRespawnObjectValues() 함수를 호출해서
         // 리스폰에 관련된 정보를 저장함
-        GameManager.instance.SetRespawnObjectValues(playerObj);
+        GameManager.instance.SetRespawnObjectValues(playerObj, teamID);
     }
     #endregion
 
