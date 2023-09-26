@@ -14,7 +14,7 @@ public class NewCar : MonoBehaviourPunCallbacks
     public float gravity;
     public LayerMask layerMask;
     public LayerMask fieldMask;
-    
+    public Jump jumpClass;
      public bool isGrounded = false;
     
     bool drifting = false;
@@ -26,6 +26,8 @@ public class NewCar : MonoBehaviourPunCallbacks
     public bool outOfControl = false;
     private bool isNotControl = false;
     bool lookatBall = false;
+    float speedDir;
+    Vector3 lastGroundedPosition;
     // ?¥í??? ???? ???
     #region
     private CarBooster_Yoo booster;
@@ -60,7 +62,11 @@ public class NewCar : MonoBehaviourPunCallbacks
         }
         Vector3 newposition = new Vector3(sphere.transform.position.x, sphere.transform.position.y-3.5f, sphere.transform.position.z);
         transform.position=newposition;
-        float speedDir = Input.GetAxis("Vertical");
+       
+        if (isGrounded)
+        {
+            speedDir = Input.GetAxis("Vertical");
+        }
         if (outOfControl)
         {
             if (isNotControl==false)
@@ -162,12 +168,21 @@ public class NewCar : MonoBehaviourPunCallbacks
         // Visualize the raycast
         Debug.DrawRay(rayStartPoint, rayDirection * 4f, Color.green); // Ray?? ?©£??????.
 
+
+        if(isGrounded)
+        {
         // Calculate the rotation to align kartNormal with the ground normal
         Vector3 targetNormal = hitNear.normal;
         Quaternion targetRotation = Quaternion.FromToRotation(kartNormal.up, targetNormal);
 
         // Smoothly adjust the kartNormal's rotation
+
         kartNormal.rotation = Quaternion.Slerp(kartNormal.rotation, targetRotation * kartNormal.rotation, Time.deltaTime * 8.0f);
+        }
+        else
+        {
+            lastGroundedPosition=transform.position;
+        }
 
 
 
@@ -219,19 +234,25 @@ public class NewCar : MonoBehaviourPunCallbacks
         {
 
 
-            kartModel.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(0, 90+(Input.GetAxis("Horizontal") * 15), kartModel.localEulerAngles.z), .2f);
+            kartModel.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(0, 90+(Input.GetAxis("Horizontal") * steering), kartModel.localEulerAngles.z), .2f);
 
 
         }
         else
         {
-           kartNormal.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(kartNormal.localEulerAngles.x, kartNormal.localEulerAngles.y, kartNormal.localEulerAngles.z+50), .2f);
 
+            if(jumpClass.jumpCount>0)
+            {
+
+            kartNormal.localEulerAngles = Vector3.Lerp(kartNormal.localEulerAngles, new Vector3(kartNormal.localEulerAngles.x, kartNormal.localEulerAngles.y, kartNormal.localEulerAngles.z + (-Input.GetAxis("Vertical")*30)), .2f);
+
+            }
+          
         }
 
 
 
-
+         
 
     }
     private void FixedUpdate()
@@ -242,9 +263,12 @@ public class NewCar : MonoBehaviourPunCallbacks
         {
             return;
         }
-        sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
+   
+        sphere.AddForce(kartNormal.transform.right * currentSpeed, ForceMode.Acceleration);
+            
+       
 
-        if(isGrounded)
+        if (isGrounded)
         {
         sphere.AddForce(-kartNormal.transform.up * gravity, ForceMode.Acceleration);
 
