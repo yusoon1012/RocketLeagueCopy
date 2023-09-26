@@ -60,9 +60,9 @@ public class SmallBoost_Yoo : MonoBehaviourPun
         if (collision.CompareTag("Car_Orange")||collision.CompareTag("Car_Blue"))
         {
             //Debug.Log("여기는 들어옴?");
-            if (collision.gameObject.transform.parent.gameObject.GetComponentInParent<CarBooster_Yoo>() != null)
+            if (collision.gameObject.transform.parent.parent.gameObject.GetComponent<CarBooster_Yoo>() != null)
             {
-                carBooster = collision.gameObject.transform.parent.gameObject.GetComponentInParent<CarBooster_Yoo>();
+                carBooster = collision.gameObject.transform.parent.parent.gameObject.GetComponent<CarBooster_Yoo>();
 
                 carBooster.AddBoost(12);
 

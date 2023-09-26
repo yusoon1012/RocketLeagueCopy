@@ -105,6 +105,8 @@ MonoBehaviour:
   - BallPunch
   - BallMargnet
   - receiveInfo
+  - ReceiveBoost
+  - ReceiveBoostUI
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
