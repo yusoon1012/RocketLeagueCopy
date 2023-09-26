@@ -146,14 +146,6 @@ public class NewCar : MonoBehaviourPunCallbacks
 
 
         }
-        if(isGrounded&&Input.GetKey(KeyCode.LeftShift))
-        {
-            steering=120f;
-        }
-        else if(Input.GetKeyUp(KeyCode.LeftShift)) 
-        {
-            steering=15;
-        }
         
 
         Vector3 rayDirection = -kartNormal.up; // Ray?? ????? ??? ???????? ????
@@ -233,7 +225,7 @@ public class NewCar : MonoBehaviourPunCallbacks
         }
         else
         {
-            kartNormal.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(0, 0, 90+(Input.GetAxis("Vertical") * 15)), .2f);
+           kartNormal.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(kartNormal.localEulerAngles.x, kartNormal.localEulerAngles.y, kartNormal.localEulerAngles.z+50), .2f);
 
         }
 

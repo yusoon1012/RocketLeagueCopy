@@ -37,6 +37,7 @@ public class NickNameManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Return))
         {
             SaveNickName();
+            
         }
 
     }
@@ -50,5 +51,6 @@ public class NickNameManager : MonoBehaviour
         // 입력 필드를 비활성화하고 텍스트로 표시합니다.
         nickNameInputField.gameObject.SetActive(false);
         nickNameText.text = inputNickName;
+        nickNameUi.SetActive(false);
     }
 }

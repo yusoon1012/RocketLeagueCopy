@@ -22,7 +22,10 @@ public class TitleSwap : MonoBehaviour
         {
             if(!introSkip)
             {
-                introSkip = true;   
+             //PlayerPrefs.DeleteAll();
+
+
+           introSkip = true;   
             vcam1.SetActive(true);
             vcam2.SetActive(false);
             titleCanvas.enabled=false;
