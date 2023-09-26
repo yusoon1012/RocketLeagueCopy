@@ -104,6 +104,14 @@ MonoBehaviour:
   - SetParentForRPC
   - DeActiveGoalInfo
   - GoalTextRpc
+  - ApplyExitLeftGameTime
+  - ApplyLeftGameTime
+  - ApplyOvertime
+  - BlueTeamWin
+  - MasterExitLeftGameTime
+  - MasterLeftGameTime
+  - MasterTimeOverCheck
+  - OrangeTeamWin
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

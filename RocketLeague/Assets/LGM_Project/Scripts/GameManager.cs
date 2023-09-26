@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public TMP_Text gameOverWinText;
     public TMP_Text gameOverWinTeamText;
     public TMP_Text gameOverWinTeamText_2;
+    public TMP_Text goalText;
     public Image gameReadyImage;   // 게임에 접속한 플레이어 수 배경 이미지
     public Image gameOverBackgroundImage;   // 게임 종료 시 회색 배경 이미지
 
