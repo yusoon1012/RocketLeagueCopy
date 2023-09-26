@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public bool timePassCheck = true;   // 게임 시간이 흐를수 있는 상태인지 체크
     public bool gameStartCheck = false;
     public bool overtimeCheck = false;
+    public bool isGameOver = false;
 
     private GameObject ballOj;   // 축구공 오브젝트
     private GameObject playerCloneCar;   // RC 카 Empty 부모 오브젝트

@@ -86,13 +86,13 @@ public class CarItemManager : MonoBehaviourPun
             return;
         }
 
+        newPosition = transform.position;
+        newPosition.y = 2.4f;
+        Collider[] colliders = Physics.OverlapSphere(newPosition, radius);
         currentCooltime = coolTimeMax - skillCoolTime;
         cooltimeText.text = currentCooltime.ToString();
         skillSliderbg.fillAmount = skillCoolTime / coolTimeMax;
 
-        newPosition = transform.position;
-        newPosition.y = 2.4f;
-        Collider[] colliders = Physics.OverlapSphere(newPosition, radius);
 
         if (skillCoolTime == 10)
         {
@@ -149,10 +149,11 @@ public class CarItemManager : MonoBehaviourPun
 
 
                                     case KICK:
-                                        kickTransform.LookAt(col.transform.position);
-                                        kickAnimator.Play("KickAnimation");
-                                        rb.AddForce(dir * 30, ForceMode.VelocityChange);
-                                        StartCoroutine(SkillUseCoolTime(1));
+                                        //kickTransform.LookAt(col.transform.position);
+                                        //kickAnimator.Play("KickAnimation");
+                                        //rb.AddForce(dir * 30, ForceMode.VelocityChange);
+                                        //StartCoroutine(SkillUseCoolTime(1));
+                                        photonView.RPC("Kick", RpcTarget.All, rb, dir, col.transform.position);
                                         break;
                                     case ENEMY_BOOST:
                                         CarParent colParent = col.GetComponentInParent<CarParent>();
@@ -338,7 +339,6 @@ public class CarItemManager : MonoBehaviourPun
         }
     }
 
-
     [PunRPC]
     void BallMargnet()
     {
@@ -347,6 +347,17 @@ public class CarItemManager : MonoBehaviourPun
         StartCoroutine(SkillUseCoolTime(8));
     }
 
+    [PunRPC]
+    void Kick(Rigidbody nearRb, Vector3 nearDir, Vector3 nearPosition)
+    {
+        kickTransform.LookAt(nearPosition);
+        kickAnimator.Play("KickAnimation");
+        StartCoroutine(SkillUseCoolTime(1));
+        if(PhotonNetwork.IsMasterClient)
+        {
+            nearRb.AddForce(nearDir * 30, ForceMode.VelocityChange);
+        }
+    }
 
     //void OnDrawGizmosSelected()
     //{
