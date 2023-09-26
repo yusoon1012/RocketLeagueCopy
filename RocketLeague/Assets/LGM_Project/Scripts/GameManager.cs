@@ -75,6 +75,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     private bool fullPlayerCheck = false;   // 게임 시작이 가능한 인원이 모두 모였는지 체크
     private string[] gameOverInfoText = new string[2];   // 게임 오버시 출력되는 문자열
 
+    // 럼블 모드인지 구분하는 변수
+    public bool isRumbleMode = false;
+
     void Awake()
     {
            // 초기 변수값 설정
@@ -125,8 +128,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 blueSpawnPoint = blueCarSpawner[2];
             }
 
-            //playerTeamCheck = 2;   // 플레이어 팀 구분을 블루팀으로 저장해준다
-            //                       // 해당 플레이어의 스폰 위치에 블루팀의 자동차를 생성하고 게임 오브젝트로 저장한다
+            playerTeamCheck = 2;   // 플레이어 팀 구분을 블루팀으로 저장해준다
+            //   // 해당 플레이어의 스폰 위치에 블루팀의 자동차를 생성하고 게임 오브젝트로 저장한다
             //playerCloneCar = PhotonNetwork.Instantiate(blueCar.name, blueSpawnPoint.position, blueSpawnPoint.rotation);
             //// 플레이어 RC 카 안에 Transform 값을 저장한다
             //playerCar = playerCloneCar.transform.Find("Collider").GetComponent<Transform>();
@@ -134,11 +137,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             //carRb = playerCloneCar.transform.Find("Collider").GetComponent<Rigidbody>();
 
             // 블루 카 생성 & 포톤 ActorNumber를 매개변수로 보냄
-            //PhotonNetwork.Instantiate(blueCar.name, blueSpawnPoint.position, blueSpawnPoint.rotation);
+            // 생성시 SetRespawnObjectValues()를 호출하게 함
             CustomizingManager_Choi.instance.CreateObjectWithCustomizing(0, myPhotonActorNumber, 
-                blueSpawnPoint.position, Quaternion.Euler(0f, -180f, 0f));
-
-            playerTeamCheck = 2;
+                blueSpawnPoint.position, Quaternion.Euler(0f, -180f, 0f), isRumbleMode);
         }
         else   // 플레이어 카운트 값을 2로 나누었을때 나머지가 0 이 안되는 순서의 플레이어인지 체크
         {
@@ -155,7 +156,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 orangeSpawnPoint = orangeCarSpawner[2];
             }
 
-            //playerTeamCheck = 1;   // 플레이어 팀 구분을 오렌지팀으로 저장해준다
+            playerTeamCheck = 1;   // 플레이어 팀 구분을 오렌지팀으로 저장해준다
             //   // 해당 플레이어의 스폰 위치에 오렌지팀의 자동차를 생성하고 게임 오브젝트로 저장한다
             //playerCloneCar = PhotonNetwork.Instantiate(orangeCar.name, orangeSpawnPoint.position, orangeSpawnPoint.rotation);
             //   // 플레이어 RC 카 안에 Transform 값을 저장한다
@@ -164,11 +165,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             //carRb = playerCloneCar.transform.Find("Collider").GetComponent<Rigidbody>();
 
             // 오렌지 카 생성 & 포톤 ActorNumber를 매개변수로 보냄
-            //PhotonNetwork.Instantiate(orangeCar.name, orangeSpawnPoint.position, orangeSpawnPoint.rotation);
+            // 생성시 SetRespawnObjectValues()를 호출하게 함
             CustomizingManager_Choi.instance.CreateObjectWithCustomizing(1, myPhotonActorNumber, 
-                orangeSpawnPoint.position, Quaternion.identity);
-
-            playerTeamCheck = 1;
+                orangeSpawnPoint.position, Quaternion.identity, isRumbleMode);
         }
 
         playerCount = PhotonNetwork.PlayerList.Length;   // 포톤 서버에 접속한 플레이어 수를 다시 체크해준다
@@ -190,9 +189,19 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    // 리스폰 관련 오브젝트 정보를 저장하는 함수
+    public void SetRespawnObjectValues(GameObject playerObj)
+    {
+        // 플레이어 RC 카 안에 Rigidbody 값을 저장한다
+        playerCar = playerObj.transform.Find("Collider").GetComponent<Transform>();
+        // 플레이어 RC 카 안에 Rigidbody 값을 저장한다
+        carRb = playerObj.transform.Find("Collider").GetComponent<Rigidbody>();
+    }
+
     [PunRPC]
     public void MasterGameStartCheck()
     {
+        // 현재 디버그로 1명 이상일 경우 시작되게 설정
         if (PhotonNetwork.PlayerList.Length >= 1)
         {
             gameReadyImage.enabled = false;
@@ -210,6 +219,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         else
         {
             playerCount = PhotonNetwork.PlayerList.Length;
+            // 현재 디버그로 1명 이상일 경우 시작되게 설정
             photonView.RPC("ApplyGameStartCheck", RpcTarget.AllBuffered, playerCount, 1);
         }
     }
