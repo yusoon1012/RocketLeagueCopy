@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     private GameObject playerCloneCar;   // RC 카 Empty 부모 오브젝트
     private Transform playerCar;   // RC 카 콜라이더와 리짓바디가 존재하는 자식 오브젝트
     private Transform playerKart;
+    private CarBooster_Yoo playerBoost;
     private Rigidbody ballRb;   // 축구공 리짓바디
     private Rigidbody carRb;   // RC 카 리짓바디
     private Transform blueSpawnPoint;   // 플레이어가 RC 카를 생성할 블루팀 포인트 구역
@@ -77,7 +78,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     private float checkTime = default;   // 1 초를 체크할 실수값
     private bool fullPlayerCheck = false;   // 게임 시작이 가능한 인원이 모두 모였는지 체크
     private string[] gameOverInfoText = new string[2];   // 게임 오버시 출력되는 문자열
-
+    private Transform kartNormal;
     // 럼블 모드인지 구분하는 변수
     public bool isRumbleMode = false;
 
@@ -210,6 +211,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         carRb = playerObj.transform.Find("Collider").GetComponent<Rigidbody>();
         // playerKart에 매개변수로 받은 kartTransform 저장
         playerKart = kartTransform;
+
+        kartNormal=playerKart.transform.Find("KartNormal").GetComponent<Transform>();
+        playerBoost = playerKart.gameObject.GetComponent<CarBooster_Yoo>();
     }
 
     [PunRPC]
@@ -631,6 +635,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             playerCar.position = orangeSpawnPoint.position;
             playerKart.rotation = orangeSpawnPoint.rotation;
+            kartNormal.localEulerAngles=Vector3.zero;
+            playerBoost.SetBoost(33);
             carRb.velocity = Vector3.zero;
             carRb.angularVelocity = Vector3.zero;
         }
@@ -638,6 +644,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             playerCar.position = blueSpawnPoint.position;
             playerKart.rotation = blueSpawnPoint.rotation;
+            kartNormal.localEulerAngles=Vector3.zero;
+
+            playerBoost.SetBoost(33);
             carRb.velocity = Vector3.zero;
             carRb.angularVelocity = Vector3.zero;
         }

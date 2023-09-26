@@ -327,6 +327,7 @@ MonoBehaviour:
   fieldMask:
     serializedVersion: 2
     m_Bits: 64
+  jumpClass: {fileID: 5763308350772378237}
   isGrounded: 0
   currentSpeed: 0
   sphere: {fileID: 8381752204306508702}

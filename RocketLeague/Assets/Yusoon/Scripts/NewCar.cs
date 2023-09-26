@@ -53,7 +53,6 @@ public class NewCar : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.instance.gameStartCheck == false) { return; }
         if (GameManager.instance.isGameOver == true) { return; }
 
         if (photonView.IsMine == false)
