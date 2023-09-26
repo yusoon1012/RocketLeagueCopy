@@ -27,7 +27,7 @@ public class NewCar : MonoBehaviourPunCallbacks
     private bool isNotControl = false;
     bool lookatBall = false;
     Vector3 lastGroundedPosition;
-    // ?¥í??? ???? ???
+    // ?ï¿½ï¿½??? ???? ???
     #region
     private CarBooster_Yoo booster;
     private float normalAcceleration;
@@ -42,7 +42,7 @@ public class NewCar : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        // ?¥í??? ???? ???
+        // ?ï¿½ï¿½??? ???? ???
         #region
         booster = GetComponent<CarBooster_Yoo>();
         normalAcceleration = acceleration;
@@ -53,6 +53,8 @@ public class NewCar : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.gameStartCheck == false) { return; }
+        if (GameManager.instance.isGameOver == true) { return; }
 
         if (photonView.IsMine == false)
         {
@@ -74,7 +76,7 @@ public class NewCar : MonoBehaviourPunCallbacks
             acceleration= normalAcceleration * 3.5f;
         }
 
-        // ?¥í??? ???? ???
+        // ?ï¿½ï¿½??? ???? ???
         #region
         if (booster.useBoost == true)
         {
@@ -86,14 +88,14 @@ public class NewCar : MonoBehaviourPunCallbacks
                     timeAfterFirstBoost += Time.deltaTime;
                     //if(timeAfterFirstBoost <= useSecondBoostDelay)
                     //{
-                    //    Debug.Log("2?? ?¥í?????? ???? ?©£?" + (useSecondBoostDelay - timeAfterFirstBoost));
+                    //    Debug.Log("2?? ?ï¿½ï¿½?????? ???? ?ï¿½ï¿½?" + (useSecondBoostDelay - timeAfterFirstBoost));
                     //}
                 }
 
                 if (timeAfterFirstBoost >= useSecondBoostDelay)
                 {
                     useSecondBoost = true;
-                    //Debug.Log("2?? ?¥í??? ???");
+                    //Debug.Log("2?? ?ï¿½ï¿½??? ???");
                 }
             }
         }
@@ -164,7 +166,7 @@ public class NewCar : MonoBehaviourPunCallbacks
         isGrounded=Physics.Raycast(rayStartPoint, rayDirection, out hitNear, 4f, layerMask);
        // Debug.LogFormat("isGrounded : {0}", isGrounded);
         // Visualize the raycast
-        Debug.DrawRay(rayStartPoint, rayDirection * 4f, Color.green); // Ray?? ?©£??????.
+        Debug.DrawRay(rayStartPoint, rayDirection * 4f, Color.green); // Ray?? ?ï¿½ï¿½??????.
 
 
         if(isGrounded)
@@ -221,9 +223,9 @@ public class NewCar : MonoBehaviourPunCallbacks
 
                 cameraCenter.LookAt(lookAtPosition);
 
-                // Á¦ÇÑµÈ X Ãà È¸Àü °¢µµ ¼³Á¤
+                // ï¿½ï¿½ï¿½Ñµï¿½ X ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 Vector3 eulerAngles = cameraCenter.localEulerAngles;
-                eulerAngles.x = Mathf.Clamp(eulerAngles.x, -25f, 0); // -25 ¾Æ·¡·Î È¸ÀüÀ» Á¦ÇÑ
+                eulerAngles.x = Mathf.Clamp(eulerAngles.x, -25f, 0); // -25 ï¿½Æ·ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                                                                      //cameraCenter.localRotation = Quaternion.Euler(eulerAngles);
                 cameraCenter.localEulerAngles = eulerAngles;
             }
@@ -256,6 +258,7 @@ public class NewCar : MonoBehaviourPunCallbacks
     private void FixedUpdate()
     {
         if (GameManager.instance.gameStartCheck == false) { return; }
+        if (GameManager.instance.isGameOver == true) { return; }
 
         if (photonView.IsMine == false)
         {
@@ -278,7 +281,7 @@ public class NewCar : MonoBehaviourPunCallbacks
         }
 
 
-        // ?¥í??? ???? ???
+        // ?ï¿½ï¿½??? ???? ???
         #region
         if (booster.useBoost == true && useSecondBoost == false)
         {
