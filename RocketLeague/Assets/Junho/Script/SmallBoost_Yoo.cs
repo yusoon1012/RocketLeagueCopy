@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class SmallBoost_Yoo : MonoBehaviourPun
 {
+    private BoostUI_Yoo boostUI;
     private CarBooster_Yoo carBooster;
     private Collider boostCollider;
     private float regenTime;
@@ -13,6 +14,7 @@ public class SmallBoost_Yoo : MonoBehaviourPun
     // Start is called before the first frame update
     void Start()
     {
+        boostUI = FindFirstObjectByType<BoostUI_Yoo>();
         gameObject.transform.localScale = Vector3.zero;
         boostCollider = GetComponent<Collider>();
         regenTime = 10f;
@@ -58,9 +60,9 @@ public class SmallBoost_Yoo : MonoBehaviourPun
         if (collision.CompareTag("Car_Orange")||collision.CompareTag("Car_Blue"))
         {
             //Debug.Log("여기는 들어옴?");
-            if (collision.gameObject.transform.parent.gameObject.GetComponentInParent<CarBooster_Yoo>() != null)
+            if (collision.gameObject.transform.parent.parent.gameObject.GetComponent<CarBooster_Yoo>() != null)
             {
-                carBooster = collision.gameObject.transform.parent.gameObject.GetComponentInParent<CarBooster_Yoo>();
+                carBooster = collision.gameObject.transform.parent.parent.gameObject.GetComponent<CarBooster_Yoo>();
 
                 carBooster.AddBoost(12);
 

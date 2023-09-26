@@ -6,8 +6,9 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Concurrent;
+using Photon.Pun;
 
-public class CarItemManager : MonoBehaviour
+public class CarItemManager : MonoBehaviourPun
 {
     public GameObject magnetParticle;
     public GameObject PowerUpParticle;
@@ -67,7 +68,11 @@ public class CarItemManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
         linePoints[0] = transform.position;
         linePoints[0].y=4;
         lineRenderer.SetPosition(0, linePoints[0]);
@@ -147,7 +152,7 @@ public class CarItemManager : MonoBehaviour
                                     case KICK:
                                         kickTransform.LookAt(col.transform.position);
                                         kickAnimator.Play("KickAnimation");
-                                        rb.AddForce(dir*350, ForceMode.Impulse);
+                                        rb.AddForce(dir*30, ForceMode.VelocityChange);
                                         StartCoroutine(SkillUseCoolTime(1));
                                         break;                                
                                     case ENEMY_BOOST:
@@ -183,6 +188,11 @@ public class CarItemManager : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
         if (other.CompareTag("Ball"))
         {
             ballRigidBody=other.GetComponent<Rigidbody>();
@@ -263,6 +273,7 @@ public class CarItemManager : MonoBehaviour
             skillIcon[i].enabled = false;
         }
     }
+
     private IEnumerator SkillUseCoolTime(int second)
     {
         yield return new WaitForSeconds(second);
@@ -284,6 +295,7 @@ public class CarItemManager : MonoBehaviour
         StartCoroutine(SkillCoolTimeRoutine());
 
     }
+
     private IEnumerator SkillCoolTimeRoutine()
     {
         while (skillCoolTime<10)
@@ -296,7 +308,31 @@ public class CarItemManager : MonoBehaviour
         skillIcon[randomIdx].enabled = true;
     }
 
+    [PunRPC]
+    void receiveInfo()
+    {
 
+    }
+
+    [PunRPC]
+    void BallPunch(Vector3 position)
+    {
+        isPunch = true;
+        punchAnimator.Play("PunchAnimation");
+        punchTransform.LookAt(position);
+        ballRigidBody.velocity = Vector3.zero;
+        ballRigidBody.AddForce(ballDir * 70, ForceMode.Impulse);
+        StartCoroutine(SkillUseCoolTime(1));
+    }
+
+
+    [PunRPC]
+    void BallMargnet()
+    {
+        magnetOn = true;
+        magnetParticle.SetActive(true);
+        StartCoroutine(SkillUseCoolTime(8));
+    }
 
 
     //void OnDrawGizmosSelected()
