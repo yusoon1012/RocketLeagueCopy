@@ -61,7 +61,7 @@ public class CarBooster_Yoo : MonoBehaviourPun
         //Debug.Log("현재 부스터 게이지: " +  boost);
         //boostUI.SetBoostGauge(boost);
 
-        if (GameManager.instance.gameStartCheck == false) { return; }
+        if (GameManager.instance.gameStartCheck == false || GameManager.instance.isGameOver == true) { return; }
 
         if (Input.GetMouseButton(0))
         {

@@ -319,7 +319,7 @@ MonoBehaviour:
   kartModel: {fileID: 7458554323915163813}
   cameraCenter: {fileID: 8725122340264346216}
   acceleration: 65
-  steering: 35
+  steering: 15
   gravity: 50
   layerMask:
     serializedVersion: 2
@@ -327,7 +327,6 @@ MonoBehaviour:
   fieldMask:
     serializedVersion: 2
     m_Bits: 64
-  jumpClass: {fileID: 5763308350772378237}
   isGrounded: 0
   currentSpeed: 0
   sphere: {fileID: 8381752204306508702}
@@ -668,7 +667,7 @@ GameObject:
   - component: {fileID: 1045565177040534585}
   - component: {fileID: 7839646835576085271}
   - component: {fileID: 2675224445857401820}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -682,7 +681,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7011855841732822941}
-  m_LocalRotation: {x: 0.05224007, y: 0, z: 0, w: 0.9986346}
+  m_LocalRotation: {x: 0.052235868, y: -0, z: -0, w: 0.9986348}
   m_LocalPosition: {x: 0, y: 8.35, z: -12.53}
   m_LocalScale: {x: 1, y: 1, z: 3}
   m_ConstrainProportionsScale: 0
@@ -761,10 +760,10 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 257
+    m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -1010,7 +1009,7 @@ GameObject:
   - component: {fileID: 8470844222750912540}
   - component: {fileID: 1212150120948260990}
   - component: {fileID: 3957562333157631187}
-  - component: {fileID: 6800588076932759467}
+  - component: {fileID: 6063550016028185655}
   m_Layer: 2
   m_Name: Body
   m_TagString: Car
@@ -1122,7 +1121,7 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!65 &6800588076932759467
+--- !u!65 &6063550016028185655
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
