@@ -26,7 +26,6 @@ public class NewCar : MonoBehaviourPunCallbacks
     public bool outOfControl = false;
     private bool isNotControl = false;
     bool lookatBall = false;
-    float speedDir;
     Vector3 lastGroundedPosition;
     // ?¥í??? ???? ???
     #region
@@ -54,7 +53,6 @@ public class NewCar : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.instance.gameStartCheck == false) { return; }
 
         if (photonView.IsMine == false)
         {
@@ -62,11 +60,8 @@ public class NewCar : MonoBehaviourPunCallbacks
         }
         Vector3 newposition = new Vector3(sphere.transform.position.x, sphere.transform.position.y-3.5f, sphere.transform.position.z);
         transform.position=newposition;
-       
-        if (isGrounded)
-        {
-            speedDir = Input.GetAxis("Vertical");
-        }
+
+        float speedDir = Input.GetAxis("Vertical");
         if (outOfControl)
         {
             if (isNotControl==false)
@@ -74,6 +69,7 @@ public class NewCar : MonoBehaviourPunCallbacks
                 isNotControl = true;
                 StartCoroutine(ControlTimer());
             }
+        if (GameManager.instance.gameStartCheck == false) { return; }
             speedDir=1;
             acceleration= normalAcceleration * 3.5f;
         }
@@ -129,6 +125,8 @@ public class NewCar : MonoBehaviourPunCallbacks
            
             float dir = Input.GetAxis("Horizontal");
             float amount = Mathf.Abs((Input.GetAxis("Horizontal")));
+            if (GameManager.instance.gameStartCheck == false) { return; }
+
             if (speedDir!= -1)
             {
                 Steer(dir, amount);
