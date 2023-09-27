@@ -25,13 +25,39 @@ public class CustomizingSceneController_Choi : MonoBehaviour
     private int[] partsListMaxIndexs = new int[7]; // 카테고리 별 최대 인덱스를 저장하는 배열
 
     [Header("UI")]
-    public TMP_Text[] categoryTxts;
-    public Button[] categoryBtnNexts;
-    public Button[] categoryBtnPrevs;
+    public GameObject[] categoryObjs;
+    private TMP_Text[] categoryTxts;
+    private Button[] categoryBtnNexts;
+    private Button[] categoryBtnPrevs;
+    public Canvas loadingCanvas;
 
     // ##################################################################################################
     // ▶[라이프 사이클 메서드]
     // ##################################################################################################
+    private void Awake()
+    {
+        // categoryObjs[]의 길이 만큼 사이즈 지정
+        int size = categoryObjs.Length;
+
+        // 배열을 초기화
+        categoryTxts = new TMP_Text[size];
+        categoryBtnNexts = new Button[size];
+        categoryBtnPrevs = new Button[size];
+
+        // size 만큼 순회
+        for (int i = 0; i < size; i++)
+        {
+            // parent 트랜스폼을 할당
+            Transform parent = categoryObjs[i].transform;
+            // FindChildForIndex<T>() 제너릭 함수를 호출하여
+            // 인덱스에 해당하는 자식을 찾고 반환함
+            // 반환 되는 값의 형식은 <T> 값과 같은 형식의 값이다.
+            categoryTxts[i] = FindChildForIndex<TMP_Text>(parent, 0);
+            categoryBtnNexts[i] = FindChildForIndex<Button>(parent, 1);
+            categoryBtnPrevs[i] = FindChildForIndex<Button>(parent, 2);     
+        }
+    }
+
     void Start()
     {
         // CustomizingManager에서 커스터마이징 씬을 동작하게 하기 위해
@@ -78,6 +104,18 @@ public class CustomizingSceneController_Choi : MonoBehaviour
             categoryBtnNexts[i].onClick.AddListener(() => BtnNext(index));
             categoryBtnPrevs[i].onClick.AddListener(() => BtnPrevious(index));
         }
+    }
+
+    // 인덱스에 해당하는 자식을 찾는 제너릭 함수
+    private T FindChildForIndex<T>(Transform parent, int index) where T : Component
+    {
+        // 제너릭 형식의 child 변수 선언 후
+        // 인덱스로 자식 오브젝트를 찾고 받은 T 값에 해당하는 컴포넌트를
+        // 찾아 저장함. FindChildForIndex<T>(prarent, index);
+        T child = parent.GetChild(index).gameObject.GetComponent<T>();
+
+        // child를 반환
+        return child;
     }
 
     // 커스터마이징 씬에서 사용되는 함수들을 호출하는 함수
@@ -133,6 +171,8 @@ public class CustomizingSceneController_Choi : MonoBehaviour
     // 로비 씬으로 돌아가는 Back 함수
     public void BtnBack()
     {
+        // 로딩 캔버스 활성화
+        loadingCanvas.gameObject.SetActive(true);
         // 로비 씬(SampleScene)으로 이동
         SceneManager.LoadScene("SampleScene");
     }
