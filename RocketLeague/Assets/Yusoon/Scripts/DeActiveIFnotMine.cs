@@ -5,6 +5,7 @@ using Photon.Pun;
 
 public class DeActiveIFnotMine : MonoBehaviourPunCallbacks
 {
+    bool gameOver = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +18,20 @@ public class DeActiveIFnotMine : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        
+        if(GameManager.instance.isGameOver)
+        {
+            if(gameOver==false)
+            {
+                gameOver = true;
+                StartCoroutine(CameraDeActive());
+            }
+        }    
+    }
+
+    private IEnumerator CameraDeActive()
+    {
+        yield return new WaitForSeconds(2);
+        gameObject.SetActive(false);
+
     }
 }

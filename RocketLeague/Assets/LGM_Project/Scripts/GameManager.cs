@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public TMP_Text goalText;
     public Image gameReadyImage;   // 게임에 접속한 플레이어 수 배경 이미지
     public Image gameOverBackgroundImage;   // 게임 종료 시 회색 배경 이미지
+    public CanvasGroup boostUi;
+
 
     public int blueScore;   // 블루팀 골 스코어
     public int orangeScore;   // 오렌지팀 골 스코어
@@ -101,6 +103,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         // 내 포톤뷰 ActorNumber을 찾아서 저장하는 변수
         int myPhotonActorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        ChatManager.instance.JoinNameInfoUpdate(PhotonNetwork.NickName);
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -374,7 +377,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 }
                 else if (totalTime <= 0)
                 {
+                    if(isGameOver==false)
+                    {
+
                     photonView.RPC("MasterTimeOverCheck", RpcTarget.MasterClient);
+                    }
                 }
                 else
                 {
@@ -459,6 +466,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void MasterTimeOverCheck()   // 게임 스코어 값을 비교하여 결과를 출력하는 함수
     {
+        if(isGameOver) { }
         if (orangeScore != blueScore)
         {
             if (orangeScore > blueScore)
@@ -520,7 +528,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (playerTeamCheck == 1)
         {
+
             gameOverWinText.gameObject.SetActive(true);
+            StartCoroutine(WintextDisable());
+
         }
     }
 
@@ -541,6 +552,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (playerTeamCheck == 2)
         {
             gameOverWinText.gameObject.SetActive(true);
+            StartCoroutine(WintextDisable());
+
         }
     }
 
@@ -769,6 +782,17 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public void UpdateGoalCheck(bool state)   // 모든 클라이언트가 isGoaled 값을 동기화 하는 함수
     {
         isGoaled = state;   // isGoaled 값을 모든 클라이언트가 동기화 함
+    }
+
+
+    private IEnumerator WintextDisable()
+    {
+        yield return new WaitForSeconds(2);
+        gameOverWinText.gameObject.SetActive(false);
+        gameOverWinTeamText.gameObject.SetActive(false);
+        gameOverWinTeamText_2.gameObject.SetActive(false);
+        gameOverBackgroundImage.gameObject.SetActive(false);
+        boostUi.enabled=false;
     }
 
     // 주기적으로 자동 실행되는, 동기화 메서드
