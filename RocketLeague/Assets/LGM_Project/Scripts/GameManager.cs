@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public static GameManager m_instance;   // 싱글톤이 할당될 static 변수
 
+
+    public GameObject leaveButton;
     public GameObject ballPrefab;   // 축구공을 생성할 축구공 프리팹
     public GameObject ballAuraPf;   // 축구공 표식을 생성할 축구공 표식 프리팹
     public GameObject blueCar;   // 블루팀 RC 카 생성할 프리팹
@@ -37,6 +39,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public Transform ballSpawnTransform;   // 축구공을 생성할 구역
     public Transform[] blueCarSpawner = new Transform[4];   // 블루팀 RC 카를 생성할 구역
     public Transform[] orangeCarSpawner = new Transform[4];   // 오렌지팀 RC 카를 생성할 구역
+    public Transform[] winnerPosition=new Transform[3];
+
     public TMP_Text blueScoreText;   // 블루팀 스코어 텍스트
     public TMP_Text orangeScoreText;   // 오렌지팀 스코어 텍스트
     public TMP_Text currentTimerText;   // 게임 시간 텍스트
@@ -81,6 +85,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     private bool fullPlayerCheck = false;   // 게임 시작이 가능한 인원이 모두 모였는지 체크
     private string[] gameOverInfoText = new string[2];   // 게임 오버시 출력되는 문자열
     private Transform kartNormal;
+    private bool isOrangeWin = false;
+    private bool isBlueWin = false;
+    
     // 럼블 모드인지 구분하는 변수
     public bool isRumbleMode = false;
 
@@ -88,6 +95,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
            // 초기 변수값 설정
         playerCount = PhotonNetwork.PlayerList.Length;   // 포톤 서버에 접속한 플레이어 수만큼 플레이어 수로 지정해준다
+        ChatManager.instance.JoinNameInfoUpdate(PhotonNetwork.NickName);
 
         totalTime = 15;
         minuteTime = 0;
@@ -103,7 +111,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         // 내 포톤뷰 ActorNumber을 찾아서 저장하는 변수
         int myPhotonActorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
-        ChatManager.instance.JoinNameInfoUpdate(PhotonNetwork.NickName);
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -525,6 +532,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         gameOverWinTeamText_2.color = new Color(1f, 0.529f, 0f, 1f);
         gameOverWinTeamText_2.text = string.Format("오렌지");
         isGameOver = true;
+        isOrangeWin = true;
+       
 
         if (playerTeamCheck == 1)
         {
@@ -533,6 +542,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             StartCoroutine(WintextDisable());
 
         }
+
     }
 
     [PunRPC]
@@ -548,6 +558,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         gameOverWinTeamText_2.color = new Color(0f, 0.564f, 1f, 1f);
         gameOverWinTeamText_2.text = string.Format("블루");
         isGameOver = true;
+        isBlueWin=true;
 
         if (playerTeamCheck == 2)
         {
@@ -646,15 +657,30 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (playerTeamCheck == 1)
         {
+            if(isGameOver==false)
+            {
+
             playerCar.position = orangeSpawnPoint.position;
             playerKart.rotation = orangeSpawnPoint.rotation;
             kartNormal.localEulerAngles=Vector3.zero;
             playerBoost.SetBoost(33);
             carRb.velocity = Vector3.zero;
             carRb.angularVelocity = Vector3.zero;
+            }
+            else if(isOrangeWin&&isGameOver)
+            {
+                playerCar.position=winnerPosition[0].position;
+                playerKart.rotation = winnerPosition[0].rotation;
+                kartNormal.localEulerAngles=Vector3.zero;
+                carRb.velocity = Vector3.zero;
+                carRb.angularVelocity = Vector3.zero;
+            }
         }
         else
         {
+            if (isGameOver==false)
+            {
+
             playerCar.position = blueSpawnPoint.position;
             playerKart.rotation = blueSpawnPoint.rotation;
             kartNormal.localEulerAngles=Vector3.zero;
@@ -662,6 +688,17 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             playerBoost.SetBoost(33);
             carRb.velocity = Vector3.zero;
             carRb.angularVelocity = Vector3.zero;
+            }
+            else if(isBlueWin&&isGameOver)
+            {
+                playerCar.position=winnerPosition[0].position;
+                playerKart.rotation = winnerPosition[0].rotation;
+                kartNormal.localEulerAngles=Vector3.zero;
+                carRb.velocity = Vector3.zero;
+                carRb.angularVelocity = Vector3.zero;
+
+
+            }
         }
     }
 
@@ -793,6 +830,14 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         gameOverWinTeamText_2.gameObject.SetActive(false);
         gameOverBackgroundImage.gameObject.SetActive(false);
         boostUi.enabled=false;
+        leaveButton.SetActive(true);
+        photonView.RPC("CarRespawn", RpcTarget.AllBuffered);
+
+    }
+    public void OnClickLeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LoadLevel("SampleScene");
     }
 
     // 주기적으로 자동 실행되는, 동기화 메서드

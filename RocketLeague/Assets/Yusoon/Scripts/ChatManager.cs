@@ -37,9 +37,13 @@ public class ChatManager : MonoBehaviourPunCallbacks
 
     public TMP_InputField chatField;
 
-    public TMP_Text chattingMember;
+    public TMP_Text orangeTeamText;
+    public TMP_Text blueTeamText;
+
     public TMP_Text chatLog;
     string chatters;
+    string blueTeams;
+    string orangeTeams;
     public ScrollRect chatRect;
     public bool chatOpen = false;
     bool scoreBoardOn = false;
@@ -135,17 +139,28 @@ public class ChatManager : MonoBehaviourPunCallbacks
     }
     void ChatUpdate()
     {
-        chatters="Player List\n";
+        blueTeams="Player List\n";
+        orangeTeams="Player List\n";
+
         foreach (Player player in PhotonNetwork.PlayerList)
         {
+            if(player.ActorNumber%2==0)
+            {
+                blueTeams+=string.Format("{0}       {1}", player.NickName, player.GetScore()+"\n");
 
-            chatters+=string.Format("{0}       {1}", player.NickName, player.GetScore()+"\n");
+            }
+            else
+            {
+                orangeTeams+=string.Format("{0}       {1}", player.NickName, player.GetScore()+"\n");
+
+            }
 
 
         }
 
 
-        chattingMember.text=chatters;
+        orangeTeamText.text=orangeTeams;
+        blueTeamText.text=blueTeams;
         chatRect.verticalNormalizedPosition = 0.0f; // 스크롤을 아래로 이동
 
     }

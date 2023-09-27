@@ -53,7 +53,7 @@ public class NewCar : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.instance.isGameOver == true) { return; }
+       if (GameManager.instance.isGameOver == true) { gravity=150; }
 
         if (photonView.IsMine == false)
         {
@@ -270,7 +270,8 @@ public class NewCar : MonoBehaviourPunCallbacks
 
         if (isGrounded)
         {
-        sphere.AddForce(-kartNormal.transform.up * gravity, ForceMode.Acceleration);
+            
+            sphere.AddForce(-kartNormal.transform.up * gravity, ForceMode.Acceleration);
 
         }
         else
