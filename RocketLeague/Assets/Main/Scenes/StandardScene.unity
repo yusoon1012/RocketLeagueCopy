@@ -2360,7 +2360,7 @@ MonoBehaviour:
   gameStartCheck: 0
   overtimeCheck: 0
   isGameOver: 0
-  isRumbleMode: 1
+  isRumbleMode: 0
 --- !u!4 &555476597
 Transform:
   m_ObjectHideFlags: 0

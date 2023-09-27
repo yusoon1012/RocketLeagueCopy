@@ -379,31 +379,30 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
                 if (totalTime == 60)
                 {
+                    photonView.RPC("ApplyTimePass", RpcTarget.AllBuffered, minuteTime, secondTime, 1, totalTime);
                     photonView.RPC("MasterLeftGameTime", RpcTarget.MasterClient, 1);
-                    photonView.RPC("ApplyTimePass", RpcTarget.AllBuffered, minuteTime, secondTime, 1);
                 }
                 else if (totalTime == 30)
                 {
+                    photonView.RPC("ApplyTimePass", RpcTarget.AllBuffered, minuteTime, secondTime, 1, totalTime);
                     photonView.RPC("MasterLeftGameTime", RpcTarget.MasterClient, 2);
-                    photonView.RPC("ApplyTimePass", RpcTarget.AllBuffered, minuteTime, secondTime, 1);
                 }
                 else if (totalTime <= 10 && totalTime > 0)
                 {
+                    photonView.RPC("ApplyTimePass", RpcTarget.AllBuffered, minuteTime, secondTime, 1, totalTime);
                     photonView.RPC("MasterLeftGameTime", RpcTarget.MasterClient, 3);
-                    photonView.RPC("ApplyTimePass", RpcTarget.AllBuffered, minuteTime, secondTime, 1);
                 }
                 else if (totalTime <= 0)
                 {
-                    if(isGameOver==false)
+                    if (isGameOver == false)
                     {
-
-                    photonView.RPC("MasterTimeOverCheck", RpcTarget.MasterClient);
+                        photonView.RPC("MasterTimeOverCheck", RpcTarget.MasterClient);
                     }
                 }
                 else
                 {
                     // 계산된 게임 시간을 모든 클라이언트에게 동기화 한다
-                    photonView.RPC("ApplyTimePass", RpcTarget.AllBuffered, minuteTime, secondTime, 1);
+                    photonView.RPC("ApplyTimePass", RpcTarget.AllBuffered, minuteTime, secondTime, 1, totalTime);
                 }
             }
             else
@@ -411,7 +410,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 totalTime += 1;
                 minuteTime = totalTime / 60;   // 남은 게임 시간 중 분 타임을 나타낸다
                 secondTime = totalTime % 60;   // 남은 게임 시간 중 초 타임을 나타낸다
-                photonView.RPC("ApplyTimePass", RpcTarget.AllBuffered, minuteTime, secondTime, 2);
+                photonView.RPC("ApplyTimePass", RpcTarget.AllBuffered, minuteTime, secondTime, 2, totalTime);
             }
         }
     }
@@ -422,26 +421,26 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (type == 1)
         {
             gameTimeInfoText.gameObject.SetActive(true);
-            photonView.RPC("ApplyLeftGameTime", RpcTarget.AllBuffered, 1, true, totalTime);
+            photonView.RPC("ApplyLeftGameTime", RpcTarget.AllBuffered, 1, true);
 
             StartCoroutine(ExitLeftGameTime());
         }
         else if (type == 2)
         {
             gameTimeInfoText.gameObject.SetActive(true);
-            photonView.RPC("ApplyLeftGameTime", RpcTarget.AllBuffered, 2, true,totalTime);
+            photonView.RPC("ApplyLeftGameTime", RpcTarget.AllBuffered, 2, true);
 
             StartCoroutine(ExitLeftGameTime());
         }
         else if (type == 3)
         {
             gameTimeInfoText.gameObject.SetActive(true);
-            photonView.RPC("ApplyLeftGameTime", RpcTarget.AllBuffered, 3, true,totalTime);
+            photonView.RPC("ApplyLeftGameTime", RpcTarget.AllBuffered, 3, true);
         }
     }
 
     [PunRPC]
-    public void ApplyLeftGameTime(int type, bool state,int totalTime_)
+    public void ApplyLeftGameTime(int type, bool state)
     {
         if (type == 1)
         {
@@ -456,7 +455,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         else if (type == 3)
         {
             gameTimeInfoText.gameObject.SetActive(state);
-            gameTimeInfoText.text = string.Format("{0}", totalTime_);
+            gameTimeInfoText.text = string.Format("{0}", totalTime);
         }
     }
 
@@ -482,7 +481,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void MasterTimeOverCheck()   // 게임 스코어 값을 비교하여 결과를 출력하는 함수
     {
-        if(isGameOver) { }
         if (orangeScore != blueScore)
         {
             if (orangeScore > blueScore)
@@ -505,7 +503,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    public void ApplyOvertime()   // fix : 무승부일때 모든 클라이언트에게 실행되는 함수
+    public void ApplyOvertime()   // 무승부일때 모든 클라이언트에게 실행되는 함수
     {
         overtimeCheck = true;
         timePassCheck = false;
@@ -578,8 +576,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    public void ApplyTimePass(int min, int sec, int type)   // 모든 클라이언트의 게임 시간을 동기화 하는 함수
+    public void ApplyTimePass(int min, int sec, int type, int time)   // 모든 클라이언트의 게임 시간을 동기화 하는 함수
     {
+        totalTime = time;
         minuteTime = min;
         secondTime = sec;
 
@@ -640,7 +639,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void ApplyResetGame(bool state)
     {
-        gameTimeInfoText.gameObject.SetActive(state);
+        // gameTimeInfoText.gameObject.SetActive(state);
         ballOj.SetActive(state);
     }
 
