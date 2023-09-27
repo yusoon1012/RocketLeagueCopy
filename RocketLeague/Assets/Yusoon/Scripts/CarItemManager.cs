@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections.Concurrent;
 using Photon.Pun;
+using JetBrains.Annotations;
 
 public class CarItemManager : MonoBehaviourPun
 {
@@ -36,7 +37,7 @@ public class CarItemManager : MonoBehaviourPun
     const int PUNCH = 2;
     const int ICE = 3;
     const int ENEMY_BOOST = 4;
-    const int POWER_UP = 5;
+    //const int POWER_UP = 5;
 
 
     float currentCooltime;
@@ -50,14 +51,14 @@ public class CarItemManager : MonoBehaviourPun
 
         skillCoolTime = 0;
         StartCoroutine(SkillCoolTimeRoutine());
-        if (myCollider.tag == "OrangeCar")
+        if (myCollider.tag == "Car_Orange")
         {
-            targetTag = "BlueCar";
+            targetTag = "Car_Blue";
 
         }
         else
         {
-            targetTag = "OrangeCar";
+            targetTag = "Car_Orange";
 
         }
         DeActiveIcons();
@@ -105,79 +106,89 @@ public class CarItemManager : MonoBehaviourPun
             skillActive = false;
 
         }
-        if (skillActive)
-        {
-            if (randomIdx == POWER_UP)
-            {
-                if (Input.GetKeyDown(KeyCode.R))
-                {
-                    PowerUpParticle.SetActive(true);
-                    StartCoroutine(SkillUseCoolTime(5));
-                }
-            }
-        }
+        //if (skillActive)
+        //{
+        //    if (randomIdx == POWER_UP)
+        //    {
+        //        if (Input.GetKeyDown(KeyCode.R))
+        //        {
+        //            PowerUpParticle.SetActive(true);
+        //            StartCoroutine(SkillUseCoolTime(5));
+        //        }
+        //    }
+        //}
         float nearestDistance = float.MaxValue;
         foreach (Collider col in colliders)
         {
             if (myCollider.tag == col.tag) continue;
             if (col.tag == targetTag)
             {
-                //Debug.LogFormat("내 태그 {0} 상대 태그 {1}", myCollider.tag, col.tag);
+                if (col.gameObject.name == "Collider")
+                {
+                    //Debug.LogFormat("내 태그 {0} 상대 태그 {1}", myCollider.tag, col.tag);
 
-                float distance = Vector3.Distance(newPosition, col.transform.position);
-                if (distance < nearestDistance)
-                {
-                    nearestCollider = col;
-                    nearestDistance = distance;
-                }
-                if (nearestCollider != null)
-                {
-                    //Debug.LogFormat("내 태그 {0}, 가장 가까운 상대 태그 {1}", myCollider.tag, nearestCollider.tag);
-                    Rigidbody rb = nearestCollider.GetComponent<Rigidbody>();
-                    Vector3 dir = (col.transform.position - transform.position).normalized;
-                    if (rb != null)
+                    float distance = Vector3.Distance(newPosition, col.gameObject.transform.position);
+                    if (distance < nearestDistance)
                     {
-                        if (skillActive)
+                        nearestCollider = col;
+                        nearestDistance = distance;
+                    }
+                    if (nearestCollider != null)
+                    {
+                        //Debug.LogFormat("내 태그 {0}, 가장 가까운 상대 태그 {1}", myCollider.tag, nearestCollider.tag);
+                        Rigidbody rb = nearestCollider.gameObject.GetComponent<Rigidbody>();
+                        Vector3 dir = (col.transform.position - transform.position).normalized;
+                        if (rb != null)
                         {
-
-                            if (Input.GetKeyDown(KeyCode.R))
+                            //Debug.Log("rb 잘 찾음");
+                            if (skillActive)
                             {
 
-                                switch (randomIdx)
-
+                                if (Input.GetKeyDown(KeyCode.R))
                                 {
 
+                                    switch (randomIdx)
 
-                                    case KICK:
-                                        //kickTransform.LookAt(col.transform.position);
-                                        //kickAnimator.Play("KickAnimation");
-                                        //rb.AddForce(dir * 30, ForceMode.VelocityChange);
-                                        //StartCoroutine(SkillUseCoolTime(1));
-                                        photonView.RPC("Kick", RpcTarget.All, rb, dir, col.transform.position);
-                                        break;
-                                    case ENEMY_BOOST:
-                                        CarParent colParent = col.GetComponentInParent<CarParent>();
-                                        if (colParent != null)
-                                        {
-                                            NewCar newCar = colParent.GetComponentInChildren<NewCar>();
-                                            if (newCar != null)
+                                    {
+
+
+                                        case KICK:
+                                            //kickTransform.LookAt(col.transform.position);
+                                            //kickAnimator.Play("KickAnimation");
+                                            int viewId;
+                                            PhotonView rbView = nearestCollider.gameObject.GetComponent<PhotonView>();
+                                            viewId = rbView.ViewID;
+                                            //Debug.Log(viewId);
+                                            //rb.AddForce(dir * 30, ForceMode.VelocityChange);
+                                            //StartCoroutine(SkillUseCoolTime(1));
+                                            //Debug.Log("킥 실행함");
+                                            photonView.RPC("Kick", RpcTarget.All, dir, col.gameObject.transform.position, viewId);
+                                            break;
+                                        case ENEMY_BOOST:
+                                            CarParent colParent = col.gameObject.GetComponentInParent<CarParent>();
+                                            if (colParent != null)
                                             {
-                                                newCar.outOfControl = true;
-                                                StartCoroutine(SkillUseCoolTime(5));
-
+                                                NewCar newCar = colParent.gameObject.GetComponentInChildren<NewCar>();
+                                                if (newCar != null)
+                                                {
+                                                    //newCar.outOfControl = true;
+                                                    //StartCoroutine(SkillUseCoolTime(5));
+                                                    int carViewId = newCar.gameObject.GetComponent<PhotonView>().ViewID;
+                                                    photonView.RPC("EnemyBoost", RpcTarget.All, carViewId);
+                                                }
                                             }
-                                        }
-                                        break;
+                                            break;
+
+
+                                    }
 
 
                                 }
-
-
                             }
-                        }
 
+                        }
+                        // nearestCollider를 사용하여 필요한 작업을 수행할 수 있습니다.
                     }
-                    // nearestCollider를 사용하여 필요한 작업을 수행할 수 있습니다.
                 }
             }
 
@@ -185,7 +196,7 @@ public class CarItemManager : MonoBehaviourPun
 
         }
 
-        photonView.RPC("receiveInfo", RpcTarget.Others, linePoints, ballRigidBody, ballDir);
+        photonView.RPC("receiveInfo", RpcTarget.Others, linePoints);
 
 
     }
@@ -198,7 +209,7 @@ public class CarItemManager : MonoBehaviourPun
 
             if (magnetOn)
             {
-                if(PhotonNetwork.IsMasterClient)
+                if (PhotonNetwork.IsMasterClient)
                 {
                     ballRigidBody.AddForce(-ballDir * 30);
                 }
@@ -211,6 +222,7 @@ public class CarItemManager : MonoBehaviourPun
                 return;
             }
 
+            //이 아래부터는 로컬에서만 실행하는 부분
             linePoints[1] = other.transform.position;
             lineRenderer.SetPosition(1, linePoints[1]);
 
@@ -246,7 +258,7 @@ public class CarItemManager : MonoBehaviourPun
                             //magnetParticle.SetActive(true);
                             //StartCoroutine(SkillUseCoolTime(8));
 
-                            photonView.RPC("BallMargnet",RpcTarget.All);
+                            photonView.RPC("BallMargnet", RpcTarget.All);
                         }
 
                     }
@@ -255,11 +267,13 @@ public class CarItemManager : MonoBehaviourPun
                 {
                     if (Input.GetKeyDown(KeyCode.R))
                     {
-                        Ball_Ys ball = other.GetComponent<Ball_Ys>();
-                        if (ball != null)
+                        int ballViewId = other.GetComponent<PhotonView>().ViewID;
+                        if (ballViewId != default)
                         {
-                            ball.FreezeBall();
-                            StartCoroutine(SkillUseCoolTime(3));
+                            //ball.FreezeBall();
+                            //StartCoroutine(SkillUseCoolTime(3));
+
+                            photonView.RPC("BallIce", RpcTarget.All, ballViewId);
 
                         }
                     }
@@ -302,7 +316,7 @@ public class CarItemManager : MonoBehaviourPun
         isPunch = false;
         magnetOn = false;
         StartCoroutine(SkillCoolTimeRoutine());
-
+        yield break;
     }
 
     private IEnumerator SkillCoolTimeRoutine()
@@ -312,17 +326,23 @@ public class CarItemManager : MonoBehaviourPun
             yield return new WaitForSeconds(1);
             skillCoolTime += 1;
         }
-        randomIdx = Random.Range(0, 6);
+
+        if (!photonView.IsMine)
+        {
+            yield break;
+        }
+
+        randomIdx = Random.Range(0, 5);
+        //randomIdx = 4;
 
         skillIcon[randomIdx].enabled = true;
+        yield break;
     }
 
     [PunRPC]
-    void receiveInfo(Vector3[] linePts, Rigidbody ballRb, Vector3 ballDr)
+    void receiveInfo(Vector3[] linePts)
     {
         linePoints = linePts;
-        ballRigidBody = ballRb;
-        ballDir = ballDr;
     }
 
     [PunRPC]
@@ -348,15 +368,39 @@ public class CarItemManager : MonoBehaviourPun
     }
 
     [PunRPC]
-    void Kick(Rigidbody nearRb, Vector3 nearDir, Vector3 nearPosition)
+    void BallIce(int ballViewId)
     {
-        kickTransform.LookAt(nearPosition);
+        StartCoroutine(SkillUseCoolTime(3));
+        Ball_Ys ball = PhotonView.Find(ballViewId).gameObject.GetComponent<Ball_Ys>();
+        ball.FreezeBall();
+    }
+
+    [PunRPC]
+    void Kick(Vector3 nearDir, Vector3 nearPosition, int viewId)
+    {
+        Vector3 newPosition = nearPosition;
+        newPosition.y -= 3.04f;
+        //Debug.Log("여기 들어옴?");
+        kickTransform.LookAt(newPosition);
         kickAnimator.Play("KickAnimation");
         StartCoroutine(SkillUseCoolTime(1));
-        if(PhotonNetwork.IsMasterClient)
-        {
-            nearRb.AddForce(nearDir * 30, ForceMode.VelocityChange);
-        }
+
+
+        PhotonView targetView = PhotonView.Find(viewId);
+        //Debug.Log("여기 들어옴?");
+        Rigidbody rb = targetView.gameObject.GetComponent<Rigidbody>();
+        rb.AddForce(nearDir * 150, ForceMode.VelocityChange);
+    }
+
+
+    [PunRPC]
+    void EnemyBoost(int viewId)
+    {
+        StartCoroutine(SkillUseCoolTime(5));
+
+        PhotonView targetView = PhotonView.Find(viewId);
+        NewCar newCar = targetView.gameObject.GetComponent<NewCar>();
+        newCar.outOfControl = true;
     }
 
     //void OnDrawGizmosSelected()
