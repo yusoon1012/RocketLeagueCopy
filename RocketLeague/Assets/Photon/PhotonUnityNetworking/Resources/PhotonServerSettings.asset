@@ -120,6 +120,8 @@ MonoBehaviour:
   - Kick
   - JoinInfo
   - ReceiveMsg
+  - ApplyBlueGoalEffect
+  - ApplyOrangeGoalEffect
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
