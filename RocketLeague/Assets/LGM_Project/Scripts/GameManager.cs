@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         playerCount = PhotonNetwork.PlayerList.Length;   // 포톤 서버에 접속한 플레이어 수만큼 플레이어 수로 지정해준다
         ChatManager.instance.JoinNameInfoUpdate(PhotonNetwork.NickName);
 
-        totalTime = 300;
+        totalTime = 30;
         minuteTime = 0;
         secondTime = 0;
         checkTime = 0f;
@@ -233,7 +233,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if(SceneManager.GetActiveScene().name!="DoubleScene")
         {
-            playerFull=6;
+            playerFull=2;
         }
         else
         {
@@ -834,14 +834,25 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     private IEnumerator WintextDisable()
     {
         yield return new WaitForSeconds(2);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("GameOverUiActive", RpcTarget.All);
+           
+        }
+        photonView.RPC("CarRespawn", RpcTarget.AllBuffered);
+
+    }
+
+    [PunRPC]
+    void GameOverUiActive()
+    {
         gameOverWinText.gameObject.SetActive(false);
         gameOverWinTeamText.gameObject.SetActive(false);
         gameOverWinTeamText_2.gameObject.SetActive(false);
         gameOverBackgroundImage.gameObject.SetActive(false);
         boostUi.enabled=false;
         leaveButton.SetActive(true);
-        photonView.RPC("CarRespawn", RpcTarget.AllBuffered);
-
+        Cursor.visible=true;
     }
     public void OnClickLeaveRoom()
     {
