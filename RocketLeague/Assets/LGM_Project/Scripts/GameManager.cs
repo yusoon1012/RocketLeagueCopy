@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
 
     public GameObject leaveButton;
+    public ParticleSystem[] blueGoalEffect = new ParticleSystem[3];   // 블루팀 골대 골 이펙트 배열
+    public ParticleSystem[] orangeGoalEffect = new ParticleSystem[3];   // 오렌지팀 골대 골 이펙트 배열
     public GameObject ballPrefab;   // 축구공을 생성할 축구공 프리팹
     public GameObject ballAuraPf;   // 축구공 표식을 생성할 축구공 표식 프리팹
     public GameObject blueCar;   // 블루팀 RC 카 생성할 프리팹
@@ -410,7 +412,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 minuteTime = totalTime / 60;   // 남은 게임 시간 중 분 타임을 나타낸다
                 secondTime = totalTime % 60;   // 남은 게임 시간 중 초 타임을 나타낸다
                 photonView.RPC("ApplyTimePass", RpcTarget.AllBuffered, minuteTime, secondTime, 2);
-
             }
         }
     }
@@ -639,6 +640,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void ApplyResetGame(bool state)
     {
+        gameTimeInfoText.gameObject.SetActive(state);
         ballOj.SetActive(state);
     }
 
@@ -861,16 +863,37 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     //    else
     //    {
     //        // 리모트 오브젝트라면 읽기 부분이 실행됨
+    public void StartBlueGoalEffect()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("ApplyBlueGoalEffect", RpcTarget.AllBuffered);
+        }
+    }
 
-    //        // 네트워크를 통해 score 값 받기
-    //        teamCount[0] = (int)stream.ReceiveNext();
-    //        teamCount[1] = (int)stream.ReceiveNext();
-    //        // 동기화하여 받은 점수를 UI로 표시
+    [PunRPC]
+    public void ApplyBlueGoalEffect()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            blueGoalEffect[i].Play();
+        }
+    }
 
-    //        teamCountText[0].text = string.Format("{0} / {1}", teamCount[0], maxTeamCount);   // 증가시킨 값을 출력
-    //        teamCountText[1].text = string.Format("{0} / {1}", teamCount[1], maxTeamCount);
+    public void StartOrangeGoalEffect()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("ApplyOrangeGoalEffect", RpcTarget.AllBuffered);
+        }
+    }
 
-    //        AfterSerializeView();
-    //    }
-    //}
+    [PunRPC]
+    public void ApplyOrangeGoalEffect()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            orangeGoalEffect[i].Play();
+        }
+    }
 }

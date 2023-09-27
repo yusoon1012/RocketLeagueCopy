@@ -34,40 +34,33 @@ public class Ball_Ys : MonoBehaviourPunCallbacks, IPunObservable
 
     private void OnCollisionEnter(Collision collision)   // 축구공에 콜라이더가 충돌하면 실행
     {
-        if (PhotonNetwork.IsMasterClient)   // 마스터 클라이언트에서만 실행한다
+        // 차 태그가 달려있는 오브젝트가 축구공 콜라이더와 충돌했는지 체크
+        if (collision.gameObject.tag == ("Car_Blue") || collision.gameObject.tag == ("Car_Orange"))
         {
-            // 차 태그가 달려있는 오브젝트가 축구공 콜라이더와 충돌했는지 체크
-            if (collision.gameObject.tag == ("Car_Blue") || collision.gameObject.tag == ("Car_Orange"))
+            if (GameManager.instance.timePassCheck == false)   // GameManager 에서 게임 시간이 멈춰있게 설정 되어있으면 실행
             {
-                if (GameManager.instance.timePassCheck == false)   // GameManager 에서 게임 시간이 멈춰있게 설정 되어있으면 실행
+                // GameManager 의 게임 시간이 다시 흘러가게 하는 함수를 실행한다
+                GameManager.instance.GameTimePassOn();
+            }
+            else   // GameManager 에서 게임 시간이 흘러가게 설정 되어있으면 실행
+            {
+                rb.useGravity = true;
+
+                StopAllCoroutines();
+            }
+
+            PhotonView targetView = collision.gameObject.GetComponent<PhotonView>();
+            if (targetView != null)
+            {
+                if (targetView.Owner.ActorNumber % 2 == 0)
                 {
-                    // GameManager 의 게임 시간이 다시 흘러가게 하는 함수를 실행한다
-                    GameManager.instance.GameTimePassOn();
+                    //blueteamNameCheck
+                    blueteamName = targetView.Owner.NickName;
                 }
-                else   // GameManager 에서 게임 시간이 흘러가게 설정 되어있으면 실행
+                else
                 {
-                    rb.useGravity = true;
-
-                    StopAllCoroutines();
+                    orangeteamName = targetView.Owner.NickName;
                 }
-
-                PhotonView targetView=collision.gameObject.GetComponent<PhotonView>();
-                if(targetView != null) 
-                {
-                    if(targetView.Owner.ActorNumber%2==0)
-                    {
-                        //blueteamNameCheck
-                        blueteamName=targetView.Owner.NickName;
-                    }    
-                    else
-                    {
-                        orangeteamName=targetView.Owner.NickName;
-                    }
-                }
-
-               
-
-
             }
         }
     }
