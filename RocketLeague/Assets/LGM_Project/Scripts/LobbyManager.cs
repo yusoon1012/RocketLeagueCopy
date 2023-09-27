@@ -5,6 +5,7 @@ using Photon.Realtime;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     private string gameVersion = default;   // 게임 버전
@@ -21,6 +22,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     const int DOUBLE = 1;
     const int RUMBLE = 2;
     string gameModeStr;
+    int roomIdx = 0;
 
     void Awake()
     {
@@ -108,7 +110,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             // �� ���� ����
             RoomOptions roomOptions = new RoomOptions
             {
-                MaxPlayers = 4, // 최대 플레이어 수 조정
+               
+
+                MaxPlayers = 6, // 최대 플레이어 수 조정
+            
                 IsOpen = true, // 방 열기
                 IsVisible = true, // 방 표시하기
                 CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
@@ -116,17 +121,21 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 { "GameMode", gameMode } // 게임 모드를 방 속성으로 설정
             }
             };
+
+
             switch(gameMode)
             {
                 case STANDARD:
-                    gameModeStr="Standard";
+                    gameModeStr=string.Format("Standard{0}", roomIdx);
+                  
                     break;
                     case DOUBLE:
-                    gameModeStr="Double";
-
+                    gameModeStr=string.Format("Double{0}",roomIdx);
+                    roomOptions.MaxPlayers=4;
+                  
                     break;
                 case RUMBLE:
-                    gameModeStr="Rumble";
+                    gameModeStr=string.Format("Rumble{0}",roomIdx);
 
                     break;
                     default:
@@ -152,9 +161,48 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 6 });
     }      // OnJoinRandomFailed()
 
-   
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
 
-       // 룸에 참가 완료된 경우 자동 실행
+        roomIdx+=1;
+        RoomOptions roomOptions = new RoomOptions
+        {
+
+
+            MaxPlayers = 6, // 최대 플레이어 수 조정
+
+            IsOpen = true, // 방 열기
+            IsVisible = true, // 방 표시하기
+            CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
+            {
+                { "GameMode", gameMode } // 게임 모드를 방 속성으로 설정
+            }
+        };
+        switch (gameMode)
+        {
+            case STANDARD:
+                gameModeStr=string.Format("Standard{0}", roomIdx);
+
+                break;
+            case DOUBLE:
+                gameModeStr=string.Format("Double{0}", roomIdx);
+                roomOptions.MaxPlayers=4;
+
+                break;
+            case RUMBLE:
+                gameModeStr=string.Format("Rumble{0}", roomIdx);
+
+                break;
+            default:
+                break;
+
+        }
+        //connectionInfoText.text = "Connect to Room ...";
+        PhotonNetwork.CreateRoom(gameModeStr, roomOptions, TypedLobby.Default);
+
+    }
+
+    // 룸에 참가 완료된 경우 자동 실행
     public override void OnJoinedRoom()
     { 
             // 접속 상태 표시
@@ -166,6 +214,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             // Loading_Canvas를 활성화
             ShowLoadingUI();
             PhotonNetwork.LoadLevel("StandardScene");
+        }
+        if(gameMode == DOUBLE)
+        {
+            ShowLoadingUI();
+            PhotonNetwork.LoadLevel("DoubleScene");
+
         }
         if(gameMode==RUMBLE)
         {

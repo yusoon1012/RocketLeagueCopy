@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     private Transform kartNormal;
     private bool isOrangeWin = false;
     private bool isBlueWin = false;
-    
+    private int playerFull;
     // 럼블 모드인지 구분하는 변수
     public bool isRumbleMode = false;
 
@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         playerCount = PhotonNetwork.PlayerList.Length;   // 포톤 서버에 접속한 플레이어 수만큼 플레이어 수로 지정해준다
         ChatManager.instance.JoinNameInfoUpdate(PhotonNetwork.NickName);
 
-        totalTime = 15;
+        totalTime = 300;
         minuteTime = 0;
         secondTime = 0;
         checkTime = 0f;
@@ -229,8 +229,16 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void MasterGameStartCheck()
     {
+        if(SceneManager.GetActiveScene().name!="DoubleScene")
+        {
+            playerFull=6;
+        }
+        else
+        {
+            playerFull=4;
+        }
         // 현재 디버그로 1명 이상일 경우 시작되게 설정
-        if (PhotonNetwork.PlayerList.Length >= 1)
+        if (PhotonNetwork.PlayerList.Length >= playerFull)
         {
             gameReadyImage.enabled = false;
             gameReadyText.enabled = false;
@@ -248,7 +256,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             playerCount = PhotonNetwork.PlayerList.Length;
             // 현재 디버그로 1명 이상일 경우 시작되게 설정
-            photonView.RPC("ApplyGameStartCheck", RpcTarget.AllBuffered, playerCount, 1);
+            photonView.RPC("ApplyGameStartCheck", RpcTarget.AllBuffered, playerCount, playerFull);
         }
     }
 
@@ -413,26 +421,26 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (type == 1)
         {
             gameTimeInfoText.gameObject.SetActive(true);
-            photonView.RPC("ApplyLeftGameTime", RpcTarget.AllBuffered, 1, true);
+            photonView.RPC("ApplyLeftGameTime", RpcTarget.AllBuffered, 1, true, totalTime);
 
             StartCoroutine(ExitLeftGameTime());
         }
         else if (type == 2)
         {
             gameTimeInfoText.gameObject.SetActive(true);
-            photonView.RPC("ApplyLeftGameTime", RpcTarget.AllBuffered, 2, true);
+            photonView.RPC("ApplyLeftGameTime", RpcTarget.AllBuffered, 2, true,totalTime);
 
             StartCoroutine(ExitLeftGameTime());
         }
         else if (type == 3)
         {
             gameTimeInfoText.gameObject.SetActive(true);
-            photonView.RPC("ApplyLeftGameTime", RpcTarget.AllBuffered, 3, true);
+            photonView.RPC("ApplyLeftGameTime", RpcTarget.AllBuffered, 3, true,totalTime);
         }
     }
 
     [PunRPC]
-    public void ApplyLeftGameTime(int type, bool state)
+    public void ApplyLeftGameTime(int type, bool state,int totalTime_)
     {
         if (type == 1)
         {
@@ -447,7 +455,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         else if (type == 3)
         {
             gameTimeInfoText.gameObject.SetActive(state);
-            gameTimeInfoText.text = string.Format("{0}", totalTime);
+            gameTimeInfoText.text = string.Format("{0}", totalTime_);
         }
     }
 
