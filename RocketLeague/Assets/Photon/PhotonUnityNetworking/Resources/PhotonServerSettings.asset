@@ -118,6 +118,8 @@ MonoBehaviour:
   - ApplyExitTimeover
   - OvertimeGameOver
   - Kick
+  - BallIce
+  - EnemyBoost
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
