@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public static GameManager m_instance;   // 싱글톤이 할당될 static 변수
 
+    public ParticleSystem[] blueGoalEffect = new ParticleSystem[3];   // 블루팀 골대 골 이펙트 배열
+    public ParticleSystem[] orangeGoalEffect = new ParticleSystem[3];   // 오렌지팀 골대 골 이펙트 배열
     public GameObject ballPrefab;   // 축구공을 생성할 축구공 프리팹
     public GameObject ballAuraPf;   // 축구공 표식을 생성할 축구공 표식 프리팹
     public GameObject blueCar;   // 블루팀 RC 카 생성할 프리팹
@@ -87,7 +89,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
            // 초기 변수값 설정
         playerCount = PhotonNetwork.PlayerList.Length;   // 포톤 서버에 접속한 플레이어 수만큼 플레이어 수로 지정해준다
 
-        totalTime = 15;
+        totalTime = 300;
         minuteTime = 0;
         secondTime = 0;
         checkTime = 0f;
@@ -388,7 +390,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 minuteTime = totalTime / 60;   // 남은 게임 시간 중 분 타임을 나타낸다
                 secondTime = totalTime % 60;   // 남은 게임 시간 중 초 타임을 나타낸다
                 photonView.RPC("ApplyTimePass", RpcTarget.AllBuffered, minuteTime, secondTime, 2);
-
             }
         }
     }
@@ -607,6 +608,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void ApplyResetGame(bool state)
     {
+        gameTimeInfoText.gameObject.SetActive(state);
         ballOj.SetActive(state);
     }
 
@@ -771,29 +773,37 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         isGoaled = state;   // isGoaled 값을 모든 클라이언트가 동기화 함
     }
 
-    // 주기적으로 자동 실행되는, 동기화 메서드
-    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    //{
-    //    // 로컬 오브젝트라면 쓰기 부분이 실행됨
-    //    if (stream.IsWriting)
-    //    {
-    //        // 네트워크를 통해 score 값을 보내기
-    //        stream.SendNext(teamCount[0]);
-    //        stream.SendNext(teamCount[1]);
-    //    }
-    //    else
-    //    {
-    //        // 리모트 오브젝트라면 읽기 부분이 실행됨
+    public void StartBlueGoalEffect()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("ApplyBlueGoalEffect", RpcTarget.AllBuffered);
+        }
+    }
 
-    //        // 네트워크를 통해 score 값 받기
-    //        teamCount[0] = (int)stream.ReceiveNext();
-    //        teamCount[1] = (int)stream.ReceiveNext();
-    //        // 동기화하여 받은 점수를 UI로 표시
+    [PunRPC]
+    public void ApplyBlueGoalEffect()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            blueGoalEffect[i].Play();
+        }
+    }
 
-    //        teamCountText[0].text = string.Format("{0} / {1}", teamCount[0], maxTeamCount);   // 증가시킨 값을 출력
-    //        teamCountText[1].text = string.Format("{0} / {1}", teamCount[1], maxTeamCount);
+    public void StartOrangeGoalEffect()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("ApplyOrangeGoalEffect", RpcTarget.AllBuffered);
+        }
+    }
 
-    //        AfterSerializeView();
-    //    }
-    //}
+    [PunRPC]
+    public void ApplyOrangeGoalEffect()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            orangeGoalEffect[i].Play();
+        }
+    }
 }

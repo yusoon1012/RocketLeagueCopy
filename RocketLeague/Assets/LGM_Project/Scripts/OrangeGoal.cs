@@ -26,7 +26,8 @@ public class OrangeGoal : MonoBehaviourPun
 
             GameManager.instance.GoalCheck();   // 골 성공 시 골 중복을 막기 위해 게임매니저에 있는 GoalCheck 함수를 실행한다
             GameManager.instance.BlueScoreUp();   // GameManager 의 score 를 더해주는 함수를 실행
-            
+            GameManager.instance.StartOrangeGoalEffect();
+
                // 마스터 클라이언트에게 푸쉬 콜라이더를 활성화 하도록 실행한다
             photonView.RPC("PushColliderOn", RpcTarget.MasterClient);
             Ball_Ys ball = collision.gameObject.GetComponent<Ball_Ys>();
