@@ -233,7 +233,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if(SceneManager.GetActiveScene().name!="DoubleScene")
         {
-            playerFull=2;
+            playerFull=1;
         }
         else
         {
@@ -546,9 +546,14 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
 
             gameOverWinText.gameObject.SetActive(true);
-            StartCoroutine(WintextDisable());
-
+            
         }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(WintextDisable());
+        }
+
 
     }
 
@@ -570,6 +575,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (playerTeamCheck == 2)
         {
             gameOverWinText.gameObject.SetActive(true);
+         
+
+        }
+        if (PhotonNetwork.IsMasterClient)
+        {
             StartCoroutine(WintextDisable());
 
         }
@@ -837,9 +847,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (PhotonNetwork.IsMasterClient)
         {
             photonView.RPC("GameOverUiActive", RpcTarget.All);
+            photonView.RPC("CarRespawn", RpcTarget.AllBuffered);
            
         }
-        photonView.RPC("CarRespawn", RpcTarget.AllBuffered);
 
     }
 

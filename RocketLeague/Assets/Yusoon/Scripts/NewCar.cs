@@ -243,9 +243,10 @@ public class NewCar : MonoBehaviourPunCallbacks
             if(jumpClass.jumpCount>0)
             {
 
-            kartNormal.localEulerAngles = Vector3.Lerp(kartNormal.localEulerAngles, new Vector3(kartNormal.localEulerAngles.x, kartNormal.localEulerAngles.y, kartNormal.localEulerAngles.z + (-Input.GetAxis("Vertical")*30)), .2f);
+            kartNormal.localEulerAngles = Vector3.Lerp(kartNormal.localEulerAngles, new Vector3(kartNormal.localEulerAngles.x, kartNormal.localEulerAngles.y, kartNormal.localEulerAngles.z + (-Input.GetAxis("Vertical")*Time.deltaTime*2000)), .2f);
 
             }
+           
           
         }
 
