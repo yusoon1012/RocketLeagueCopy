@@ -9,7 +9,11 @@ public class BlueGoal : MonoBehaviourPun
 {
     public Collider goalLineCd;   // 골대 콜라이더
     public Collider pushCd;   // 골 성공 푸쉬 콜라이더
-
+    private AudioSource goalAudio;
+    private void Start()
+    {
+        goalAudio = GetComponent<AudioSource>();
+    }
     private void OnTriggerEnter(Collider collision)   // 축구공이 골대 안 콜라이더에 들어오면 실행
     {
            // 콜라이더에 들어온 오브젝트가 "Ball" 태그이고, GameManager 의 isGoaled 값이 false 이면 골 성공
@@ -23,7 +27,7 @@ public class BlueGoal : MonoBehaviourPun
             {
                 GameManager.instance.OvertimeOrangeTeamWin();
             }
-
+            goalAudio.Play();
             GameManager.instance.GoalCheck();   // 골 성공 시 골 중복을 막기 위해 게임매니저에 있는 GoalCheck 함수를 실행한다
             GameManager.instance.OrangeScoreUp();   // GameManager 의 score 를 더해주는 함수를 실행
             GameManager.instance.StartBlueGoalEffect();

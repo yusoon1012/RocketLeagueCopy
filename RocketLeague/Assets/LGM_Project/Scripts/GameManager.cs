@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public static GameManager m_instance;   // 싱글톤이 할당될 static 변수
 
-
+    
     public GameObject leaveButton;
     public ParticleSystem[] blueGoalEffect = new ParticleSystem[3];   // 블루팀 골대 골 이펙트 배열
     public ParticleSystem[] orangeGoalEffect = new ParticleSystem[3];   // 오렌지팀 골대 골 이펙트 배열
@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public bool overtimeCheck = false;
     public bool isGameOver = false;
 
+    private AudioSource countDownSource;
     private GameObject ballOj;   // 축구공 오브젝트
     private GameObject playerCloneCar;   // RC 카 Empty 부모 오브젝트
     private Transform playerCar;   // RC 카 콜라이더와 리짓바디가 존재하는 자식 오브젝트
@@ -113,7 +114,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         // 내 포톤뷰 ActorNumber을 찾아서 저장하는 변수
         int myPhotonActorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
-
+        countDownSource = GetComponent<AudioSource>();
         if (PhotonNetwork.IsMasterClient)
         {
             // 마스터 클라이언트 일시 축구공 프리팹을 불러와 축구공 오브젝트를 생성한다
@@ -337,7 +338,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         while (gameStartCount > 0)
         {
             yield return new WaitForSeconds(1.0f);
-
+            if(gameStartCount==4)
+            {
+                countDownSource.Play();
+            }
             photonView.RPC("MasterStartCount", RpcTarget.MasterClient);
         }
     }
