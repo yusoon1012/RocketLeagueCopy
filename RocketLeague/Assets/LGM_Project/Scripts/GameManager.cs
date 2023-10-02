@@ -99,8 +99,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
            // 초기 변수값 설정
         playerCount = PhotonNetwork.PlayerList.Length;   // 포톤 서버에 접속한 플레이어 수만큼 플레이어 수로 지정해준다
         ChatManager.instance.JoinNameInfoUpdate(PhotonNetwork.NickName);
-
-        totalTime = 30;
+        Cursor.visible = false;
+        totalTime = 180;
         minuteTime = 0;
         secondTime = 0;
         checkTime = 0f;
@@ -200,6 +200,10 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                 photonView.RPC("TimePassMaster", RpcTarget.MasterClient);   // 마스터 클라이언트만 게임 시간을 계산하는 함수 실행
             }
         }
+        if(isGameOver)
+        {
+            Cursor.visible = true;
+        }
     }
 
     // 리스폰 관련 오브젝트 정보를 저장하는 함수
@@ -234,7 +238,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if(SceneManager.GetActiveScene().name!="DoubleScene")
         {
-            playerFull=1;
+            playerFull=4;
         }
         else
         {
@@ -854,6 +858,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             photonView.RPC("CarRespawn", RpcTarget.AllBuffered);
            
         }
+        Cursor.visible = true;
 
     }
 
@@ -866,7 +871,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         gameOverBackgroundImage.gameObject.SetActive(false);
         boostUi.enabled=false;
         leaveButton.SetActive(true);
-        Cursor.visible=true;
+        
     }
     public void OnClickLeaveRoom()
     {
