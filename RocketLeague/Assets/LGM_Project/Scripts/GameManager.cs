@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         playerCount = PhotonNetwork.PlayerList.Length;   // 포톤 서버에 접속한 플레이어 수만큼 플레이어 수로 지정해준다
         ChatManager.instance.JoinNameInfoUpdate(PhotonNetwork.NickName);
         Cursor.visible = false;
-        totalTime = 180;
+        totalTime = 300;
         minuteTime = 0;
         secondTime = 0;
         checkTime = 0f;

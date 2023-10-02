@@ -25,6 +25,7 @@ public class CarItemManager : MonoBehaviourPun
     public Image[] skillIcon;
     private string targetTag;
     bool skillActive = false;
+    public bool usedSkill = false;
     float radius = 50f;
     Vector3 newPosition;
     private Collider nearestCollider;
@@ -98,7 +99,10 @@ public class CarItemManager : MonoBehaviourPun
         if (skillCoolTime == 10)
         {
             skillSlider.SetActive(false);
-
+            //if(usedSkill==true)
+            //{
+            //    usedSkill = false;
+            //}
             skillActive = true;
         }
         else
@@ -147,41 +151,48 @@ public class CarItemManager : MonoBehaviourPun
                                 if (Input.GetKeyDown(KeyCode.R))
                                 {
 
-                                    switch (randomIdx)
-
+                                    if (usedSkill == false)
                                     {
+                                      
+
+                                        switch (randomIdx)
+
+                                        {
 
 
-                                        case KICK:
-                                            //kickTransform.LookAt(col.transform.position);
-                                            //kickAnimator.Play("KickAnimation");
-                                            int viewId;
-                                            PhotonView rbView = nearestCollider.gameObject.GetComponent<PhotonView>();
-                                            viewId = rbView.ViewID;
-                                            //Debug.Log(viewId);
-                                            //rb.AddForce(dir * 30, ForceMode.VelocityChange);
-                                            //StartCoroutine(SkillUseCoolTime(1));
-                                            //Debug.Log("≈± Ω««‡«‘");
-                                            photonView.RPC("Kick", RpcTarget.All, dir, col.gameObject.transform.position, viewId);
-                                            break;
-                                        case ENEMY_BOOST:
-                                            CarParent colParent = col.gameObject.GetComponentInParent<CarParent>();
-                                            if (colParent != null)
-                                            {
-                                                NewCar newCar = colParent.gameObject.GetComponentInChildren<NewCar>();
-                                                if (newCar != null)
+                                            case KICK:
+                                                usedSkill = true;
+                                                //kickTransform.LookAt(col.transform.position);
+                                                //kickAnimator.Play("KickAnimation");
+                                                int viewId;
+                                                PhotonView rbView = nearestCollider.gameObject.GetComponent<PhotonView>();
+                                                viewId = rbView.ViewID;
+                                                //Debug.Log(viewId);
+                                                //rb.AddForce(dir * 30, ForceMode.VelocityChange);
+                                                //StartCoroutine(SkillUseCoolTime(1));
+                                                //Debug.Log("≈± Ω««‡«‘");
+                                                photonView.RPC("Kick", RpcTarget.All, dir, col.gameObject.transform.position, viewId);
+                                                break;
+                                            case ENEMY_BOOST:
+                                                usedSkill = true;
+                                                CarParent colParent = col.gameObject.GetComponentInParent<CarParent>();
+                                                if (colParent != null)
                                                 {
-                                                    //newCar.outOfControl = true;
-                                                    //StartCoroutine(SkillUseCoolTime(5));
-                                                    int carViewId = newCar.gameObject.GetComponent<PhotonView>().ViewID;
-                                                    photonView.RPC("EnemyBoost", RpcTarget.All, carViewId);
+                                                    NewCar newCar = colParent.gameObject.GetComponentInChildren<NewCar>();
+                                                    if (newCar != null)
+                                                    {
+                                                        //newCar.outOfControl = true;
+                                                        //StartCoroutine(SkillUseCoolTime(5));
+                                                        int carViewId = newCar.gameObject.GetComponent<PhotonView>().ViewID;
+                                                        photonView.RPC("EnemyBoost", RpcTarget.All, carViewId);
+                                                    }
                                                 }
-                                            }
-                                            break;
+                                                break;
 
+
+                                        }
 
                                     }
-
 
                                 }
                             }
@@ -228,53 +239,64 @@ public class CarItemManager : MonoBehaviourPun
 
             if (skillActive)
             {
-
-                if (randomIdx == PUNCH)
+                if (usedSkill == false)
                 {
-                    if (Input.GetKeyDown(KeyCode.R))
-                    {
-                        if (isPunch == false)
-                        {
-                            //    isPunch=true;
-                            //punchAnimator.Play("PunchAnimation");
-                            //punchTransform.LookAt(other.transform.position);
-                            //StartCoroutine(SkillUseCoolTime(1));
-                            //ballRigidBody.velocity = Vector3.zero;
-                            //ballRigidBody.AddForce(ballDir * 70, ForceMode.Impulse);
 
-                            photonView.RPC("BallPunch", RpcTarget.All, other.transform.position);
+                    if (randomIdx == PUNCH)
+                    {
+                        if (Input.GetKeyDown(KeyCode.R))
+                        {
+
+                            if (isPunch == false)
+                            {
+                                usedSkill = true;
+
+                                //    isPunch=true;
+                                //punchAnimator.Play("PunchAnimation");
+                                //punchTransform.LookAt(other.transform.position);
+                                //StartCoroutine(SkillUseCoolTime(1));
+                                //ballRigidBody.velocity = Vector3.zero;
+                                //ballRigidBody.AddForce(ballDir * 70, ForceMode.Impulse);
+
+                                photonView.RPC("BallPunch", RpcTarget.All, other.transform.position);
+                            }
                         }
                     }
-                }
-                if (randomIdx == MAGNET)
-                {
-
-                    if (Input.GetKeyDown(KeyCode.R))
+                    if (randomIdx == MAGNET)
                     {
 
-                        if (magnetOn == false)
+                        if (Input.GetKeyDown(KeyCode.R))
                         {
-                            //magnetOn = true;
-                            //magnetParticle.SetActive(true);
-                            //StartCoroutine(SkillUseCoolTime(8));
+                        
 
-                            photonView.RPC("BallMargnet", RpcTarget.All);
+                            if (magnetOn == false)
+                            {
+
+                                usedSkill = true;
+                                //magnetOn = true;
+                                //magnetParticle.SetActive(true);
+                                //StartCoroutine(SkillUseCoolTime(8));
+
+                                photonView.RPC("BallMargnet", RpcTarget.All);
+
+                            }
+
                         }
-
                     }
-                }
-                if (randomIdx == ICE)
-                {
-                    if (Input.GetKeyDown(KeyCode.R))
+                    if (randomIdx == ICE)
                     {
-                        int ballViewId = other.GetComponent<PhotonView>().ViewID;
-                        if (ballViewId != default)
+                        if (Input.GetKeyDown(KeyCode.R))
                         {
-                            //ball.FreezeBall();
-                            //StartCoroutine(SkillUseCoolTime(3));
+                            usedSkill = true;
+                            int ballViewId = other.GetComponent<PhotonView>().ViewID;
+                            if (ballViewId != default)
+                            {
+                                //ball.FreezeBall();
+                                //StartCoroutine(SkillUseCoolTime(3));
 
-                            photonView.RPC("BallIce", RpcTarget.All, ballViewId);
+                                photonView.RPC("BallIce", RpcTarget.All, ballViewId);
 
+                            }
                         }
                     }
                 }
@@ -313,8 +335,12 @@ public class CarItemManager : MonoBehaviourPun
             PowerUpParticle.SetActive(false);
 
         }
+
+
         isPunch = false;
         magnetOn = false;
+
+      
         StartCoroutine(SkillCoolTimeRoutine());
         yield break;
     }
@@ -336,6 +362,7 @@ public class CarItemManager : MonoBehaviourPun
         //randomIdx = 4;
 
         skillIcon[randomIdx].enabled = true;
+        usedSkill = false;
         yield break;
     }
 
@@ -356,7 +383,10 @@ public class CarItemManager : MonoBehaviourPun
         {
             ballRigidBody.velocity = Vector3.zero;
             ballRigidBody.AddForce(ballDir * 70, ForceMode.Impulse);
+           
+
         }
+        
     }
 
     [PunRPC]
@@ -365,6 +395,7 @@ public class CarItemManager : MonoBehaviourPun
         magnetOn = true;
         magnetParticle.SetActive(true);
         StartCoroutine(SkillUseCoolTime(8));
+
     }
 
     [PunRPC]
@@ -373,6 +404,7 @@ public class CarItemManager : MonoBehaviourPun
         StartCoroutine(SkillUseCoolTime(3));
         Ball_Ys ball = PhotonView.Find(ballViewId).gameObject.GetComponent<Ball_Ys>();
         ball.FreezeBall();
+        
     }
 
     [PunRPC]

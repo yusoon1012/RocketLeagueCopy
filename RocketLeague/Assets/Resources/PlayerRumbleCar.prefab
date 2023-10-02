@@ -819,6 +819,7 @@ MonoBehaviour:
   - {fileID: 8024734024910423137}
   - {fileID: 8024734024360061276}
   - {fileID: 8024734025591554643}
+  usedSkill: 0
   magnetOn: 0
 --- !u!135 &8024734024519363060
 SphereCollider:
